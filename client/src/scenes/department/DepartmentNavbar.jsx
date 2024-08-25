@@ -1,6 +1,9 @@
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 
 function DepartmentNavbar() {
+  const {department} = useParams();
+
   return (
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark pb-1">
@@ -79,7 +82,7 @@ function DepartmentNavbar() {
             alt="Urban Development Logo"
             style={{ height: "90px" }}
           />
-          <h5 className="ml-3">Urban Infrastructure & Development</h5>
+          <h5 className="ml-3">{department}</h5>
         </div>
         <form className="d-none d-md-flex gap-4">
           <input
@@ -95,9 +98,9 @@ function DepartmentNavbar() {
 
       {/* Navigation Bar */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-secondary px-4">
-        <a className="navbar-brand" href="/">
-          Urban Infrastructure
-        </a>
+        <Link className="navbar-brand" to={`/${department}`} >
+          {department}
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -112,85 +115,34 @@ function DepartmentNavbar() {
         <div className="collapse navbar-collapse mx-4" id="navbarNav">
           <ul className="navbar-nav gap-3">
             <li className="nav-item">
-              <a className="nav-link" href="#home">
+              <Link className="nav-link" to={`/${department}`}>
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#home">
+              <Link className="nav-link" to={`/${department}`}>
                 About
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                id="navbarDropdown1"
-                role="button"
-                aria-expanded="false"
-              >
-                Resources
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown1">
-                <a className="dropdown-item" href="#action/3.1">
-                  Human Resources
-                </a>
-                <a className="dropdown-item" href="#action/3.2">
-                  Machinery Resources
-                </a>
-                <a className="dropdown-item" href="#action/3.3">
-                  Technical Resources
-                </a>
-              </div>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown2"
-                role="button"
-                aria-expanded="false"
-              >
-                Dropdown
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown2">
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-                <div className="dropdown-divider"></div>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </div>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown3"
-                role="button"
-                aria-expanded="false"
-              >
-                Projects
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown3">
-                <a className="dropdown-item" href="#action/3.1">
-                  Ongoing
-                </a>
-                <a className="dropdown-item" href="#action/3.2">
-                  Upcoming
-                </a>
-                <a className="dropdown-item" href="#action/3.3">
-                  Completed
-                </a>
-              </div>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#link">
+              <Link className="nav-link" to={`/${department}/projects`}>
+                Projects
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={`/${department}/resources`}>
+                Resources
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={`/${department}`}>
+                Documents
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={`/${department}`}>
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
           <form className="form-inline d-md-none">

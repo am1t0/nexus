@@ -2,12 +2,33 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './reportWebVitals'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Department from './scenes/department/Department';
+import DepartmentResources from './scenes/department/Resources/DepartmentResources';
+import DepartmentProject from './scenes/department/DepartmentProject/DepartmentProject';
+import DepartmentHome from './scenes/department/DepartmentHome';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const router = createBrowserRouter([
+{
+  path:'/', element: <App/>, children:[]
+},
+{
+  path:'/:department', element: <Department/>, children: [
+    { path:'/:department' , element: <DepartmentHome/>},
+    { path:'/:department/resources', element: <DepartmentResources/> },
+    { path:'/:department/projects', element: <DepartmentProject/> },
+    // { path:'/:department/projects', element: <DepartmentProject/> },
+  ]
+}
+])
 root.render(
-  <React.StrictMode>
+  <React.StrictMode> 
+  <RouterProvider router={router}>
     <App />
+  </RouterProvider>
   </React.StrictMode>
 );
 
