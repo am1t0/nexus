@@ -8,6 +8,7 @@ import Department from './scenes/department/Department';
 import DepartmentResources from './scenes/department/Resources/DepartmentResources';
 import DepartmentProject from './scenes/department/DepartmentProject/DepartmentProject';
 import DepartmentHome from './scenes/department/DepartmentHome';
+import { FirebaseProvider } from './Firebase';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -26,9 +27,11 @@ const router = createBrowserRouter([
 ])
 root.render(
   <React.StrictMode> 
+  <FirebaseProvider>
   <RouterProvider router={router}>
     <App />
   </RouterProvider>
+  </FirebaseProvider>
   </React.StrictMode>
 );
 

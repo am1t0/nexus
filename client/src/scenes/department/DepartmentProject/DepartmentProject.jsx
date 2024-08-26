@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import ProjectCreationForm from '../Project/ProjectCreate';
+import { useFirebase } from '../../../Firebase';
 
 export default function DepartmentProject() {
   // State for filters
@@ -6,6 +8,7 @@ export default function DepartmentProject() {
   const [searchTerm, setSearchTerm] = useState('');
   const [mapView, setMapView] = useState(false);
 
+  
   const projects = [
     {
       id: 1,
@@ -80,12 +83,21 @@ export default function DepartmentProject() {
       contractor: 'PATEL SHREE ENTERPRISES'
     }
   ];
+
+  const [projectList, setProjectList] = useState(projects);
+  const [open , setOpen] = useState(false);
+  const firebase = useFirebase();
+
+  useEffect(()=>{
+     firebase.fetchAllProjects(setProjectList);
+  },[])
+
   
   // Filtered projects based on status and search term
-  const filteredProjects = projects.filter(project => {
+  const filteredProjects = projectList.filter(project => {
     return (
       (statusFilter === 'all' || project.status === statusFilter) &&
-      project.name.toLowerCase().includes(searchTerm.toLowerCase())
+      project?.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
 
@@ -117,17 +129,32 @@ export default function DepartmentProject() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="col-md-4 d-flex align-items-end">
+        <div className="col-md-4 d-flex align-items-end gap-4">
           <button
             className={`btn ${mapView ? 'btn-secondary' : 'btn-primary'}`}
             onClick={() => setMapView(!mapView)}
           >
             {mapView ? 'List View' : 'Map View'}
           </button>
+
+          <button 
+          className='btn btn-primary'
+          onClick={()=> setOpen(!open)}
+          >
+            Create Project
+          </button>
         </div>
+        {
+          open &&
+          
+          <div className="container bg-light px-5" style={{width:'80%',position:'absolute'}}>
+            <ProjectCreationForm setOpen={setOpen}/>
+          </div>
+        }
       </div>
 
       {/* Map View */}
+      
       {mapView && (
         <div className="mb-4">
           <h5>Map View (Example placeholder)</h5>
@@ -159,7 +186,7 @@ export default function DepartmentProject() {
         </thead>
         <tbody>
           {filteredProjects.map((project, index) => (
-            <tr key={project.id}>
+            <tr key={project.id+index}>
               <td>{index + 1}</td>
               <td>{project.name} Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, repellendus. </td>
               <td>{project.contractor} </td>
