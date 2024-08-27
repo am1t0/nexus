@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useFirebase } from '../../../Firebase';
 import { BallTriangle } from 'react-loader-spinner'
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
+import { MapComponent } from './Map';
 
-const ProjectCreationForm = ({setOpen}) => {
+const ProjectCreationForm = ({setOpen, projectList}) => {
   const {department} = useParams();
   const [editorContent, setEditorContent] = useState('');
   const [milestones, setMilestones] = useState([]);
@@ -29,6 +30,10 @@ const ProjectCreationForm = ({setOpen}) => {
   const [area, setArea] = useState('');
   const [detailsOfWork, setDetailsOfWork] = useState('');
   const [loading ,setLoading] = useState(false);
+  const [markedAreas, setMarkedAreas] = useState([]);
+  const [coordinates, setCoordinates] = useState([]);
+  
+
 
   const firebase = useFirebase();
 
@@ -85,6 +90,7 @@ const ProjectCreationForm = ({setOpen}) => {
       resources,
       area,
       detailsOfWork,
+      coordinates,
     };
   
     // Call addProject function from context
@@ -98,6 +104,41 @@ const ProjectCreationForm = ({setOpen}) => {
     setOpen(false);
 
   };
+
+  const saveMarkedArea = (coords) => {
+    setCoordinates( coords );
+  };
+
+  const deleteMarkedArea = async (id) => {
+    try {
+        // const updatedAreas = markedAreas.filter(area => area.id !== id);
+        // setMarkedAreas(updatedAreas);
+        // await deleteDoc(doc(firestore, 'projects', id));
+    } catch (error) {
+        console.error('Error deleting marked area:', error);
+    }
+};
+
+const loadMarkedAreas=()=>{
+  
+  const newMarkedAreas = projectList.map((project) => {
+    return {
+      id: project.id,
+      description: project.name,
+      coordinates: project.area,
+    };
+  });
+  
+  // Update the state once with all the new objects
+  setMarkedAreas([...markedAreas, ...newMarkedAreas]);
+ 
+};
+
+useEffect(()=>{
+  loadMarkedAreas();
+},[])
+
+
   
   return (
     <div className="container my-4">
@@ -302,7 +343,11 @@ const ProjectCreationForm = ({setOpen}) => {
               </div>
             </div>
             <div className="col-md-6">
-        
+            <MapComponent
+                projectName={projectName}
+                markedAreas={markedAreas}
+                onSaveArea={saveMarkedArea}
+                onDeleteArea={deleteMarkedArea}/>
             </div>
           </div>
 

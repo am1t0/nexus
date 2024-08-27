@@ -52,7 +52,8 @@ export const FirebaseProvider = ({ children }) => {
             resources: project.resources,
             area: project.area,
             detailsOfWork: project.detailsOfWork,
-            status: 'upcoming'
+            status: 'upcoming',
+            area: project.coordinates
           };
       
           // Add the new project to the 'projects' collection in Firestore
@@ -75,8 +76,10 @@ export const FirebaseProvider = ({ children }) => {
             id: doc.id,
             ...doc.data()
           }));
-      
+         
           setProjectList((prevProjects) => [...prevProjects, ...projects]);
+
+          return projects;
 
         } catch (error) {
           console.error('Error fetching projects:', error);
