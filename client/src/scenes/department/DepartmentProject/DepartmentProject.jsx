@@ -1,96 +1,114 @@
 import React, { useEffect, useState } from 'react';
 import ProjectCreationForm from '../Project/ProjectCreate';
 import { useFirebase } from '../../../Firebase';
+import { MapComponent } from '../Project/Map';
 
 export default function DepartmentProject() {
   // State for filters
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [mapView, setMapView] = useState(false);
+  const [markedAreas, setMarkedAreas] = useState([]);
 
   
-  const projects = [
-    {
-      id: 1,
-      name: 'Construction of Chimi to Panod Road Length 3.20 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-06-15',
-      endDate: '2023-04-10',
-      contractor: 'VEGA INFRA PROJECT INDORE'
-    },
-    {
-      id: 2,
-      name: 'Construction of Dharampuri to Solsinda Road Length 0.58 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-10-01',
-      endDate: '2023-09-30',
-      contractor: 'PATEL SHREE ENTERPRISES'
-    },
-    {
-      id: 3,
-      name: 'Construction of Hatod Ajnod Road Length 1.50 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-09-10',
-      endDate: '2023-10-05',
-      contractor: 'PATEL SHREE ENTERPRISES'
-    },
-    {
-      id: 4,
-      name: 'Construction of Jambuddrri Srewar to Basandra Road Length 1.76 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-07-20',
-      endDate: '2024-03-30',
-      contractor: 'Kuldeep Sharma'
-    },
-    {
-      id: 5,
-      name: 'Construction of Jamodi to Hatuniya Road Length 4.80 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-05-01',
-      endDate: '2023-06-10',
-      contractor: 'VEGA INFRA PROJECT INDORE'
-    },
-    {
-      id: 6,
-      name: 'Construction of Katkaya to Dhaturiya Road Length 2.50 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-08-15',
-      endDate: '2023-04-28',
-      contractor: 'Hemendra Singh Panwar'
-    },
-    {
-      id: 7,
-      name: 'Construction of Mundalabag to Panod Road Length 1.10 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-11-05',
-      endDate: '2024-01-19',
-      contractor: 'Madhav Infrastructure'
-    },
-    {
-      id: 8,
-      name: 'Construction of Muyadra Road Ch',
-      status: 'ongoing',
-      location: 'Indore-2',
-      startDate: '2023-03-01',
-      endDate: '2024-09-15',
-      contractor: 'PATEL SHREE ENTERPRISES'
-    }
-  ];
+  // const projects = [
+  //   {
+  //     id: 1,
+  //     name: 'Construction of Chimi to Panod Road Length 3.20 KM',
+  //     status: 'completed',
+  //     location: 'Indore-2',
+  //     startDate: '2022-06-15',
+  //     endDate: '2023-04-10',
+  //     contractor: 'VEGA INFRA PROJECT INDORE'
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Construction of Dharampuri to Solsinda Road Length 0.58 KM',
+  //     status: 'completed',
+  //     location: 'Indore-2',
+  //     startDate: '2022-10-01',
+  //     endDate: '2023-09-30',
+  //     contractor: 'PATEL SHREE ENTERPRISES'
+  //   },
+  //   {
+  //     id: 3,
+  //     name: 'Construction of Hatod Ajnod Road Length 1.50 KM',
+  //     status: 'completed',
+  //     location: 'Indore-2',
+  //     startDate: '2022-09-10',
+  //     endDate: '2023-10-05',
+  //     contractor: 'PATEL SHREE ENTERPRISES'
+  //   },
+  //   {
+  //     id: 4,
+  //     name: 'Construction of Jambuddrri Srewar to Basandra Road Length 1.76 KM',
+  //     status: 'completed',
+  //     location: 'Indore-2',
+  //     startDate: '2022-07-20',
+  //     endDate: '2024-03-30',
+  //     contractor: 'Kuldeep Sharma'
+  //   },
+  //   {
+  //     id: 5,
+  //     name: 'Construction of Jamodi to Hatuniya Road Length 4.80 KM',
+  //     status: 'completed',
+  //     location: 'Indore-2',
+  //     startDate: '2022-05-01',
+  //     endDate: '2023-06-10',
+  //     contractor: 'VEGA INFRA PROJECT INDORE'
+  //   },
+  //   {
+  //     id: 6,
+  //     name: 'Construction of Katkaya to Dhaturiya Road Length 2.50 KM',
+  //     status: 'completed',
+  //     location: 'Indore-2',
+  //     startDate: '2022-08-15',
+  //     endDate: '2023-04-28',
+  //     contractor: 'Hemendra Singh Panwar'
+  //   },
+  //   {
+  //     id: 7,
+  //     name: 'Construction of Mundalabag to Panod Road Length 1.10 KM',
+  //     status: 'completed',
+  //     location: 'Indore-2',
+  //     startDate: '2022-11-05',
+  //     endDate: '2024-01-19',
+  //     contractor: 'Madhav Infrastructure'
+  //   },
+  //   {
+  //     id: 8,
+  //     name: 'Construction of Muyadra Road Ch',
+  //     status: 'ongoing',
+  //     location: 'Indore-2',
+  //     startDate: '2023-03-01',
+  //     endDate: '2024-09-15',
+  //     contractor: 'PATEL SHREE ENTERPRISES'
+  //   }
+  // ];
 
-  const [projectList, setProjectList] = useState(projects);
+  const [projectList, setProjectList] = useState([]);
   const [open , setOpen] = useState(false);
   const firebase = useFirebase();
 
-  useEffect(()=>{
-     firebase.fetchAllProjects(setProjectList);
-  },[])
+  const getProjects = async () => {
+   const fetchedProjects =  await firebase.fetchAllProjects(setProjectList);
+   
+   const newMarkedAreas = fetchedProjects.map((project) => ({
+     id: project.id,
+     description: project.name,
+     coordinates: project.area,
+   }));
+   
+  //  Update the state once with all the new objects
+   setMarkedAreas(newMarkedAreas);
+ };
+
+  useEffect(() => {
+    getProjects();
+  }, []);
+  
+
+  
 
   
   // Filtered projects based on status and search term
@@ -101,7 +119,12 @@ export default function DepartmentProject() {
     );
   });
 
+  
+    
+  
+
   return (
+    filteredProjects && 
     <div className="container mt-5">
       {/* Filter Options */}
       <div className="row mb-4">
@@ -148,7 +171,7 @@ export default function DepartmentProject() {
           open &&
           
           <div className="container bg-light px-5" style={{width:'80%',position:'absolute'}}>
-            <ProjectCreationForm setOpen={setOpen}/>
+            <ProjectCreationForm projectList={projectList} setOpen={setOpen}/>
           </div>
         }
       </div>
@@ -166,7 +189,8 @@ export default function DepartmentProject() {
               lineHeight: '300px',
             }}
           >
-            Map will be displayed here.
+          <MapComponent markedAreas={markedAreas} />
+           
           </div>
         </div>
       )}
