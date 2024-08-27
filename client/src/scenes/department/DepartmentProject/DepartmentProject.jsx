@@ -4,13 +4,12 @@ import { useFirebase } from '../../../Firebase';
 import ProjectDetail from '../Project/ProjectLayout';
 
 export default function DepartmentProject() {
-  // State for filters
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [mapView, setMapView] = useState(false);
-  const [viewProject, setViewProject] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [viewedProjectId, setViewedProjectId] = useState(null);
 
-  
   const projects = [
     {
       id: 1,
@@ -21,87 +20,26 @@ export default function DepartmentProject() {
       endDate: '2023-04-10',
       contractor: 'VEGA INFRA PROJECT INDORE'
     },
-    {
-      id: 2,
-      name: 'Construction of Dharampuri to Solsinda Road Length 0.58 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-10-01',
-      endDate: '2023-09-30',
-      contractor: 'PATEL SHREE ENTERPRISES'
-    },
-    {
-      id: 3,
-      name: 'Construction of Hatod Ajnod Road Length 1.50 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-09-10',
-      endDate: '2023-10-05',
-      contractor: 'PATEL SHREE ENTERPRISES'
-    },
-    {
-      id: 4,
-      name: 'Construction of Jambuddrri Srewar to Basandra Road Length 1.76 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-07-20',
-      endDate: '2024-03-30',
-      contractor: 'Kuldeep Sharma'
-    },
-    {
-      id: 5,
-      name: 'Construction of Jamodi to Hatuniya Road Length 4.80 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-05-01',
-      endDate: '2023-06-10',
-      contractor: 'VEGA INFRA PROJECT INDORE'
-    },
-    {
-      id: 6,
-      name: 'Construction of Katkaya to Dhaturiya Road Length 2.50 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-08-15',
-      endDate: '2023-04-28',
-      contractor: 'Hemendra Singh Panwar'
-    },
-    {
-      id: 7,
-      name: 'Construction of Mundalabag to Panod Road Length 1.10 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-11-05',
-      endDate: '2024-01-19',
-      contractor: 'Madhav Infrastructure'
-    },
-    {
-      id: 8,
-      name: 'Construction of Muyadra Road Ch',
-      status: 'ongoing',
-      location: 'Indore-2',
-      startDate: '2023-03-01',
-      endDate: '2024-09-15',
-      contractor: 'PATEL SHREE ENTERPRISES'
-    }
+    // Other projects...
   ];
 
   const [projectList, setProjectList] = useState(projects);
-  const [open , setOpen] = useState(false);
   const firebase = useFirebase();
 
-  useEffect(()=>{
-     firebase.fetchAllProjects(setProjectList);
-  },[])
+  useEffect(() => {
+    firebase.fetchAllProjects(setProjectList);
+  }, []);
 
-  
-  // Filtered projects based on status and search term
   const filteredProjects = projectList.filter(project => {
     return (
       (statusFilter === 'all' || project.status === statusFilter) &&
       project?.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
+
+  const handleRowClick = (projectId) => {
+    setViewedProjectId(viewedProjectId === projectId ? null : projectId);
+  };
 
   return (
     <div className="container mt-5">
@@ -140,23 +78,20 @@ export default function DepartmentProject() {
           </button>
 
           <button 
-          className='btn btn-primary'
-          onClick={()=> setOpen(!open)}
+            className='btn btn-primary'
+            onClick={() => setOpen(!open)}
           >
             Create Project
           </button>
         </div>
-        {
-          open &&
-          
-          <div className="container bg-light px-5" style={{width:'80%',position:'absolute'}}>
-            <ProjectCreationForm setOpen={setOpen}/>
+        {open && (
+          <div className="container bg-light px-5" style={{ width: '80%', position: 'absolute' }}>
+            <ProjectCreationForm setOpen={setOpen} />
           </div>
-        }
+        )}
       </div>
 
       {/* Map View */}
-      
       {mapView && (
         <div className="mb-4">
           <h5>Map View (Example placeholder)</h5>
@@ -178,7 +113,7 @@ export default function DepartmentProject() {
         <thead>
           <tr>
             <th>#</th>
-            <th style={{ width: '40%' }} >Project Name</th>
+            <th style={{ width: '40%' }}>Project Name</th>
             <th>Contractor</th>
             <th>Status</th>
             <th>Location</th>
@@ -188,24 +123,27 @@ export default function DepartmentProject() {
         </thead>
         <tbody>
           {filteredProjects.map((project, index) => (
-            <tr key={project.id+index} onClick={()=> setViewProject(true)}>
-              <td>{index + 1}</td>
-              <td>{project.name} Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, repellendus. </td>
-              <td>{project.contractor} </td>
-              <td>{project.status}</td>
-              <td>{project.location}</td>
-              <td>{project.startDate}</td>
-              <td>{project.endDate}</td>
-              
-      {
-        viewProject && <ProjectDetail project={project}/>
-      }
-            </tr>
+            <>
+              <tr key={project.id} onClick={() => handleRowClick(project.id)}>
+                <td>{index + 1}</td>
+                <td>{project.name}</td>
+                <td>{project.contractor}</td>
+                <td>{project.status}</td>
+                <td>{project.location}</td>
+                <td>{project.startDate}</td>
+                <td>{project.endDate}</td>
+              </tr>
+              {viewedProjectId === project.id && (
+                <tr>
+                  <td colSpan="7">
+                    <ProjectDetail project={project} />
+                  </td>
+                </tr>
+              )}
+            </>
           ))}
         </tbody>
-        
       </table>
-
 
       {/* No projects found message */}
       {filteredProjects.length === 0 && (

@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-regular-svg-icons';
 
 function DepartmentNavbar() {
   const {department} = useParams();
@@ -144,8 +146,10 @@ function DepartmentNavbar() {
                 Contact
               </Link>
             </li>
+           
           </ul>
           <form className="form-inline d-md-none">
+           <FontAwesomeIcon icon={faBell} />
             <input
               type="text"
               placeholder="Search"
