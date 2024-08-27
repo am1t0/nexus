@@ -9,6 +9,7 @@ const ProjectDetail = ({ project }) => {
   const elapsedDuration = today - startDate;
   const progressPercentage = Math.min((elapsedDuration / totalDuration) * 100, 100);
 
+
   return (
     <div className="container mt-5" style={{ position: 'absolute' }}>
       <div className="card shadow-lg">
@@ -68,11 +69,11 @@ const ProjectDetail = ({ project }) => {
               <div className="mb-3 p-3">
                 <h5>Collisions</h5>
                 <ul className="list-group">
-                  {project.collisions?.map((collision, index) => (
+                  {/* {project.collisions?.map((collision, index) => (
                     <li key={index} className="list-group-item">
                       {collision}
                     </li>
-                  ))}
+                  ))} */}
                 </ul>
               </div>
             </div>
@@ -108,12 +109,12 @@ const ProjectDetail = ({ project }) => {
 
           <div className="mb-3">
             <h5>Milestones</h5>
-            <p>{project.milestones}</p>
+            {/* <p>{project.milestones}</p> */}
           </div>
 
           <div className="mb-3">
             <h5>Editor Content</h5>
-            <p>{project.editorContent}</p>
+            {/* <p>{project.editorContent}</p> */}
           </div>
 
           <div className="mb-3">
@@ -123,7 +124,7 @@ const ProjectDetail = ({ project }) => {
 
           <div className="mb-3">
             <h5>Area</h5>
-            <p>{project.area}</p>
+            {/* <p>{project.area}</p> */}
           </div>
 
           <div className="mb-3">
