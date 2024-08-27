@@ -11,12 +11,20 @@ import DepartmentResources from './scenes/department/Resources/DepartmentResourc
 import DepartmentProject from './scenes/department/DepartmentProject/DepartmentProject';
 import DepartmentHome from './scenes/department/DepartmentHome';
 import { FirebaseProvider } from './Firebase';
+import Home from './scenes/desktop/Home';
+import DepartmentRegistrationForm from './scenes/SubmitForm/DepartmentRegistrationForm';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const router = createBrowserRouter([
 {
   path:'/', element: <App/>, children:[]
+},
+{
+  path:'/home', element: <Home/>
+},
+{
+  path: '/register', element: <DepartmentRegistrationForm/>
 },
 {
   path:'/:department', element: <Department/>, children: [
