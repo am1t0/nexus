@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ProjectCreationForm from '../Project/ProjectCreate';
 import { useFirebase } from '../../../Firebase';
 import ProjectDetail from '../Project/ProjectLayout';
+import {MapComponent} from '../Project/Map';
 
 export default function DepartmentProject() {
   // State for filters
@@ -9,6 +10,7 @@ export default function DepartmentProject() {
   const [searchTerm, setSearchTerm] = useState('');
   const [mapView, setMapView] = useState(false);
   const [viewProject, setViewProject] = useState(false);
+  const [markedAreas, setMarkedAreas] = useState([]);
 
   
   // const projects = [
