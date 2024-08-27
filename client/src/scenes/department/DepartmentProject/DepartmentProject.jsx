@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ProjectCreationForm from '../Project/ProjectCreate';
 import { useFirebase } from '../../../Firebase';
-import { MapComponent } from '../Project/Map';
+import ProjectDetail from '../Project/ProjectLayout';
 
 export default function DepartmentProject() {
   // State for filters
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [mapView, setMapView] = useState(false);
-  const [markedAreas, setMarkedAreas] = useState([]);
+  const [viewProject, setViewProject] = useState(false);
 
   
   // const projects = [
@@ -210,7 +210,7 @@ export default function DepartmentProject() {
         </thead>
         <tbody>
           {filteredProjects.map((project, index) => (
-            <tr key={project.id+index}>
+            <tr key={project.id+index} onClick={()=> setViewProject(true)}>
               <td>{index + 1}</td>
               <td>{project.name} Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, repellendus. </td>
               <td>{project.contractor} </td>
@@ -218,10 +218,16 @@ export default function DepartmentProject() {
               <td>{project.location}</td>
               <td>{project.startDate}</td>
               <td>{project.endDate}</td>
+              
+      {
+        viewProject && <ProjectDetail project={project}/>
+      }
             </tr>
           ))}
         </tbody>
+        
       </table>
+
 
       {/* No projects found message */}
       {filteredProjects.length === 0 && (
