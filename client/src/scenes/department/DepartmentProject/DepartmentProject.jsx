@@ -215,7 +215,7 @@ export default function DepartmentProject() {
             <tr key={project.id+index} onClick={()=> setViewProject(true)}>
               <td>{index + 1}</td>
               <td>{project.name} Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, repellendus. </td>
-              <td>{project.contractor} </td>
+              <td>{project.implementer} </td>
               <td>{project.status}</td>
               <td>{project.location}</td>
               <td>{project.startDate}</td>

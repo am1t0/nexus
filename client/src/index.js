@@ -28,13 +28,11 @@ const router = createBrowserRouter([
 }
 ])
 root.render(
-  <React.StrictMode> 
   <FirebaseProvider>
   <RouterProvider router={router}>
     <App />
   </RouterProvider>
   </FirebaseProvider>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
