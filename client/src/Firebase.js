@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, addDoc, setDoc, getDoc, arrayUnion, updateDoc, query, where, collection, getDocs } from "firebase/firestore";
+import { getFirestore, doc, addDoc, setDoc, getDoc, arrayUnion, updateDoc, query, where, collection, getDocs, serverTimestamp, orderBy, onSnapshot } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { createContext, useContext } from "react";
 import * as martinez from 'martinez-polygon-clipping';
@@ -10,6 +10,7 @@ import * as martinez from 'martinez-polygon-clipping';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
 const firebaseConfig = {
   apiKey: "AIzaSyBbkOe2ijBGijBf463M_uyP5nRJw4RuDTQ",
   authDomain: "cooperation-26e4b.firebaseapp.com",
@@ -225,6 +226,53 @@ const fetchDepartmentData = async (department) => {
     console.error('Error fetching department data:', error);
     return null;
   }
+  // Function to get or create a chat between two departments
+const getOrCreateChat = async (departmentAId, departmentBId) => {
+  const chatsRef = collection(firestore, "chats");
+
+  // Query to find a chat between these two departments
+  const q = query(
+      chatsRef,
+      where("departmentA", "in", [departmentAId, departmentBId]),
+      where("departmentB", "in", [departmentAId, departmentBId])
+  );
+
+  const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) {
+      // If no chat exists, create a new one
+      const newChatRef = await addDoc(chatsRef, {
+          departmentA: departmentAId,
+          departmentB: departmentBId
+      });
+      return newChatRef.id;
+  } else {
+      // Return the existing chat's ID
+      return querySnapshot.docs[0].id;
+  }
+};
+
+const sendMessage = async (chatId, text, senderDepartmentId) => {
+  const messagesRef = collection(firestore, "chats", chatId, "messages");
+
+  await addDoc(messagesRef, {
+      text: text,
+      senderDepartment: senderDepartmentId,
+      timestamp: serverTimestamp()
+  });
+};
+
+const listenForMessages = (chatId, callback) => {
+  const messagesRef = collection(firestore, "chats", chatId, "messages");
+  const messagesQuery = query(messagesRef, orderBy("timestamp", "asc"));
+
+  return onSnapshot(messagesQuery, (snapshot) => {
+      const messages = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+      }));
+      callback(messages);
+  });
 };
 
   return (
@@ -234,9 +282,15 @@ const fetchDepartmentData = async (department) => {
       {{
         addProject,
         fetchAllProjects,
+<<<<<<< HEAD
         addDepartment,
         fetchAllDepartments,
         fetchDepartmentData,
+=======
+        getOrCreateChat,
+        sendMessage,
+        listenForMessages,
+>>>>>>> 542e5bbaf760dc77867252a69668568d83276fb4
       }}
     >
       {children}

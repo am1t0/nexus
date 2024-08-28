@@ -43,7 +43,7 @@ const router = createBrowserRouter([
   path:'/project/:projectName', element: <ProjectDetail/>
 },
  {
-   path: '/communicate/:chatWith' , element: <CommunicationLayout/>
+   path: '/communicate/:chatWith' , element: <CommunicationLayout departmentId={"dep-B"} otherDepartmentId={"dep-A"}/>
  }
 ])
 root.render(
