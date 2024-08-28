@@ -10,14 +10,15 @@ import * as martinez from 'martinez-polygon-clipping';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBTIo8wN9PHpcTJd3CKUbdYA8fx3QV3IJo",
-  authDomain: "map-leaflet-f2e7b.firebaseapp.com",
-  projectId: "map-leaflet-f2e7b",
-  storageBucket: "map-leaflet-f2e7b.appspot.com",
-  messagingSenderId: "451741798909",
-  appId: "1:451741798909:web:3acea78741ff1591998994",
-  measurementId: "G-0ED11HBLDJ"
+  apiKey: "AIzaSyBbkOe2ijBGijBf463M_uyP5nRJw4RuDTQ",
+  authDomain: "cooperation-26e4b.firebaseapp.com",
+  projectId: "cooperation-26e4b",
+  storageBucket: "cooperation-26e4b.appspot.com",
+  messagingSenderId: "5862210627",
+  appId: "1:5862210627:web:47166358d5fd42d73b68f6",
+  measurementId: "G-99Z6GH9CNC"
 };
 
 // Initialize Firebase
