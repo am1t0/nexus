@@ -13,6 +13,7 @@ import DepartmentHome from './scenes/department/DepartmentHome';
 import { FirebaseProvider } from './Firebase';
 import Home from './scenes/desktop/Home';
 import DepartmentRegistrationForm from './scenes/SubmitForm/DepartmentRegistrationForm';
+import CommunicationLayout from './communication/CommunicationLayout';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -33,7 +34,10 @@ const router = createBrowserRouter([
     { path:'/:department/projects', element: <DepartmentProject/> },
     // { path:'/:department/projects', element: <DepartmentProject/> },
   ]
-}
+},
+ {
+   path: '/communicate/:chatWith' , element: <CommunicationLayout/>
+ }
 ])
 root.render(
   <FirebaseProvider>

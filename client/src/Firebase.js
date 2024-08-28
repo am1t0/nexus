@@ -121,6 +121,7 @@ export const FirebaseProvider = ({ children }) => {
       const isInterDepartmental = project.departments.length > 1;
   
       const projectData = {
+        department: project.department,
         name: project.projectName,
         description: project.description,
         startDate: project.startDate,

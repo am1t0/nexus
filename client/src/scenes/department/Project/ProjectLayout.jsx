@@ -1,9 +1,12 @@
-import React from "react";
+import { faMessage } from "@fortawesome/free-regular-svg-icons";
+import { faMailBulk, faMailForward } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const ProjectDetail = ({ project }) => {
   // Calculate the progress percentage
-
-  console.log(project.conflicts)
+  const [communicate, setCommunicate] = useState('');
   const today = new Date();
   const startDate = new Date(project.startDate);
   const endDate = new Date(project.endDate);
@@ -19,7 +22,7 @@ const ProjectDetail = ({ project }) => {
       <div className="card shadow-lg">
         <div className="card-body">
           <h3 className="card-title">{project.name}</h3>
-          <p className="text-muted">Implemented by: {project.implementer}</p>
+          <h6 className="text-muted">Implemented by: {project.implementer}</h6>
 
           {/* Show progress bar if project is ongoing, otherwise show status */}
           {progressPercentage < 100 ? (
@@ -53,6 +56,21 @@ const ProjectDetail = ({ project }) => {
                 <h5>Description</h5>
                 <p>{project.description}</p>
               </div>
+
+              <div className="row mb-3">
+            <div className="col-md-4">
+              <button className="btn btn-primary">
+              <h6>Start Date</h6>
+              </button>
+              <p>{project.startDate}</p>
+            </div>
+            <div className="col-md-6">
+              <button className="btn btn-warning">
+              <h6>End Date</h6>
+              </button>
+              <p>{project.endDate}</p>
+            </div>
+          </div>
             </div>
 
             <div className="col-md-6">
@@ -74,12 +92,16 @@ const ProjectDetail = ({ project }) => {
                 <h5>Conflicts</h5>
                 <ul className="list-group">
                   {project.conflicts?.map((conflict, index) => (
-                   <div key={index} className="list-group-item">
-                   <p>{conflict.existingProjectDetails.description}</p>
-                   
-                   <span className="badge bg-warning">{conflict.existingProjectDetails.status}</span>
-                   
-                   <div className="mt-2">
+                   <div key={index} className="list-group-item my-2"   style={{background:'#ffcccc'}}>
+                    <div className="d-flex align-items-center ">
+                    <h3>{conflict.existingProjectDetails.department}</h3>
+                    <Link to = {`/communicate/${conflict.existingProjectDetails.department}`}>
+                       <FontAwesomeIcon icon={faMessage} />
+                    </Link>
+                    </div>
+                    
+                    <span className="badge bg-warning">{conflict.existingProjectDetails.status}</span>
+                    <div className="mt-2">
                      <span className="badge bg-primary me-2">
                        Start Date: {new Date(conflict.existingProjectDetails.startDate).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
                      </span>
@@ -87,23 +109,17 @@ const ProjectDetail = ({ project }) => {
                        End Date: {new Date(conflict.existingProjectDetails.endDate).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
                      </span>
                    </div>
+                   <p>{conflict.existingProjectDetails.description}</p>
+                   
+                   <span>overlap </span>
+                   <span className="badge bg-danger">{conflict.percentageOverlapNewProject}%</span>
+                   
                  </div>
                  
                   
                   ))}
                 </ul>
               </div>
-            </div>
-          </div>
-
-          <div className="row mb-3">
-            <div className="col-md-6">
-              <h5>Start Date</h5>
-              <p>{project.startDate}</p>
-            </div>
-            <div className="col-md-6">
-              <h5>End Date</h5>
-              <p>{project.endDate}</p>
             </div>
           </div>
 
