@@ -151,7 +151,7 @@ export default function DepartmentProject() {
               <tr onClick={() => handleRowClick(project.id, index)}>
                 <td>{index + 1}</td>
                 <td>{project.name}</td>
-                <td>{project.impementer}</td>
+                <td>{project.implementer}</td>
                 <td>{project.status}</td>
                 <td>{project.location}</td>
                 <td>{project.startDate}</td>
