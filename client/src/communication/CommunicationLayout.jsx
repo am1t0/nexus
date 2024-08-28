@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import {useFirebase} from "../Firebase";
 
-export default function CommunicationLayout() {
+export default function CommunicationLayout({ departmentId, otherDepartmentId }) {
   const { chatWith } = useParams();
-  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [department, setDepartment] = useState();
+  const [chatId, setChatId] = useState(null);
+
+  const firebase = useFirebase();
 
   useEffect(()=>{
         setDepartment(chatWith)
-  },[])
+
+        const setupChat = async () => {
+          const id = await firebase.getOrCreateChat(departmentId, otherDepartmentId);
+          setChatId(id);
+
+          // Listen for new messages
+          firebase.listenForMessages(id, setMessages);
+      };
+      setupChat();
+  },[departmentId, otherDepartmentId])
 
   const departments = [
     "Department of Public Works",
@@ -20,13 +34,17 @@ export default function CommunicationLayout() {
     "Department of Public Health"
   ];
 
-  const handleSendMessage = () => {
-    if (message || attachments.length > 0) {
+  const handleSendMessage = async () => {
+    if (newMessage || attachments.length > 0) {
       // Implement the logic to send the message and attachments
-      console.log('Message:', message);
+      console.log('Message:', newMessage);
       console.log('Attachments:', attachments);
       // Clear the input fields after sending
-      setMessage('');
+      if (newMessage.trim() !== "") {
+        await firebase.sendMessage(chatId, newMessage, departmentId);
+        setNewMessage("");
+    }
+      // setMessage('');
       setAttachments([]);
     }
   };
@@ -47,13 +65,11 @@ export default function CommunicationLayout() {
         <div className="col-md-4 col-lg-3 border-end">
           <h5 className="mb-4">Recent Chats</h5>
           <ul className="list-group">
-             {
-                departments.map((department, index) => (
-                    <div onClick={()=> setDepartment(department)}>
-                        {department}
-                    </div>
-                ))
-             }
+            {departments.map((dep, index) => (
+              <li key={index} className="list-group-item" onClick={() => setDepartment(dep)}>
+                {dep}
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -64,9 +80,17 @@ export default function CommunicationLayout() {
               <h5>Chat with: @{department}</h5>
             </div>
             <div className="card-body" style={{ height: '400px', overflowY: 'auto' }}>
-              {/* Chat messages go here */}
-              <p>Welcome to your chat with @{department}.</p>
-              {/* Additional chat messages can be added here */}
+              {messages.length === 0 ? (
+                <p>No messages yet.</p>
+              ) : (
+                messages.map((msg) => (
+                  <div key={msg.id} className={msg.senderDepartment === departmentId ? "text-end" : "text-start"}>
+                    <p>
+                      <strong>{msg.senderDepartment === departmentId ? "You" : `@${msg.senderDepartment}`}:</strong> {msg.text}
+                    </p>
+                  </div>
+                ))
+              )}
             </div>
             <div className="card-footer">
               <div className="input-group">
@@ -74,8 +98,8 @@ export default function CommunicationLayout() {
                   type="text"
                   className="form-control"
                   placeholder="Type a message..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
                 />
                 <input
                   type="file"

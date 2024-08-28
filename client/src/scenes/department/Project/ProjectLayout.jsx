@@ -131,13 +131,13 @@ const ProjectDetail = ({ project }) => {
           <div className="mb-3">
             <h5>Departments Involved</h5>
             {/* Uncomment the below code when departments data is available */}
-            {/* <ul className="list-group">
+            <ul className="list-group">
               {project.departments.map((department, index) => (
                 <li key={index} className="list-group-item">
                   {department}
                 </li>
               ))}
-            </ul> */}
+            </ul>
           </div>
 
           <div className="mb-3">
