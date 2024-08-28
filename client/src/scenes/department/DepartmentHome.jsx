@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFirebase } from "../../Firebase";
 import { BallTriangle } from "react-loader-spinner";
+import DepartmentFooter from "./DepartmentFooter";
+
 
 export default function DepartmentHome() {
   const { department } = useParams();
@@ -30,6 +32,7 @@ export default function DepartmentHome() {
     console.log(fetchedDepartment);
   };
   return departmentData ? (
+    <>
     <div className="container">
       <div className="card">
         <div className="d-flex gap-4 justify-content-center my-2">
@@ -58,7 +61,8 @@ export default function DepartmentHome() {
             officiis sed alias error soluta eos fugiat eligendi eum voluptate
             pariatur.
           </p>
-          <ul className="list-group list-group-flush">
+
+          {/* <ul className="list-group list-group-flush">
             <li className="list-group-item">
               <strong>Email:</strong>{" "}
               <a href={`mailto:${departmentData.emailAddress}`}>
@@ -71,8 +75,8 @@ export default function DepartmentHome() {
             <li className="list-group-item">
               <strong>Office Address:</strong> {departmentData.officeAddress}
             </li>
-          </ul>
-          <h5 className="mt-3">Resources:</h5>
+          </ul> */}
+          {/* <h5 className="mt-3">Resources:</h5>
           <ul className="list-group">
             {departmentData.resources.map((resource, index) => (
               <li
@@ -85,10 +89,13 @@ export default function DepartmentHome() {
                 </span>
               </li>
             ))}
-          </ul>
+          </ul> */}
+
         </div>
       </div>
     </div>
+    <DepartmentFooter department={departmentData}/>
+    </>
   ) : (
     <div
       style={{

@@ -122,7 +122,7 @@ export const FirebaseProvider = ({ children }) => {
       const isInterDepartmental = project.departments.length > 1;
   
       const projectData = {
-        department: project.department,
+        department: project.department.replace(/-/g, ' '),
         name: project.projectName,
         description: project.description,
         startDate: project.startDate,
@@ -226,6 +226,32 @@ const fetchDepartmentData = async (department) => {
     console.error('Error fetching department data:', error);
     return null;
   }
+}
+
+const fetchDepartmentProject = async (department) => {
+  const departmentName = department.replace(/-/g, ' ');
+  try {
+    // Reference to the 'projects' collection
+    const projectsRef = collection(firestore, 'projects');
+
+    // Create a query against the collection to get projects for the specified department
+    const q = query(projectsRef, where('department', '==', departmentName));
+
+    // Execute the query and get the documents
+    const querySnapshot = await getDocs(q);
+
+    // Map over the documents to retrieve data
+    const projects = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    return projects;
+  } catch (error) {
+    console.error('Error fetching department projects:', error);
+    return [];
+  }
+};
   // Function to get or create a chat between two departments
 const getOrCreateChat = async (departmentAId, departmentBId) => {
   const chatsRef = collection(firestore, "chats");
@@ -282,15 +308,13 @@ const listenForMessages = (chatId, callback) => {
       {{
         addProject,
         fetchAllProjects,
-<<<<<<< HEAD
         addDepartment,
         fetchAllDepartments,
         fetchDepartmentData,
-=======
         getOrCreateChat,
         sendMessage,
         listenForMessages,
->>>>>>> 542e5bbaf760dc77867252a69668568d83276fb4
+        fetchDepartmentProject,
       }}
     >
       {children}

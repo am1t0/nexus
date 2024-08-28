@@ -1,12 +1,14 @@
 import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import { faMailBulk, faMailForward } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const ProjectDetail = ({ project }) => {
   // Calculate the progress percentage
   const [communicate, setCommunicate] = useState('');
+  const {department} = useParams();
+
   const today = new Date();
   const startDate = new Date(project.startDate);
   const endDate = new Date(project.endDate);
@@ -16,6 +18,7 @@ const ProjectDetail = ({ project }) => {
     (elapsedDuration / totalDuration) * 100,
     100
   )
+
 
   return (
     <div className="container mt-5" style={{ position: "absolute" }}>
@@ -99,14 +102,17 @@ const ProjectDetail = ({ project }) => {
                        <FontAwesomeIcon icon={faMessage} />
                     </Link>
                     </div>
+                    <h6>{conflict.existingProjectDetails.name}</h6>
                     
                     <span className="badge bg-warning">{conflict.existingProjectDetails.status}</span>
                     <div className="mt-2">
-                     <span className="badge bg-primary me-2">
-                       Start Date: {new Date(conflict.existingProjectDetails.startDate).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      <strong> Start Date: </strong>
+                     <span style={{border:'1px solid grey', borderRadius:'4px'}} className="p-1 m-3">
+                      {new Date(conflict.existingProjectDetails.startDate).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
                      </span>
-                     <span className="badge bg-secondary">
-                       End Date: {new Date(conflict.existingProjectDetails.endDate).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
+                     <strong>End Date: </strong>
+                     <span style={{border:'1px solid grey', borderRadius:'4px'}} className="p-1 m-3">
+                        {new Date(conflict.existingProjectDetails.endDate).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
                      </span>
                    </div>
                    <p>{conflict.existingProjectDetails.description}</p>

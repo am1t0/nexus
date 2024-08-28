@@ -3,8 +3,12 @@ import ProjectCreationForm from '../Project/ProjectCreate';
 import { useFirebase } from '../../../Firebase';
 import ProjectDetail from '../Project/ProjectLayout';
 import { MapComponent } from '../Project/Map';
+import { useParams } from 'react-router-dom';
 
 export default function DepartmentProject() {
+
+  const {department} = useParams();
+  
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [mapView, setMapView] = useState(false);
@@ -16,9 +20,9 @@ export default function DepartmentProject() {
   const [projectList, setProjectList] = useState([]);
   const firebase = useFirebase();
 
-    const getProjects = async () => {
-   const fetchedProjects =  await firebase.fetchAllProjects(setProjectList);
-   
+  const getProjects = async () => {
+   const fetchedProjects =  await firebase.fetchDepartmentProject(department);
+    setProjectList(fetchedProjects)
    const newMarkedAreas = fetchedProjects.map((project) => ({
      id: project.id,
      description: project.name,
@@ -39,7 +43,6 @@ export default function DepartmentProject() {
       project?.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
-
    
   const handleRowClick = (projectId, index) => {
     if (viewedProjectId === projectId) {

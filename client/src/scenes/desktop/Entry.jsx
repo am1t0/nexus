@@ -35,7 +35,7 @@ export default function Entry() {
 
   return (
 
-    !loading && departments.length===0 ? (
+    !loading && departments.length!==0 ? (
     // Main Content
     <div className="container mt-4">
       <div className="row">
