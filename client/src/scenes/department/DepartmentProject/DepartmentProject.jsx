@@ -13,20 +13,7 @@ export default function DepartmentProject() {
   const [clickedRowIndex, setClickedRowIndex] = useState(null);
   const [markedAreas, setMarkedAreas] = useState([]);
 
-  const projects = [
-    {
-      id: 1,
-      name: 'Construction of Chimi to Panod Road Length 3.20 KM',
-      status: 'completed',
-      location: 'Indore-2',
-      startDate: '2022-06-15',
-      endDate: '2023-04-10',
-      contractor: 'VEGA INFRA PROJECT INDORE'
-    },
-    // Other projects...
-  ];
-
-  const [projectList, setProjectList] = useState(projects);
+  const [projectList, setProjectList] = useState([]);
   const firebase = useFirebase();
 
     const getProjects = async () => {

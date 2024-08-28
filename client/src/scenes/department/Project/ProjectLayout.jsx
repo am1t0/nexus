@@ -92,8 +92,8 @@ const ProjectDetail = ({ project }) => {
                 <h5>Conflicts</h5>
                 <ul className="list-group">
                   {project.conflicts?.map((conflict, index) => (
-                   <div key={index} className="list-group-item my-2"   style={{background:'#ffcccc'}}>
-                    <div className="d-flex align-items-center ">
+                   <div key={index} className="list-group-item my-2">
+                    <div className="d-flex align-items-center justify-content-between">
                     <h3>{conflict.existingProjectDetails.department}</h3>
                     <Link to = {`/communicate/${conflict.existingProjectDetails.department}`}>
                        <FontAwesomeIcon icon={faMessage} />

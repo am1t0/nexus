@@ -14,6 +14,8 @@ import { FirebaseProvider } from './Firebase';
 import Home from './scenes/desktop/Home';
 import DepartmentRegistrationForm from './scenes/SubmitForm/DepartmentRegistrationForm';
 import CommunicationLayout from './communication/CommunicationLayout';
+import Entry from './scenes/desktop/Entry';
+import ProjectDetail from './scenes/department/Project/ProjectLayout';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -22,7 +24,9 @@ const router = createBrowserRouter([
   path:'/', element: <App/>, children:[]
 },
 {
-  path:'/home', element: <Home/>
+  path:'/home', element: <Home/> , children:[
+    {path:'/home', element: <Entry/>}
+  ]
 },
 {
   path: '/register', element: <DepartmentRegistrationForm/>
@@ -34,6 +38,9 @@ const router = createBrowserRouter([
     { path:'/:department/projects', element: <DepartmentProject/> },
     // { path:'/:department/projects', element: <DepartmentProject/> },
   ]
+},
+{
+  path:'/project/:projectName', element: <ProjectDetail/>
 },
  {
    path: '/communicate/:chatWith' , element: <CommunicationLayout/>
