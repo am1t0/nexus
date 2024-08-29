@@ -2,99 +2,27 @@ import React, { useEffect, useState } from 'react';
 import ProjectCreationForm from '../Project/ProjectCreate';
 import { useFirebase } from '../../../Firebase';
 import ProjectDetail from '../Project/ProjectLayout';
-import {MapComponent} from '../Project/Map';
+import { MapComponent } from '../Project/Map';
+import { useParams } from 'react-router-dom';
 
 export default function DepartmentProject() {
-  // State for filters
+
+  const {department} = useParams();
+  
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [mapView, setMapView] = useState(false);
-  const [viewProject, setViewProject] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [viewedProjectId, setViewedProjectId] = useState(null);
+  const [clickedRowIndex, setClickedRowIndex] = useState(null);
   const [markedAreas, setMarkedAreas] = useState([]);
 
-  
-  // const projects = [
-  //   {
-  //     id: 1,
-  //     name: 'Construction of Chimi to Panod Road Length 3.20 KM',
-  //     status: 'completed',
-  //     location: 'Indore-2',
-  //     startDate: '2022-06-15',
-  //     endDate: '2023-04-10',
-  //     contractor: 'VEGA INFRA PROJECT INDORE'
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Construction of Dharampuri to Solsinda Road Length 0.58 KM',
-  //     status: 'completed',
-  //     location: 'Indore-2',
-  //     startDate: '2022-10-01',
-  //     endDate: '2023-09-30',
-  //     contractor: 'PATEL SHREE ENTERPRISES'
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Construction of Hatod Ajnod Road Length 1.50 KM',
-  //     status: 'completed',
-  //     location: 'Indore-2',
-  //     startDate: '2022-09-10',
-  //     endDate: '2023-10-05',
-  //     contractor: 'PATEL SHREE ENTERPRISES'
-  //   },
-  //   {
-  //     id: 4,
-  //     name: 'Construction of Jambuddrri Srewar to Basandra Road Length 1.76 KM',
-  //     status: 'completed',
-  //     location: 'Indore-2',
-  //     startDate: '2022-07-20',
-  //     endDate: '2024-03-30',
-  //     contractor: 'Kuldeep Sharma'
-  //   },
-  //   {
-  //     id: 5,
-  //     name: 'Construction of Jamodi to Hatuniya Road Length 4.80 KM',
-  //     status: 'completed',
-  //     location: 'Indore-2',
-  //     startDate: '2022-05-01',
-  //     endDate: '2023-06-10',
-  //     contractor: 'VEGA INFRA PROJECT INDORE'
-  //   },
-  //   {
-  //     id: 6,
-  //     name: 'Construction of Katkaya to Dhaturiya Road Length 2.50 KM',
-  //     status: 'completed',
-  //     location: 'Indore-2',
-  //     startDate: '2022-08-15',
-  //     endDate: '2023-04-28',
-  //     contractor: 'Hemendra Singh Panwar'
-  //   },
-  //   {
-  //     id: 7,
-  //     name: 'Construction of Mundalabag to Panod Road Length 1.10 KM',
-  //     status: 'completed',
-  //     location: 'Indore-2',
-  //     startDate: '2022-11-05',
-  //     endDate: '2024-01-19',
-  //     contractor: 'Madhav Infrastructure'
-  //   },
-  //   {
-  //     id: 8,
-  //     name: 'Construction of Muyadra Road Ch',
-  //     status: 'ongoing',
-  //     location: 'Indore-2',
-  //     startDate: '2023-03-01',
-  //     endDate: '2024-09-15',
-  //     contractor: 'PATEL SHREE ENTERPRISES'
-  //   }
-  // ];
-
   const [projectList, setProjectList] = useState([]);
-  const [open , setOpen] = useState(false);
   const firebase = useFirebase();
 
   const getProjects = async () => {
-   const fetchedProjects =  await firebase.fetchAllProjects(setProjectList);
-   
+   const fetchedProjects =  await firebase.fetchDepartmentProject(department);
+    setProjectList(fetchedProjects)
    const newMarkedAreas = fetchedProjects.map((project) => ({
      id: project.id,
      description: project.name,
@@ -108,25 +36,25 @@ export default function DepartmentProject() {
   useEffect(() => {
     getProjects();
   }, []);
-  
 
-  
-
-  
-  // Filtered projects based on status and search term
   const filteredProjects = projectList.filter(project => {
     return (
       (statusFilter === 'all' || project.status === statusFilter) &&
       project?.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
-
-  
-    
-  
+   
+  const handleRowClick = (projectId, index) => {
+    if (viewedProjectId === projectId) {
+      setViewedProjectId(null);
+      setClickedRowIndex(null);
+    } else {
+      setViewedProjectId(projectId);
+      setClickedRowIndex(index);
+    }
+  };
 
   return (
-    filteredProjects && 
     <div className="container mt-5">
       {/* Filter Options */}
       <div className="row mb-4">
@@ -141,6 +69,7 @@ export default function DepartmentProject() {
             <option value="all">All</option>
             <option value="ongoing">Ongoing</option>
             <option value="upcoming">Upcoming</option>
+            <option value="collision">Collision</option>
           </select>
         </div>
         <div className="col-md-4">
@@ -163,23 +92,20 @@ export default function DepartmentProject() {
           </button>
 
           <button 
-          className='btn btn-primary'
-          onClick={()=> setOpen(!open)}
+            className='btn btn-primary'
+            onClick={() => setOpen(!open)}
           >
             Create Project
           </button>
         </div>
-        {
-          open &&
-          
-          <div className="container bg-light px-5" style={{width:'80%',position:'absolute'}}>
-            <ProjectCreationForm projectList={projectList} setOpen={setOpen}/>
+        {open && (
+          <div className="container bg-light px-5">
+            <ProjectCreationForm projectList={projectList} setOpen={setOpen} />
           </div>
-        }
+        )}
       </div>
 
       {/* Map View */}
-      
       {mapView && (
         <div className="mb-4">
           <h5>Map View (Example placeholder)</h5>
@@ -191,8 +117,7 @@ export default function DepartmentProject() {
               lineHeight: '300px',
             }}
           >
-          <MapComponent markedAreas={markedAreas} />
-           
+            <MapComponent markedAreas={markedAreas} />
           </div>
         </div>
       )}
@@ -202,7 +127,7 @@ export default function DepartmentProject() {
         <thead>
           <tr>
             <th>#</th>
-            <th style={{ width: '40%' }} >Project Name</th>
+            <th style={{ width: '40%' }}>Project Name</th>
             <th>Contractor</th>
             <th>Status</th>
             <th>Location</th>
@@ -212,24 +137,40 @@ export default function DepartmentProject() {
         </thead>
         <tbody>
           {filteredProjects.map((project, index) => (
-            <tr key={project.id+index} onClick={()=> setViewProject(true)}>
-              <td>{index + 1}</td>
-              <td>{project.name} Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, repellendus. </td>
-              <td>{project.implementer} </td>
-              <td>{project.status}</td>
-              <td>{project.location}</td>
-              <td>{project.startDate}</td>
-              <td>{project.endDate}</td>
-              
-      {
-        viewProject && <ProjectDetail project={project}/>
-      }
-            </tr>
+            <React.Fragment key={project.id}>
+              <tr onClick={() => handleRowClick(project.id, index)}>
+                <td>{index + 1}</td>
+                <td>{project.name}</td>
+                <td>{project.implementer}</td>
+                <td>{project.status}</td>
+                <td>{project.location}</td>
+                <td>{project.startDate}</td>
+                <td>{project.endDate}</td>
+              </tr>
+              {viewedProjectId === project.id && (
+                <tr>
+                  <td colSpan="7" style={{ position: 'relative', padding: 0 }}>
+                    <div
+                      className="project-detail-container"
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        zIndex: 1,
+                        backgroundColor: 'white',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                      }}
+                    >
+                      <ProjectDetail project={filteredProjects.find(proj => proj.id === viewedProjectId)} />
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
           ))}
         </tbody>
-        
       </table>
-
 
       {/* No projects found message */}
       {filteredProjects.length === 0 && (

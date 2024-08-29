@@ -101,7 +101,7 @@ const ProjectCreationForm = ({setOpen, projectList}) => {
     }
 
     setLoading(false);
-    // setOpen(false);
+    setOpen(false);
 
   };
 
