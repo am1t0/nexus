@@ -29,8 +29,8 @@ export default function DepartmentHome() {
   const getDepartment = async () => {
     const fetchedDepartment = await firebase.fetchDepartmentData(department);
     setDepartmentData(fetchedDepartment);
-    console.log(fetchedDepartment);
   };
+
   return departmentData ? (
     <>
     <div className="container">

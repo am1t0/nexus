@@ -16,6 +16,7 @@ import DepartmentRegistrationForm from './scenes/SubmitForm/DepartmentRegistrati
 import CommunicationLayout from './communication/CommunicationLayout';
 import Entry from './scenes/desktop/Entry';
 import ProjectDetail from './scenes/department/Project/ProjectLayout';
+import SubDepartment from './scenes/department/SubDepartment';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
     { path:'/:department' , element: <DepartmentHome/>},
     { path:'/:department/resources', element: <DepartmentResources/> },
     { path:'/:department/projects', element: <DepartmentProject/> },
+    { path:'/:department/subdepartment', element: <SubDepartment/> },
     // { path:'/:department/projects', element: <DepartmentProject/> },
   ]
 },
