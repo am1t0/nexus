@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw';
 
-export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectName }) => {
+export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectName, canEdit }) => {
     const mapContainer = useRef(null);
     const mapRef = useRef(null);
     const drawnItems = useRef(L.featureGroup()).current;
@@ -28,7 +28,7 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
                     remove: true
                 }
             });
-            mapRef.current.addControl(drawControl);
+            {canEdit && mapRef.current.addControl(drawControl);}
 
             // Handle new polygon creation
             mapRef.current.on(L.Draw.Event.CREATED, async (e) => {

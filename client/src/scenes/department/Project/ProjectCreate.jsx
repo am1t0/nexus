@@ -113,15 +113,15 @@ const ProjectCreationForm = ({setOpen, projectList}) => {
     try {
         // const updatedAreas = markedAreas.filter(area => area.id !== id);
         // setMarkedAreas(updatedAreas);
-        // await deleteDoc(doc(firestore, 'projects', id));
+        // await deleteDoc(1doc(firestore, 'projects', id));
     } catch (error) {
         console.error('Error deleting marked area:', error);
     }
 };
 
-const loadMarkedAreas=()=>{
+const loadMarkedAreas= async ()=>{
   
-  const newMarkedAreas = projectList.map((project) => {
+  const newMarkedAreas = await projectList.map((project) => {
     return {
       id: project.id,
       description: project.name,
@@ -344,6 +344,7 @@ useEffect(()=>{
             </div>
             <div className="col-md-6">
             <MapComponent
+                canEdit={true}
                 projectName={projectName}
                 markedAreas={markedAreas}
                 onSaveArea={saveMarkedArea}

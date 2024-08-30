@@ -91,7 +91,9 @@ const ProjectDetail = ({ project }) => {
               <div className="mb-3 p-3">
                 <h5>Conflicts</h5>
                 <ul className="list-group">
-                  {project.conflicts?.map((conflict, index) => (
+                  { 
+                  
+                  project.conflicts?.map((conflict, index) => (
                    <div key={index} className="list-group-item my-2"   style={{background:'#ffcccc'}}>
                     <div className="d-flex align-items-center ">
                     <h3>{conflict.existingProjectDetails.department}</h3>
@@ -132,7 +134,7 @@ const ProjectDetail = ({ project }) => {
             <h5>Departments Involved</h5>
             {/* Uncomment the below code when departments data is available */}
             <ul className="list-group">
-              {project.departments.map((department, index) => (
+              {project.departments?.map((department, index) => (
                 <li key={index} className="list-group-item">
                   {department}
                 </li>
@@ -142,7 +144,7 @@ const ProjectDetail = ({ project }) => {
 
           <div className="mb-3">
             <h5>Milestones</h5>
-            {project.milestones.map((milestone, index) => {
+            {project.milestones?.map((milestone, index) => {
               return <p key={index}>{milestone}</p>;
             })}
           </div>
