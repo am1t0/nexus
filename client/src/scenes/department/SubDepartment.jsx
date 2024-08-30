@@ -3,27 +3,20 @@ import { Link, useParams } from 'react-router-dom';
 
 function SubDepartment() {
   const { department } = useParams();
-  console.log('Department:', department); // Debugging line
 
   const data = {
     'Municipal-Corporation': [
-      { name: 'Sanitation Division', link: '/municipal/sanitation' },
-      { name: 'Parks and Recreation Division', link: '/municipal/parks-recreation' },
-      { name: 'Public Health Division', link: '/municipal/public-health' },
+      { name: 'Sanitation Division', link: '/Sanitation-Division' },
+      { name: 'Parks and Recreation Division', link: '/parks-recreation' },
+      { name: 'Public Health Division', link: '/public-health' },
     ],
-    'Public-Works': [
-      { name: 'Roads and Highways Division', link: '/public-works/roads-highways' },
-      { name: 'Water Supply and Sewerage Division', link: '/public-works/water-sewerage' },
-      { name: 'Building and Infrastructure Division', link: '/public-works/building-infrastructure' },
-      { name: 'Electrical and Mechanical Services Division', link: '/public-works/electrical-mechanical' },
-      { name: 'Environmental Services Division', link: '/public-works/environmental-services' },
-      { name: 'Transportation and Logistics Division', link: '/public-works/transportation-logistics' },
-    ],
-    'Urban-Planning-and-Development': [
-      { name: 'Urban Design Division', link: '/urban-planning/urban-design' },
-      { name: 'Land Use Planning Division', link: '/urban-planning/land-use' },
-      { name: 'Building Code Division', link: '/urban-planning/building-code' },
-      { name: 'Community Development Division', link: '/urban-planning/community-development' },
+    'Public-Works-Department': [
+      { name: 'Roads and Highways Division', link: '/roads-highways' },
+      { name: 'Water Supply and Sewerage Division', link: '/water-sewerage' },
+      { name: 'Building and Infrastructure Division', link: '/building-infrastructure' },
+      { name: 'Electrical and Mechanical Services Division', link: '/electrical-mechanical' },
+      { name: 'Environmental Services Division', link: '/environmental-services' },
+      { name: 'Transportation and Logistics Division', link: '/transportation-logistics' },
     ],
     'Utilities-Works-Department': [
       { name: 'Electricity Division', link: '/utilities/electricity' },
@@ -31,11 +24,12 @@ function SubDepartment() {
       { name: 'Water Supply Division', link: '/utilities/water-supply' },
       { name: 'Waste Management Division', link: '/utilities/waste-management' },
     ],
-    'Disaster-Management': [
-      { name: 'Emergency Response Division', link: '/disaster-management/emergency-response' },
-      { name: 'Disaster Recovery Division', link: '/disaster-management/disaster-recovery' },
-      { name: 'Risk Assessment Division', link: '/disaster-management/risk-assessment' },
-      { name: 'Training and Preparedness Division', link: '/disaster-management/training-preparedness' },
+    'Indore-Development-Authority': [
+      { name: 'Town Planning Division', link: '/ida/town-planning' },
+      { name: 'Infrastructure Development Division', link: '/ida/infrastructure-development' },
+      { name: 'Land Acquisition and Management Division', link: '/ida/land-acquisition' },
+      { name: 'Housing Projects Division', link: '/ida/housing-projects' },
+      { name: 'Public Amenities Division', link: '/ida/public-amenities' },
     ],
   };
 
@@ -54,14 +48,18 @@ function SubDepartment() {
       <ul className="list-group">
         {subDepartments.length > 0 ? (
           subDepartments.map((dept, index) => (
-            <Link to={dept.link} key={index} className="text-decoration-none">
+            <Link 
+              to={dept.link} 
+              key={index} 
+              style={{ textDecoration: 'none' }} // Remove underline
+            >
               <li 
                 className="list-group-item d-flex justify-content-between align-items-center border rounded"
                 style={{ marginBottom: '15px', padding: '10px' }}
               >
                 <span className="text-dark">{dept.name}</span>
                 <span 
-                  className="text-primary" // Apply Bootstrap's link color here
+                  className="text-primary"
                   style={{ fontSize: '1.5rem' }}
                 >
                   &gt;
