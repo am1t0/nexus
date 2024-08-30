@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw';
 
-export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectName, canEdit }) => {
+export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectName, canEdit, height }) => {
     const mapContainer = useRef(null);
     const mapRef = useRef(null);
     const drawnItems = useRef(L.featureGroup()).current;
@@ -88,7 +88,7 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
 
     return (
         <div>
-            <div id="map" ref={mapContainer} style={{ height: '280px' }}></div>
+            <div id="map" ref={mapContainer} style={{ height: height ? `${height}px` : '280px' }}></div>
         </div>
     );
 };

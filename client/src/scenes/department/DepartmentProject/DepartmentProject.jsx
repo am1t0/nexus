@@ -61,22 +61,6 @@ export default function DepartmentProject() {
     }
   };
 
-  if (projectList.length === 0) {
-    return (
-      <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', gap: '2rem', alignItems: 'center', justifyContent: 'center' }}>
-        <ThreeDots
-          visible={true}
-          height="80"
-          width="80"
-          color="red"
-          radius="9"
-          ariaLabel="three-dots-loading"
-        />
-        <h6>Loading Projects...</h6>
-      </div>
-    );
-  }
-
   return (
     <div className="container mt-5">
       {/* Filter Options */}
@@ -128,78 +112,91 @@ export default function DepartmentProject() {
         )}
       </div>
 
-      {/* Map View */}
-      {mapView && (
-        <div className="mb-4">
-          <h5>Map View (Example placeholder)</h5>
-          <div
-            style={{
-              height: '300px',
-              backgroundColor: '#f0f0f0',
-              textAlign: 'center',
-              lineHeight: '300px',
-            }}
-          >
-            <MapComponent canEdit={false} markedAreas={markedAreas} />
-          </div>
+      {loading ? (
+        <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', gap: '2rem', alignItems: 'center', justifyContent: 'center' }}>
+          <ThreeDots
+            visible={true}
+            height="80"
+            width="80"
+            color="red"
+            radius="9"
+            ariaLabel="three-dots-loading"
+          />
+          <h6>Loading Projects...</h6>
         </div>
-      )}
+      ) : (
+        <>
+          {mapView && (
+            <div className="mb-4">
+              <h5>Map View (Example placeholder)</h5>
+              <div
+                style={{
+                  height: '500px',
+                  backgroundColor: '#f0f0f0',
+                  textAlign: 'center',
+                  lineHeight: '500px',
+                }}
+              >
+                <MapComponent canEdit={false} markedAreas={markedAreas} height={500}/>
+              </div>
+            </div>
+          )}
 
-      {/* Table of Projects */}
-      <table className="table table-striped table-bordered table-hover">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th style={{ width: '40%' }}>Project Name</th>
-            <th>Contractor</th>
-            <th>Status</th>
-            <th>Location</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredProjects.map((project, index) => (
-            <React.Fragment key={project.id}>
-              <tr onClick={() => handleRowClick(project.id, index)}>
-                <td>{index + 1}</td>
-                <td>{project.name}</td>
-                <td>{project.implementer}</td>
-                <td>{project.status}</td>
-                <td>{project.location}</td>
-                <td>{project.startDate}</td>
-                <td>{project.endDate}</td>
-              </tr>
-              {viewedProjectId === project.id && (
+          {projectList.length > 0 ? (
+            <table className="table table-striped table-bordered table-hover">
+              <thead>
                 <tr>
-                  <td colSpan="7" style={{ position: 'relative', padding: 0 }}>
-                    <div
-                      className="project-detail-container"
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        zIndex: 1,
-                        backgroundColor: 'white',
-                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                      }}
-                    >
-                      <ProjectDetail project={filteredProjects.find(proj => proj.id === viewedProjectId)} />
-                    </div>
-                  </td>
+                  <th>#</th>
+                  <th style={{ width: '40%' }}>Project Name</th>
+                  <th>Contractor</th>
+                  <th>Status</th>
+                  <th>Location</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
                 </tr>
-              )}
-            </React.Fragment>
-          ))}
-        </tbody>
-      </table>
-
-      {/* No projects found message */}
-      {filteredProjects.length === 0 && (
-        <div className="text-center mt-4">
-          <p>No projects found.</p>
-        </div>
+              </thead>
+              <tbody>
+                {filteredProjects.map((project, index) => (
+                  <React.Fragment key={project.id}>
+                    <tr onClick={() => handleRowClick(project.id, index)}>
+                      <td>{index + 1}</td>
+                      <td>{project.name}</td>
+                      <td>{project.implementer}</td>
+                      <td>{project.status}</td>
+                      <td>{project.location}</td>
+                      <td>{project.startDate}</td>
+                      <td>{project.endDate}</td>
+                    </tr>
+                    {viewedProjectId === project.id && (
+                      <tr>
+                        <td colSpan="7" style={{ position: 'relative', padding: 0 }}>
+                          <div
+                            className="project-detail-container"
+                            style={{
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              width: '100%',
+                              zIndex: 1,
+                              backgroundColor: 'white',
+                              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                            }}
+                          >
+                            <ProjectDetail project={filteredProjects.find(proj => proj.id === viewedProjectId)} />
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <div className="text-center mt-4">
+              <p>No projects yet.</p>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
