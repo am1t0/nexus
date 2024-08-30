@@ -84,7 +84,7 @@ function DepartmentNavbar() {
             alt="Urban Development Logo"
             style={{ height: "90px" }}
           />
-          <h5 className="ml-3">{department}</h5>
+          <h4 className="ml-3">{department}, Indore</h4>
         </div>
         <form className="d-none d-md-flex gap-4">
           <input
@@ -142,8 +142,8 @@ function DepartmentNavbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={`/${department}`}>
-                Contact
+              <Link className="nav-link" to={`/${department}/subdepartment`}>
+                Sub-Department
               </Link>
             </li>
            

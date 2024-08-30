@@ -13,7 +13,7 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
     useEffect(() => {
         if (!mapRef.current) {
             // Initialize the map only once
-            mapRef.current = L.map(mapContainer.current).setView([22.7196, 75.8577], 13);
+            mapRef.current = L.map(mapContainer.current).setView([22.728434235399522, 75.86610674863611], 16);
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,

@@ -122,7 +122,7 @@ export const FirebaseProvider = ({ children }) => {
       const isInterDepartmental = project.departments.length > 1;
   
       const projectData = {
-        department: project.department,
+        department: project.department.replace(/-/g, ' '),
         name: project.projectName,
         description: project.description,
         startDate: project.startDate,
@@ -172,6 +172,86 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  const addDepartment = async (department) => {
+    try {
+        // Reference to the 'departments' collection
+        const deptCollection = collection(firestore, 'departments');
+        
+        // Add a new document with the department data
+        const docRef = await addDoc(deptCollection, department);
+        
+        console.log("Department added with ID: ", docRef.id);
+        return { success: true, id: docRef.id };
+    } catch (error) {
+        console.error("Error adding department: ", error);
+        return { success: false, error: error.message };
+    }
+};
+
+const fetchAllDepartments = async () => {
+  try {
+    const departmentsCollection = collection(firestore, 'departments'); // Reference to the 'departments' collection
+    const departmentSnapshot = await getDocs(departmentsCollection); // Get all documents in the collection
+    const departmentList = departmentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); // Map documents to data
+
+    return departmentList; // Return the list of departments
+  } catch (error) {
+    console.error('Error fetching departments:', error);
+    throw error; // Rethrow the error to handle it in the calling function
+  }
+};
+
+const fetchDepartmentData = async (department) => {
+  const departmentName = department.replace(/-/g, ' ');
+  try {
+    // Reference to the departments collection
+    const departmentsRef = collection(firestore, 'departments');
+    
+    // Create a query to find the document with the matching deptName
+    const q = query(departmentsRef, where('deptName', '==', departmentName));
+    
+    // Execute the query
+    const querySnapshot = await getDocs(q);
+    
+    // Check if any documents were found
+    if (querySnapshot.empty) {
+      console.log('No such document!');
+      return null;
+    }
+    
+    // Assuming deptName is unique, get the first document in the result
+    const doc = querySnapshot.docs[0];
+    return doc.data();
+  } catch (error) {
+    console.error('Error fetching department data:', error);
+    return null;
+  }
+}
+
+const fetchDepartmentProject = async (department) => {
+  const departmentName = department.replace(/-/g, ' ');
+  try {
+    // Reference to the 'projects' collection
+    const projectsRef = collection(firestore, 'projects');
+
+    // Create a query against the collection to get projects for the specified department
+    const q = query(projectsRef, where('department', '==', departmentName));
+
+    // Execute the query and get the documents
+    const querySnapshot = await getDocs(q);
+
+    // Map over the documents to retrieve data
+    const projects = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    return projects;
+  } catch (error) {
+    console.error('Error fetching department projects:', error);
+    return [];
+  }
+};
   // Function to get or create a chat between two departments
 const getOrCreateChat = async (departmentAId, departmentBId) => {
   const chatsRef = collection(firestore, "chats");
@@ -228,9 +308,13 @@ const listenForMessages = (chatId, callback) => {
       {{
         addProject,
         fetchAllProjects,
+        addDepartment,
+        fetchAllDepartments,
+        fetchDepartmentData,
         getOrCreateChat,
         sendMessage,
         listenForMessages,
+        fetchDepartmentProject,
       }}
     >
       {children}
