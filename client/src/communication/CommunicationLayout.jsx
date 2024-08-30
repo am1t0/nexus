@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {useFirebase} from "../Firebase";
+import {ChatbotModal} from "./ChatBot.jsx";
 
 export default function CommunicationLayout({ departmentId, otherDepartmentId }) {
   const { chatWith } = useParams();
@@ -9,6 +10,9 @@ export default function CommunicationLayout({ departmentId, otherDepartmentId })
   const [attachments, setAttachments] = useState([]);
   const [department, setDepartment] = useState();
   const [chatId, setChatId] = useState(null);
+  const [showChatbot, setShowChatbot] = useState(false);
+  const [chatBotRes,setChatBotRes] = useState('');
+
 
   const firebase = useFirebase();
 
@@ -57,9 +61,22 @@ export default function CommunicationLayout({ departmentId, otherDepartmentId })
   const handleRemoveAttachment = (index) => {
     setAttachments(attachments.filter((_, i) => i !== index));
   };
+  
+  const handleChatbotClose = (message) => {
+    if (message) {
+      setNewMessage(message);
+      handleSendMessage(); // Send the generated message
+    }
+    setShowChatbot(false);
+  };
+
+  const generateMessage = (input) => {
+   return setChatBotRes(input);
+  };
+
 
   return (
-    <div className="container-fluid mt-4">
+    <div className="container-fluid mt-4" >
       <div className="row">
         {/* Sidebar for recent chats */}
         <div className="col-md-4 col-lg-3 border-end">
@@ -100,6 +117,7 @@ export default function CommunicationLayout({ departmentId, otherDepartmentId })
                   placeholder="Type a message..."
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
+                 
                 />
                 <input
                   type="file"
@@ -115,7 +133,15 @@ export default function CommunicationLayout({ departmentId, otherDepartmentId })
                 <button className="btn btn-primary" type="button" onClick={handleSendMessage}>
                   Send
                 </button>
+                <button
+                  className="btn btn-outline-secondary"
+                  type="button"
+                  onClick={() => setShowChatbot(true)}
+                >
+                  Open Chatbot
+                </button>
               </div>
+              <ChatbotModal show={showChatbot} handleClose={handleChatbotClose} generateMessage={generateMessage} dangerouslySetInnerHTML={{ __html: chatBotRes }} />
 
               {/* Display attachments */}
               {attachments.length > 0 && (
@@ -139,7 +165,9 @@ export default function CommunicationLayout({ departmentId, otherDepartmentId })
             </div>
           </div>
         </div>
+        
       </div>
+      
     </div>
   );
 }
