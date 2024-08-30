@@ -4,11 +4,11 @@ import { useFirebase } from '../../../Firebase';
 import ProjectDetail from '../Project/ProjectLayout';
 import { MapComponent } from '../Project/Map';
 import { useParams } from 'react-router-dom';
+import { ThreeDots } from 'react-loader-spinner';
 
 export default function DepartmentProject() {
+  const { department } = useParams();
 
-  const {department} = useParams();
-  
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [mapView, setMapView] = useState(false);
@@ -16,26 +16,33 @@ export default function DepartmentProject() {
   const [viewedProjectId, setViewedProjectId] = useState(null);
   const [clickedRowIndex, setClickedRowIndex] = useState(null);
   const [markedAreas, setMarkedAreas] = useState([]);
-
   const [projectList, setProjectList] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const firebase = useFirebase();
 
   const getProjects = async () => {
-   const fetchedProjects =  await firebase.fetchDepartmentProject(department);
-    setProjectList(fetchedProjects)
-   const newMarkedAreas = fetchedProjects.map((project) => ({
-     id: project.id,
-     description: project.name,
-     coordinates: project.area,
-   }));
-   
-  //  Update the state once with all the new objects
-   setMarkedAreas(newMarkedAreas);
- };
+    setLoading(true);
+    try {
+      const fetchedProjects = await firebase.fetchDepartmentProject(department);
+      setProjectList(fetchedProjects);
+      console.log(fetchedProjects)
+      const newMarkedAreas = fetchedProjects.map((project) => ({
+        id: project.id,
+        description: project.name,
+        coordinates: project.area,
+      }));
+      setMarkedAreas(newMarkedAreas);
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     getProjects();
-  }, []);
+  }, [department]);
 
   const filteredProjects = projectList.filter(project => {
     return (
@@ -43,7 +50,7 @@ export default function DepartmentProject() {
       project?.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
-   
+
   const handleRowClick = (projectId, index) => {
     if (viewedProjectId === projectId) {
       setViewedProjectId(null);
@@ -53,6 +60,22 @@ export default function DepartmentProject() {
       setClickedRowIndex(index);
     }
   };
+
+  if (projectList.length === 0) {
+    return (
+      <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', gap: '2rem', alignItems: 'center', justifyContent: 'center' }}>
+        <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="red"
+          radius="9"
+          ariaLabel="three-dots-loading"
+        />
+        <h6>Loading Projects...</h6>
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-5">
@@ -91,7 +114,7 @@ export default function DepartmentProject() {
             {mapView ? 'List View' : 'Map View'}
           </button>
 
-          <button 
+          <button
             className='btn btn-primary'
             onClick={() => setOpen(!open)}
           >
@@ -117,7 +140,7 @@ export default function DepartmentProject() {
               lineHeight: '300px',
             }}
           >
-            <MapComponent markedAreas={markedAreas} />
+            <MapComponent canEdit={false} markedAreas={markedAreas} />
           </div>
         </div>
       )}

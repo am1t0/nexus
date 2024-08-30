@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useFirebase } from '../../Firebase';
 import { BallTriangle } from 'react-loader-spinner';
 import interdepartmentalProjects from '../../data/InterDeparmentsProject';
+<<<<<<< HEAD
 import ProjectDetail from '../department/Project/ProjectLayout'; // Import ProjectDetail
+=======
+import { MapComponent } from '../department/Project/Map';
+>>>>>>> 601fc5cb7c707525ab74601cda77809ee4ec5e28
 
 export default function Entry() {
   const navigate = useNavigate();
@@ -12,20 +16,46 @@ export default function Entry() {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+<<<<<<< HEAD
   const [selectedProject, setSelectedProject] = useState(null); // State to track selected project
+=======
+  const [markedAreas, setMarkedAreas] = useState([]);
+  const [projectList, setProjectList] = useState([]);
+
+
+  const getProjects = async () => {
+    setLoading(true);
+    try {
+      const fetchedProjects = await firebase.fetchAllProjects(setProjectList);
+      setProjectList(fetchedProjects);
+      console.log(fetchedProjects)
+      const newMarkedAreas = fetchedProjects.map((project) => ({
+        id: project.id,
+        description: project.name,
+        coordinates: project.area,
+      }));
+      setMarkedAreas(newMarkedAreas);
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+>>>>>>> 601fc5cb7c707525ab74601cda77809ee4ec5e28
 
   useEffect(() => {
     const loadDepartments = async () => {
       try {
         const departmentsData = await firebase.fetchAllDepartments();
         setDepartments(departmentsData);
+        console.log(departmentsData)
       } catch (error) {
         setError(error);
       } finally {
         setLoading(false);
       }
     };
-
+    getProjects();
     loadDepartments();
   }, []);
 
@@ -68,6 +98,7 @@ export default function Entry() {
             </ul>
           </div>
 
+<<<<<<< HEAD
           {/* Map Section */}
           <div className="col-md-6">
             <h3 className='my-3'>Map</h3>
@@ -81,6 +112,13 @@ export default function Entry() {
                 loading="lazy"
               ></iframe>
             </div>
+=======
+        {/* Map Section */}
+        <div className="col-md-6">
+          <h3 className='my-3'>Map</h3>
+          <div className="embed-responsive embed-responsive-16by9">
+           <MapComponent markedAreas={markedAreas} / >
+>>>>>>> 601fc5cb7c707525ab74601cda77809ee4ec5e28
           </div>
         </div>
         <hr />

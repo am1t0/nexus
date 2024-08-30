@@ -142,8 +142,8 @@ function DepartmentNavbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={`/${department}`}>
-                Contact
+              <Link className="nav-link" to={`/${department}/subdepartment`}>
+                Sub-Department
               </Link>
             </li>
            

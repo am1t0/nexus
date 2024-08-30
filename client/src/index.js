@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import "@fortawesome/react-fontawesome"
 
+
+
 import App from './App';
 import reportWebVitals from './reportWebVitals'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -16,6 +18,7 @@ import DepartmentRegistrationForm from './scenes/SubmitForm/DepartmentRegistrati
 import CommunicationLayout from './communication/CommunicationLayout';
 import Entry from './scenes/desktop/Entry';
 import ProjectDetail from './scenes/department/Project/ProjectLayout';
+import SubDepartment from './scenes/department/SubDepartment';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -36,6 +39,7 @@ const router = createBrowserRouter([
     { path:'/:department' , element: <DepartmentHome/>},
     { path:'/:department/resources', element: <DepartmentResources/> },
     { path:'/:department/projects', element: <DepartmentProject/> },
+    { path:'/:department/subdepartment', element: <SubDepartment/> },
     // { path:'/:department/projects', element: <DepartmentProject/> },
   ]
 },
@@ -58,3 +62,4 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+

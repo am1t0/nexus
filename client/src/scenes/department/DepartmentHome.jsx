@@ -9,7 +9,33 @@ export default function DepartmentHome() {
   const { department } = useParams();
   const [departmentData, setDepartmentData] = useState(null);
   const firebase = useFirebase();
+  const [info, setInfo] = useState(true);
 
+  const dummyDepartmentData = {
+    area: [
+      { latitude: 28.7041, longitude: 77.1025, description: "Location 1" },
+      { latitude: 28.5355, longitude: 77.3910, description: "Location 2" },
+      { latitude: 28.4595, longitude: 77.0266, description: "Location 3" },
+    ],
+    budget: "3000",
+    conflicts: [],
+    department: "Public Works",
+    departments: [],
+    description: `Contact Information: Lists the email, phone, and address with corresponding icons.
+  Follow Us: Displays social media icons. The socialMedia array should be passed in with platform names (e.g., facebook, twitter, linkedin) and URLs.`,
+    detailsOfWork: "",
+    editorContent: "",
+    endDate: "2024-08-24",
+    id: "fD8I6jKPqFn6lhNF6jAT",
+    implementer: "Siyaram Constructions",
+    isInterDepartmental: false,
+    milestones: ['first milestone', 'second milestone', 'third milestone'],
+    name: "PWD-1",
+    resources: [],
+    startDate: "2024-08-03",
+    status: "upcoming"
+  };
+  
   useEffect(() => {
     getDepartment();
   }, []);
@@ -29,8 +55,21 @@ export default function DepartmentHome() {
   const getDepartment = async () => {
     const fetchedDepartment = await firebase.fetchDepartmentData(department);
     setDepartmentData(fetchedDepartment);
-    console.log(fetchedDepartment);
+    if(!fetchedDepartment){
+      setInfo(false);
+    }
   };
+
+  if(info === false){
+    return (
+      <>
+      <p>no project</p>
+      </>
+    )
+  }
+
+  
+
   return departmentData ? (
     <>
     <div className="container">

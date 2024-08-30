@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw';
 
-export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectName }) => {
+export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectName, canEdit }) => {
     const mapContainer = useRef(null);
     const mapRef = useRef(null);
     const drawnItems = useRef(L.featureGroup()).current;
@@ -13,7 +13,7 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
     useEffect(() => {
         if (!mapRef.current) {
             // Initialize the map only once
-            mapRef.current = L.map(mapContainer.current).setView([22.7196, 75.8577], 13);
+            mapRef.current = L.map(mapContainer.current).setView([22.728434235399522, 75.86610674863611], 16);
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -28,7 +28,7 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
                     remove: true
                 }
             });
-            mapRef.current.addControl(drawControl);
+            {canEdit && mapRef.current.addControl(drawControl);}
 
             // Handle new polygon creation
             mapRef.current.on(L.Draw.Event.CREATED, async (e) => {
