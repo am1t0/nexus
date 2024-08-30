@@ -3,11 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useFirebase } from '../../Firebase';
 import { BallTriangle } from 'react-loader-spinner';
 import interdepartmentalProjects from '../../data/InterDeparmentsProject';
-<<<<<<< HEAD
-import ProjectDetail from '../department/Project/ProjectLayout'; // Import ProjectDetail
-=======
 import { MapComponent } from '../department/Project/Map';
->>>>>>> 601fc5cb7c707525ab74601cda77809ee4ec5e28
+import ProjectDetail from '../department/Project/ProjectLayout'; // Assuming this is the correct path
 
 export default function Entry() {
   const navigate = useNavigate();
@@ -16,19 +13,15 @@ export default function Entry() {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-<<<<<<< HEAD
-  const [selectedProject, setSelectedProject] = useState(null); // State to track selected project
-=======
   const [markedAreas, setMarkedAreas] = useState([]);
   const [projectList, setProjectList] = useState([]);
-
+  const [selectedProject, setSelectedProject] = useState(null); // Added state for selectedProject
 
   const getProjects = async () => {
     setLoading(true);
     try {
-      const fetchedProjects = await firebase.fetchAllProjects(setProjectList);
+      const fetchedProjects = await firebase.fetchAllProjects();
       setProjectList(fetchedProjects);
-      console.log(fetchedProjects)
       const newMarkedAreas = fetchedProjects.map((project) => ({
         id: project.id,
         description: project.name,
@@ -41,14 +34,12 @@ export default function Entry() {
       setLoading(false);
     }
   };
->>>>>>> 601fc5cb7c707525ab74601cda77809ee4ec5e28
 
   useEffect(() => {
     const loadDepartments = async () => {
       try {
         const departmentsData = await firebase.fetchAllDepartments();
         setDepartments(departmentsData);
-        console.log(departmentsData)
       } catch (error) {
         setError(error);
       } finally {
@@ -98,27 +89,12 @@ export default function Entry() {
             </ul>
           </div>
 
-<<<<<<< HEAD
           {/* Map Section */}
           <div className="col-md-6">
             <h3 className='my-3'>Map</h3>
-            <div className="embed-responsive embed-responsive-16by9">
-              <iframe
-                title="Indore City Map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.5791422851824!2d75.85772557575592!3d22.719568829367725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962e30a52847e4b%3A0x6ff8486ecf1d2455!2sIndore%2C%20Madhya%20Pradesh%2C%20India!5e0!3m2!1sen!2sus!4v1614912295610!5m2!1sen!2sus"
-                width="100%"
-                height="400"
-                allowFullScreen
-                loading="lazy"
-              ></iframe>
+            <div className="embed-responsive embed-responsive-16by9 h-50">
+              <MapComponent markedAreas={markedAreas} />
             </div>
-=======
-        {/* Map Section */}
-        <div className="col-md-6">
-          <h3 className='my-3'>Map</h3>
-          <div className="embed-responsive embed-responsive-16by9">
-           <MapComponent markedAreas={markedAreas} / >
->>>>>>> 601fc5cb7c707525ab74601cda77809ee4ec5e28
           </div>
         </div>
         <hr />
@@ -127,7 +103,7 @@ export default function Entry() {
           <h2>Interdepartmental Projects</h2>
           <div className="row">
             {interdepartmentalProjects.map((project) => (
-              <div className="col-md-4 mb-4 " style={{cursor:'pointer'}} key={project.id}>
+              <div className="col-md-4 mb-4" style={{cursor:'pointer'}} key={project.id}>
                 <div className="card shadow-sm" onClick={() => handleProjectClick(project)}>
                   <div className="card-body">
                     <h5 className="card-title">{project.name}</h5>
