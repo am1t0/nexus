@@ -21,14 +21,8 @@ export default function Entry() {
   const getProjects = async () => {
     setLoading(true);
     try {
-<<<<<<< HEAD
-      const fetchedProjects = await firebase.fetchAllProjects();
-      setProjectList(fetchedProjects);
-      console.log(fetchedProjects);
-=======
       const fetchedProjects = await firebase.fetchAllProjects(setProjectList);
 
->>>>>>> 3396e4a79a289a24dd0b762ba3cbee074c36fc9b
       const newMarkedAreas = fetchedProjects.map((project) => ({
         id: project.id,
         description: project.name,
