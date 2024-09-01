@@ -37,9 +37,13 @@ export default function Navbar() {
               </a>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/home/projects">
+              <a
+                className="nav-link"
+                href="#projects-section" // Add href to scroll
+                onClick={() => navigate('/home')}
+              >
                 Interdepartment Projects
-              </Link>
+              </a>
             </li>
           </ul>
           <div className="position-relative">
@@ -58,54 +62,54 @@ export default function Navbar() {
               <FontAwesomeIcon icon={faAdd}/>
             </button>
             {showOptions && (
-         <div
-         className="position-absolute"
-         style={{
-           top: '100%',
-           right: '0',
-           background: 'white',
-           border: '1px solid #ddd',
-           borderRadius: '4px',
-           zIndex: 1000,
-           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-           transition: 'all 0.3s ease-in-out',
-           transform: showOptions ? 'translateX(0)' : 'translateX(100%)',
-           opacity: showOptions ? 1 : 0,
-           width: '200px', // Adjust width as needed
-         }}
-       >
-         <ul
-           className="list-unstyled mb-0"
-           style={{
-             padding: '0',
-             margin: '0',
-           }}
-         >
-           <li
-             className="py-2 px-3 border-bottom"
-             style={{
-               cursor: 'pointer',
-               background: '#f8f9fa', // Light background for better readability
-               transition: 'background-color 0.3s ease',
-             }}
-             onClick={() => navigate('/register')}
-           >
-             Register Department
-           </li>
-           <li
-             className="py-2 px-3"
-             style={{
-               cursor: 'pointer',
-               background: '#f8f9fa', // Light background for better readability
-               transition: 'background-color 0.3s ease',
-             }}
-             onClick={() => alert('Option is still unknown')}
-           >
-             Unknown Option
-           </li>
-         </ul>
-       </div>
-       
+          <div
+            className="position-absolute"
+            style={{
+              top: '100%',
+              right: '0',
+              background: 'white',
+              border: '1px solid #ddd',
+              borderRadius: '4px',
+              zIndex: 1000,
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              transition: 'all 0.3s ease-in-out',
+              transform: showOptions ? 'translateX(0)' : 'translateX(100%)',
+              opacity: showOptions ? 1 : 0,
+              width: '200px', // Adjust width as needed
+            }}
+          >
+            <ul
+              className="list-unstyled mb-0"
+              style={{
+                padding: '0',
+                margin: '0',
+              }}
+            >
+              <li
+                className="py-2 px-3 border-bottom"
+                style={{
+                  cursor: 'pointer',
+                  background: '#f8f9fa', // Light background for better readability
+                  transition: 'background-color 0.3s ease',
+                }}
+                onClick={() => navigate('/register')}
+              >
+                Register Department
+              </li>
+              <li
+                className="py-2 px-3"
+                style={{
+                  cursor: 'pointer',
+                  background: '#f8f9fa', // Light background for better readability
+                  transition: 'background-color 0.3s ease',
+                }}
+                onClick={() => alert('Option is still unknown')}
+              >
+                Unknown Option
+              </li>
+            </ul>
+          </div>
+          
             )}
           </div>
         </div>

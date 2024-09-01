@@ -1,7 +1,7 @@
-import { faMessage } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { faMessage } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ProjectDetail = ({ project }) => {
   const [communicate] = useState("");
@@ -190,7 +190,14 @@ const ProjectDetail = ({ project }) => {
               {project?.milestones?.length > 0 ? (
                 project.milestones.map((milestone, index) => (
                   <li key={index} className="list-group-item">
-                    {milestone}
+                    <strong>{milestone.milestone}</strong>:{" "}
+                    {milestone.date
+                      ? new Date(milestone.date).toLocaleDateString("en-US", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })
+                      : "Date not available"}
                   </li>
                 ))
               ) : (
@@ -212,7 +219,7 @@ const ProjectDetail = ({ project }) => {
             <h5>Resources</h5>
             <div className="card bg-light mb-3">
               <div className="card-body">
-                {/* <p>{project?.resources}</p> */}
+                <p>{project?.resources || "N/A"}</p>
               </div>
             </div>
           </div>

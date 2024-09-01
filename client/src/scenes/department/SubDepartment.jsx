@@ -5,7 +5,7 @@ function SubDepartment() {
   const { department } = useParams();
 
   const data = {
-    'Municipal-Corporation': [
+    'Indore-Municipal-Corporation': [
       { name: 'Sanitation Division', link: '/Sanitation-Division' },
       { name: 'Parks and Recreation Division', link: '/parks-recreation' },
       { name: 'Public Health Division', link: '/public-health' },

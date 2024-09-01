@@ -136,7 +136,7 @@ export const FirebaseProvider = ({ children }) => {
         resources: project.resources,
         area: project.coordinates, // Original coordinates
         detailsOfWork: project.detailsOfWork,
-        status: 'upcoming',
+        status: 'planning',
         conflicts,
       };
   

@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFirebase } from '../../Firebase';
 import { BallTriangle } from 'react-loader-spinner';
 import interdepartmentalProjects from '../../data/InterDeparmentsProject';
 import { MapComponent } from '../department/Project/Map';
-import ProjectDetail from '../department/Project/ProjectLayout'; // Assuming this is the correct path
+import ProjectDetail from '../department/Project/ProjectModule'; // Ensure the path is correct
+import { scroller } from 'react-scroll';
 
 export default function Entry() {
   const navigate = useNavigate();
   const firebase = useFirebase();
-
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [markedAreas, setMarkedAreas] = useState([]);
   const [projectList, setProjectList] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(null); // Added state for selectedProject
+  const [selectedProject, setSelectedProject] = useState(null); // State for selected project
+  const projectSectionRef = useRef(null); // Ref for the project section
 
   const getProjects = async () => {
     setLoading(true);
     try {
       const fetchedProjects = await firebase.fetchAllProjects(setProjectList);
+
       const newMarkedAreas = fetchedProjects.map((project) => ({
         id: project.id,
         description: project.name,
@@ -49,6 +51,17 @@ export default function Entry() {
     loadDepartments();
   }, []);
 
+  useEffect(() => {
+    if (projectSectionRef.current) {
+      scroller.scrollTo('projects-section', {
+        duration: 800,
+        delay: 0,
+        smooth: 'easeInOutQuart',
+        containerId: 'scroll-container', // Optional, if you use a specific container for scrolling
+      });
+    }
+  }, []);
+
   const handleNavigate = (department) => {
     const formattedName = department.replace(/ /g, '-');
     navigate(`/${formattedName}`);
@@ -64,7 +77,7 @@ export default function Entry() {
 
   return (
     !loading && departments.length !== 0 ? (
-      <div className="container mt-4">
+      <div className="container mt-4" id="scroll-container">
         <div className="row">
           {/* Department List */}
           <div className="col-md-6">
@@ -98,15 +111,20 @@ export default function Entry() {
         </div>
         <hr />
 
+        {/* Interdepartmental Projects Section */}
         <div className="container mt-4">
-          <h2>Interdepartmental Projects</h2>
+          <h2 id="projects-section" ref={projectSectionRef}>Interdepartmental Projects</h2>
           <div className="row">
             {interdepartmentalProjects.map((project) => (
-              <div className="col-md-4 mb-4" style={{cursor:'pointer'}} key={project.id}>
-                <div className="card shadow-sm" onClick={() => handleProjectClick(project)}>
-                  <div className="card-body">
+              <div className="col-md-4 mb-4" style={{ cursor: 'pointer' }} key={project.id}>
+                <div className="card shadow-sm h-100" onClick={() => handleProjectClick(project)}>
+                  <div className="card-body d-flex flex-column">
                     <h5 className="card-title">{project.name}</h5>
-                    <p className="card-text">{project.description}</p>
+                    <p className="card-text flex-grow-1">{project.description}</p>
+                    <div className="mt-3">
+                      <p className="mb-1"><strong>Contractor:</strong> {project.contractor}</p>
+                      <p className="mb-0"><strong>Status:</strong> {project.status}</p>
+                    </div>
                   </div>
                 </div>
               </div>
