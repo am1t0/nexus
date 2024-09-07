@@ -84,7 +84,7 @@ function DepartmentNavbar() {
             alt="Urban Development Logo"
             style={{ height: "90px" }}
           />
-          <h4 className="ml-3">{department}, Indore</h4>
+          <h4 className="ml-3">{department}</h4>
         </div>
         <form className="d-none d-md-flex gap-4">
           <input

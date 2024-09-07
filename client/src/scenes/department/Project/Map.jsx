@@ -88,7 +88,7 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
 
     return (
         <div>
-            <div id="map" ref={mapContainer} style={{ height: height ? `${height}px` : '280px' }}></div>
+            <div id="map" ref={mapContainer} style={{ height: height ? `${height}px` : '500px' }}></div>
         </div>
     );
 };

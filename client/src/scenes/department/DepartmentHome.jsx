@@ -36,6 +36,21 @@ export default function DepartmentHome() {
     status: "upcoming"
   };
   
+  const ImageData = {
+    'Municipal Corporation': [
+      { img1: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfuCeG6VZzI4TzVUWDeTML4GJwzN1brSIS3Q&s' },
+      { img2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlHrv0Rnu0birdfNKLao0_1FkDLLhN2frMig&s' },
+    ],
+    'Public Works Department': [
+      { img1: 'https://onsiteteams.com/wp-content/uploads/2022/08/Blog-Images-65.jpg' },
+      { img2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0yCnkM1k2Gj0ePHEqcMT4XwTG3e0oheT41A&s' },
+    ],
+    'Utilities Works Department': [
+      { img1: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLAJOnJ_3fBnt9ttdpx_5dx9FAD_XaH_rvgg&s' },
+      { img2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcK_NCvE5acYLZIiwVgZI0v7Yuz6FkBIDVaA&s' },
+    ]
+  }
+
   useEffect(() => {
     getDepartment();
   }, []);
@@ -77,15 +92,15 @@ export default function DepartmentHome() {
         <div className="d-flex gap-4 justify-content-center my-2">
           <img
             style={{ height: "20rem", width: "30rem" }}
-            src="https://imcindore.mp.gov.in/uploads/IMC_GALLERY_IMAGE_01_094e6e28eb.png"
+            src={ImageData[department][0].img1}
             className="card-img-top"
-            alt="Municipal Corporation"
+            alt="Deaprtment-Image"
           />
           <img
             style={{ height: "20rem", width: "30rem" }}
-            src="https://apacnewsnetwork.com/wp-content/uploads/2023/07/Indore-Municipal-Corporation-becomes-the-countrys-first-urban-body-to-earn-EPR-credit.png"
+            src={ImageData[department][1].img2}
             className="card-img-top"
-            alt="Municipal Corporation"
+            alt="Deaprtment-Image"
           />
         </div>
         <div className="card-body">
