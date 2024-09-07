@@ -17,7 +17,7 @@ export const ChatbotModal = ({ show, handleClose, generateMessage }) => {
         const result = await chat.sendMessage((input));
         // console.log(result);
         const responseText =  result.response.text();
-        setGeneratedMessage(marked((responseText)));
+        setGeneratedMessage(((responseText)));
     
   };
   generateMessage(generatedMessage);

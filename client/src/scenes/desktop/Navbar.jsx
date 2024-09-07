@@ -1,7 +1,7 @@
-import { faAdd } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [showOptions, setShowOptions] = useState(false);
@@ -12,108 +12,72 @@ export default function Navbar() {
   };
 
   return (
-    // Navbar
-    <nav className="navbar navbar-expand-lg navbar-dark bg-secondary px-4">
-      <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-           Departmental Cooperation
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav me-auto">
-            <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="#">
-                Home
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                href="#projects-section" // Add href to scroll
-                onClick={() => navigate('/home')}
-              >
-                Interdepartment Projects
-              </a>
-            </li>
-          </ul>
-          <div className="position-relative">
-            <button
-              className="btn p-0 text-white"
-              onClick={handleToggleOptions}
-              style={{
-                background: 'none',
-                border: 'none',
-                fontSize: '24px',
-                lineHeight: '1',
-                cursor: 'pointer',
-              }}
-            >
-                
-              <FontAwesomeIcon icon={faAdd}/>
-            </button>
-            {showOptions && (
-          <div
-            className="position-absolute"
-            style={{
-              top: '100%',
-              right: '0',
-              background: 'white',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              zIndex: 1000,
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-              transition: 'all 0.3s ease-in-out',
-              transform: showOptions ? 'translateX(0)' : 'translateX(100%)',
-              opacity: showOptions ? 1 : 0,
-              width: '200px', // Adjust width as needed
-            }}
-          >
-            <ul
-              className="list-unstyled mb-0"
-              style={{
-                padding: '0',
-                margin: '0',
-              }}
-            >
-              <li
-                className="py-2 px-3 border-bottom"
-                style={{
-                  cursor: 'pointer',
-                  background: '#f8f9fa', // Light background for better readability
-                  transition: 'background-color 0.3s ease',
-                }}
-                onClick={() => navigate('/register')}
-              >
-                Register Department
-              </li>
-              <li
-                className="py-2 px-3"
-                style={{
-                  cursor: 'pointer',
-                  background: '#f8f9fa', // Light background for better readability
-                  transition: 'background-color 0.3s ease',
-                }}
-                onClick={() => alert('Option is still unknown')}
-              >
-                Unknown Option
-              </li>
-            </ul>
+    <header>
+      {/* Layer 1 */}
+      <nav className="navbar navbar-light bg-primary py-1">
+        <div className="container-fluid d-flex justify-content-between align-items-center" style={{ maxWidth: '1200px' }}>
+          <div className="d-flex">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg" // Replace with your flag image source
+            alt="India's Flag"
+            style={{ height: '20px' }}
+          />
+            <h6 style={{color:'white', marginLeft:'10px'}}>Government of India</h6>
           </div>
-          
-            )}
+          <div>
+            <button className="btn btn-outline-light btn-sm me-2">Translate</button>
+            <button className="btn btn-outline-light btn-sm">Login</button>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Layer 2 */}
+      <nav className="navbar navbar-expand-lg navbar-light bg-white py-2">
+        <div className="container-fluid" style={{ maxWidth: '1240px' }}>
+          <div className="d-flex align-items-center">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCDenIuZJjddw9JDYpcGyYoyGsebe0apuQw&s" // Replace with your logo source
+              alt="Logo"
+              style={{ height: '60px', marginRight: '10px' }}
+            />
+            <span style={{ fontWeight: '500', fontSize: '1.25rem' }}>Interdepartmental Cooperation</span>
+          </div>
+          <form className="d-flex" role="search">
+            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+            <button className="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+
+      {/* Layer 3 */}
+      <nav className="navbar navbar-expand-lg bg-primary py-1 d-flex justify-content-center">
+        <div style={{ maxWidth: '1230px' }}>
+
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav d-flex justify-content-center">
+              <li className="nav-item">
+                <Link className="nav-link" to="/">Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/">About us</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/">Contact us</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/">Services</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/">Urban Departments</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/">Interdepartment Projects</Link>
+              </li>
+              {/* Add more nav items as needed */}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
   );
 }

@@ -48,7 +48,7 @@ const ProjectDetail = () => {
               <div
                 className="progress-bar"
                 role="progressbar"
-                style={{ width: `${progressPercentage}% ` }}
+                style={{ width: 0 }}
                 aria-valuenow={progressPercentage}
                 aria-valuemin="0"
                 aria-valuemax="100"

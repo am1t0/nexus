@@ -203,6 +203,7 @@ const fetchAllDepartments = async () => {
 
 const fetchDepartmentData = async (department) => {
   const departmentName = department.replace(/-/g, ' ');
+  console.log('ok  ji ', departmentName)
   try {
     // Reference to the departments collection
     const departmentsRef = collection(firestore, 'departments');

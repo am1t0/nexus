@@ -9,7 +9,6 @@ const DepartmentFooter = ({ department }) => {
     emailAddress,
     phoneNumber,
     officeAddress,
-    socialMedia
   } = department;
 
   return (
@@ -54,7 +53,7 @@ const DepartmentFooter = ({ department }) => {
         </div>
       </div>
       <div className="bg-dark text-white text-center p-3">
-        &copy; {new Date().getFullYear()} Inter departmental cooperation
+        {/* &copy; {new Date().getFullYear()} Inter departmental cooperation */}
       </div>
     </footer>
   );
