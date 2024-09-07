@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const ProjectDetail = ({ project }) => {
+const ProjectLayout = ({ project }) => {
   const [communicate] = useState("");
 
   const today = new Date();
@@ -17,7 +17,7 @@ const ProjectDetail = ({ project }) => {
   );
 
   return (
-    <div className="container mt-5">
+    <div className="">
       <div className="card shadow-lg">
         <div className="card-body">
           <h3 className="card-title">{project?.name || "Project Name"}</h3>
@@ -231,4 +231,4 @@ const ProjectDetail = ({ project }) => {
   );
 };
 
-export default ProjectDetail;
+export default ProjectLayout;
