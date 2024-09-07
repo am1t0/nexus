@@ -82,7 +82,10 @@ export default function Entry() {
   };
 
   const handleProjectClick = (project) => {
-    setSelectedProject(project); // Set the selected project
+    // setSelectedProject(project);
+    // console.log('Selected project:', project);
+    console.log('Selected project:', project.id);
+    navigate(`/project/${project.id}`);
   };
 
   const handleCloseModal = () => {
@@ -164,59 +167,23 @@ export default function Entry() {
         </div>
       </div>
 
-      {/* Modal for Project Detail */}
-      {selectedProject && (
-        <div
-          className="modal fade show"
-          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-          onClick={handleCloseModal}
-        >
-          <div
-            className="modal-dialog modal-xl"
-            style={{ maxWidth: "80%" }}
-            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
-          >
-            <div className="modal-content">
-              <div className="modal-body">
-                {/* Close Button */}
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={handleCloseModal}
-                  style={{ float: "right" }}
-                ></button>
-
-                {/* Project Details */}
-                <ProjectDetail project={selectedProject} />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  ) : (
-    <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        gap: "2rem",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <BallTriangle
-        height={100}
-        width={100}
-        radius={5}
-        color="#4fa94d"
-        ariaLabel="ball-triangle-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-        visible={true}
-      />
-      <h6>Loading Data...</h6>
-    </div>
-  );
+        {/* Modal for Project Detail */}
+      
+      </div>
+    ) : (
+      <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', gap: '2rem', alignItems: 'center', justifyContent: 'center' }}>
+        <BallTriangle
+          height={100}
+          width={100}
+          radius={5}
+          color="#4fa94d"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+        <h6>Loading Data...</h6>
+      </div>
+    )
+  
 }

@@ -5,9 +5,11 @@ import ProjectDetail from '../Project/ProjectLayout';
 import { MapComponent } from '../Project/Map';
 import { useParams } from 'react-router-dom';
 import { ThreeDots } from 'react-loader-spinner';
+import {useNavigate} from 'react-router-dom';
 
 export default function DepartmentProject() {
   const { department } = useParams();
+  const navigate = useNavigate();
 
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -52,6 +54,7 @@ export default function DepartmentProject() {
   });
 
   const handleRowClick = (projectId, index) => {
+    navigate(`/project/${projectId}`);
     if (viewedProjectId === projectId) {
       setViewedProjectId(null);
       setClickedRowIndex(null);
