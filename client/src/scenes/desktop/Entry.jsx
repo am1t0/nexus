@@ -185,5 +185,5 @@ export default function Entry() {
         <h6>Loading Data...</h6>
       </div>
     )
-  );
+  
 }
