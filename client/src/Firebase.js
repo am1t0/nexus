@@ -252,6 +252,22 @@ const fetchDepartmentProject = async (department) => {
     return [];
   }
 };
+
+const fetchProject = async (ProjectID) => {
+  try {
+    const projectRef = doc(firestore, 'projects', ProjectID);
+    const projectSnapshot = await getDoc(projectRef);
+    if (projectSnapshot.exists()) {
+      return projectSnapshot.data();
+    } else {
+      console.log('No such document!');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching project:', error);
+    return null;
+  }
+};
   // Function to get or create a chat between two departments
 const getOrCreateChat = async (departmentAId, departmentBId) => {
   const chatsRef = collection(firestore, "chats");
@@ -315,6 +331,7 @@ const listenForMessages = (chatId, callback) => {
         sendMessage,
         listenForMessages,
         fetchDepartmentProject,
+        fetchProject
       }}
     >
       {children}

@@ -2,9 +2,19 @@ import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useParams } from 'react-router-dom';
+import  interdepartmentalProjects  from "../../../data/InterDeparmentsProject"
+import { useEffect } from "react";
+import { useFirebase } from '../../../Firebase';
 
-const ProjectDetail = ({ project }) => {
+const ProjectDetail = () => {
   const [communicate] = useState("");
+  const firebase = useFirebase();
+  
+
+  const { projectId } = useParams();
+  console.log(projectId);
+  const project = interdepartmentalProjects.find( project => project.id === parseInt(projectId));
 
   const today = new Date();
   const startDate = new Date(project?.startDate);
@@ -15,6 +25,14 @@ const ProjectDetail = ({ project }) => {
     (elapsedDuration / totalDuration) * 100,
     100
   );
+
+  useEffect(()=>{
+    firebase.fetchProject(projectId).then(project => {
+      console.log(project);
+    })
+  },[])
+
+
 
   return (
     <div className="container mt-5">
@@ -185,19 +203,25 @@ const ProjectDetail = ({ project }) => {
           </div>
 
           <div className="mb-3">
-            <h5>Milestones</h5>
-            <ul className="list-group">
-              {project?.milestones?.length > 0 ? (
-                project.milestones.map((milestone, index) => (
-                  <li key={index} className="list-group-item">
-                    {milestone}
-                  </li>
-                ))
-              ) : (
-                <li>No milestones</li>
-              )}
-            </ul>
-          </div>
+  <h5>Milestones</h5>
+  <ul className="list-group">
+    {project?.milestones?.length > 0 ? (
+      project.milestones.map((milestone, index) => (
+        <li key={index} className="list-group-item">
+          <strong>{milestone.milestone}</strong> -{" "}
+          {new Date(milestone.date).toLocaleDateString("en-US", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
+        </li>
+      ))
+    ) : (
+      <li>No milestones</li>
+    )}
+  </ul>
+</div>
+
 
           <div className="mb-3">
             <h5>Editor Content</h5>
