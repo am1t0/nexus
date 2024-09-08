@@ -258,6 +258,7 @@ const fetchProject = async (ProjectID) => {
   try {
     const projectRef = doc(firestore, 'projects', ProjectID);
     const projectSnapshot = await getDoc(projectRef);
+    console.log('Project snapshot:', projectSnapshot.data());
     if (projectSnapshot.exists()) {
       return projectSnapshot.data();
     } else {

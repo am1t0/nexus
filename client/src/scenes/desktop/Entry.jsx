@@ -27,6 +27,9 @@ export default function Entry() {
   const [selectedProject, setSelectedProject] = useState(null); // State for selected project
   const projectSectionRef = useRef(null); // Ref for the project section
   const [searchTerm, setSearchTerm] = useState('');
+  const mapStyle ={
+    height: "500px",
+  }
 
   const filteredDepartments = cityDepartments.filter(department =>
     department.toLowerCase().includes(searchTerm.toLowerCase())
@@ -127,7 +130,7 @@ export default function Entry() {
         <div className="col-md-6">
           <h3 className="my-3">Map</h3>
           <div className="embed-responsive embed-responsive-16by9 h-50">
-            <MapComponent markedAreas={markedAreas} />
+            <MapComponent markedAreas={markedAreas} mapStyle={mapStyle}/>
           </div>
         </div>
       </div>

@@ -16,21 +16,39 @@ const interdepartmentalProjects = [
     detailsOfWork: "Installation of IoT sensors across major intersections, integration of AI for traffic pattern analysis, and deployment of real-time traffic management dashboards."
   },
   {
-    id: 2,
-    name: "Green Energy Initiative",
-    description: "Implementing renewable energy sources city-wide.",
-    contractor: "EcoEnergy Solutions",
-    status: "Upcoming",
-    startDate: "2024-01-01",
+    id: "1a2b3c4d5e6f7g8h9i0j",
+    name: "Indore Smart City Development",
+    description: "A comprehensive project aimed at transforming Indore into a smart city by upgrading its infrastructure, integrating advanced technologies, and enhancing public services.",
+    contractor: "Indore Urban Development Authority",
+    status: "Ongoing",
+    startDate: "2023-03-01",
     endDate: "2025-12-31",
-    budget: "$10,000,000",
+    budget: "$50,000,000",
     milestones: [
-      { milestone: "Phase 1: Solar Panel Installation", date: "2024-05-01" },
-      { milestone: "Phase 2: Wind Turbine Deployment", date: "2024-11-01" },
-      { milestone: "Phase 3: Energy Storage Systems", date: "2025-06-01" },
+      { milestone: "Phase 1: Infrastructure Upgrade", "date": "2023-09-01" },
+      { milestone: "Phase 2: Smart Systems Integration", "date": "2024-04-01" },
+      { milestone: "Phase 3: Public Services Enhancement", "date": "2024-11-01" },
+      { milestone: "Phase 4: Final Testing and Rollout", "date": "2025-05-01" }
     ],
-    detailsOfWork: "Installation of solar panels on public buildings, deployment of wind turbines in designated zones, and implementation of energy storage systems to ensure continuous power supply."
-  },
+    detailsOfWork: "The project involves the construction of new roads, installation of smart lighting, integration of IoT devices across the city, deployment of AI-based traffic management, and enhancement of water supply and waste management systems.",
+   "area": [
+    { "lat": 22.733, "lng": 75.850 },
+    { "lat": 22.737, "lng": 75.850 },
+    { "lat": 22.737, "lng": 75.870 },
+    { "lat": 22.733, "lng": 75.870 }
+  ],
+    conflicts: [],
+    department: "Urban Development",
+    departments: ["Transportation", "Water Management", "Energy"],
+    editorContent: "<p>The project will significantly boost Indore's infrastructure and public services.</p>",
+    implementer: "ABC Constructions Pvt. Ltd.",
+    isInterDepartmental: true,
+    resources: ["Heavy Machinery", "IoT Devices", "AI Software"],
+    startDate: "2024-09-01",
+    status: "Planning"
+  }
+  
+  ,
   {
     id: 3,
     name: "Urban Waste Recycling Program",

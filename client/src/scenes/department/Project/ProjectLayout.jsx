@@ -1,24 +1,41 @@
 import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useParams } from 'react-router-dom';
-import  interdepartmentalProjects  from "../../../data/InterDeparmentsProject"
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import interdepartmentalProjects from "../../../data/InterDeparmentsProject";
 import { useFirebase } from '../../../Firebase';
+import { MapComponent } from "./Map";
 
 const ProjectDetail = () => {
-  const [communicate] = useState("");
+  const [project, setProject] = useState(null);
   const firebase = useFirebase();
-  
-
   const { projectId } = useParams();
-  console.log(projectId);
-  const project = interdepartmentalProjects.find( project => project.id === parseInt(projectId));
+  const mapStyle ={
+    height: "350px",
+  }
+
+  const fetchProjectData = async () => {
+    let fetchedProject = await firebase.fetchProject(projectId);
+
+    if (!fetchedProject) {
+      fetchedProject = interdepartmentalProjects.find(
+        (project) => project.id === projectId
+      );
+    }
+    setProject(fetchedProject);
+  };
+
+  useEffect(() => {
+    fetchProjectData();
+  }, [projectId]);
+
+  if (!project) {
+    return <div>Loading...</div>; // Add a loading state
+  }
 
   const today = new Date();
-  const startDate = new Date(project?.startDate);
-  const endDate = new Date(project?.endDate);
+  const startDate = new Date(project.startDate);
+  const endDate = new Date(project.endDate);
   const totalDuration = endDate - startDate;
   const elapsedDuration = today - startDate;
   const progressPercentage = Math.min(
@@ -26,21 +43,21 @@ const ProjectDetail = () => {
     100
   );
 
-  useEffect(()=>{
-    firebase.fetchProject(projectId).then(project => {
-      console.log(project);
-    })
-  },[])
-
-
+  const markedArea = [
+    {
+      id: projectId,
+      description: project.name,
+      coordinates: project.area,
+    },
+  ];
 
   return (
     <div className="container mt-5">
       <div className="card shadow-lg">
         <div className="card-body">
-          <h3 className="card-title">{project?.name || "Project Name"}</h3>
+          <h3 className="card-title">{project.name || "Project Name"}</h3>
           <h6 className="text-muted">
-            Implemented by: {project?.implementer || "Unknown"}
+            Implemented by: {project.implementer || "Unknown"}
           </h6>
 
           {progressPercentage < 100 ? (
@@ -48,7 +65,7 @@ const ProjectDetail = () => {
               <div
                 className="progress-bar"
                 role="progressbar"
-                style={{ width: 0 }}
+                style={{ width: `${progressPercentage}%` }}
                 aria-valuenow={progressPercentage}
                 aria-valuemin="0"
                 aria-valuemax="100"
@@ -57,7 +74,7 @@ const ProjectDetail = () => {
               </div>
             </div>
           ) : (
-            <p className="badge bg-primary">{project?.status || "Completed"}</p>
+            <p className="badge bg-primary">{project.status || "Completed"}</p>
           )}
 
           <hr />
@@ -66,14 +83,14 @@ const ProjectDetail = () => {
             <div className="col-md-6">
               <div className="mb-3 p-3 bg-light rounded">
                 <h5>Description</h5>
-                <p>{project?.description || "No description available"}</p>
+                <p>{project.description || "No description available"}</p>
               </div>
               <div className="row">
                 <div className="col-md-6">
                   <div className="card bg-primary text-white mb-3">
                     <div className="card-body">
                       <h6 className="card-title">Start Date</h6>
-                      <p className="card-text">{project?.startDate}</p>
+                      <p className="card-text">{project.startDate}</p>
                     </div>
                   </div>
                 </div>
@@ -81,7 +98,7 @@ const ProjectDetail = () => {
                   <div className="card bg-warning text-white mb-3">
                     <div className="card-body">
                       <h6 className="card-title">End Date</h6>
-                      <p className="card-text">{project?.endDate}</p>
+                      <p className="card-text">{project.endDate}</p>
                     </div>
                   </div>
                 </div>
@@ -92,19 +109,19 @@ const ProjectDetail = () => {
               <div
                 className="mb-3"
                 style={{
-                  height: "200px",
+                  height: "350px",
                   backgroundColor: "#d3d3d3",
                   borderRadius: "8px",
                   textAlign: "center",
                   lineHeight: "200px",
                 }}
               >
-                Map Placeholder
+                <MapComponent markedAreas={markedArea} mapStyle={mapStyle}/>
               </div>
               <div className="mb-3 p-3 bg-light rounded">
                 <h5>Conflicts</h5>
                 <ul className="list-group">
-                  {project?.conflicts?.length > 0 ? (
+                  {project.conflicts?.length > 0 ? (
                     project.conflicts.map((conflict, index) => (
                       <li key={index} className="list-group-item my-2">
                         <div className="d-flex align-items-center justify-content-between">
@@ -162,7 +179,7 @@ const ProjectDetail = () => {
               <div className="card bg-info text-white mb-3">
                 <div className="card-body">
                   <h5 className="card-title">Budget</h5>
-                  <p className="card-text">{project?.budget || "N/A"} USD</p>
+                  <p className="card-text">{project.budget || "N/A"} USD</p>
                 </div>
               </div>
             </div>
@@ -172,7 +189,7 @@ const ProjectDetail = () => {
                 <div className="card-body">
                   <h5 className="card-title">Area</h5>
                   <p className="card-text">
-                    {project?.area
+                    {project.area
                       ? typeof project.area === "string"
                         ? project.area
                         : "Area information is not available"
@@ -187,7 +204,7 @@ const ProjectDetail = () => {
                 <div className="card-body">
                   <h5 className="card-title">Departments Involved</h5>
                   <ul className="list-group">
-                    {project?.departments?.length > 0 ? (
+                    {project.departments?.length > 0 ? (
                       project.departments.map((department, index) => (
                         <li key={index} className="list-group-item">
                           {department}
@@ -203,49 +220,30 @@ const ProjectDetail = () => {
           </div>
 
           <div className="mb-3">
-  <h5>Milestones</h5>
-  <ul className="list-group">
-    {project?.milestones?.length > 0 ? (
-      project.milestones.map((milestone, index) => (
-        <li key={index} className="list-group-item">
-          <strong>{milestone.milestone}</strong> -{" "}
-          {new Date(milestone.date).toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
-        </li>
-      ))
-    ) : (
-      <li>No milestones</li>
-    )}
-  </ul>
-</div>
-
+            <h5>Milestones</h5>
+            <ul className="list-group">
+              {project.milestones?.length > 0 ? (
+                project.milestones.map((milestone, index) => (
+                  <li key={index} className="list-group-item">
+                    <strong>{milestone.milestone}</strong> -{" "}
+                    {new Date(milestone.date).toLocaleDateString("en-US", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </li>
+                ))
+              ) : (
+                <li>No milestones</li>
+              )}
+            </ul>
+          </div>
 
           <div className="mb-3">
             <h5>Editor Content</h5>
             <div className="card bg-light mb-3">
               <div className="card-body">
-                <p>{project?.editorContent || "N/A"}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mb-3">
-            <h5>Resources</h5>
-            <div className="card bg-light mb-3">
-              <div className="card-body">
-                {/* <p>{project?.resources}</p> */}
-              </div>
-            </div>
-          </div>
-
-          <div className="mb-3">
-            <h5>Details of Work</h5>
-            <div className="card bg-light mb-3">
-              <div className="card-body">
-                <p>{project?.detailsOfWork || "N/A"}</p>
+                <p>{project.editorContent || "N/A"}</p>
               </div>
             </div>
           </div>
