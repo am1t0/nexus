@@ -19,6 +19,7 @@ import CommunicationLayout from './communication/CommunicationLayout';
 import Entry from './scenes/desktop/Entry';
 import ProjectDetail from './scenes/department/Project/ProjectLayout';
 import SubDepartment from './scenes/department/SubDepartment';
+import Project from './scenes/department/Project/Project';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -48,8 +49,7 @@ const router = createBrowserRouter([
    path: '/communicate/:chatWith' , element: <CommunicationLayout departmentId={"dep-A"} otherDepartmentId={"dep-B"}/>
  },
  {
-   path:"/project/:projectId",
-   element:<ProjectDetail /> 
+   path:"/project/:projectId", element:<Project /> 
  }
 ])
 root.render(
