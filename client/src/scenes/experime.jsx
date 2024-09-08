@@ -136,3 +136,61 @@
 // };
 
 // export default ProjectDetail;
+
+
+// <div className="container-fluid">
+// {/* Header Section with Filters */}
+// <div className="row bg-primary text-white py-3">
+//   <div className="col-md-3">
+//     <label htmlFor="areaSelect">Area</label>
+//     <select className="form-select" id="areaSelect">
+//       <option>Greater Noida</option>
+//       <option>Noida</option>
+//       <option>Delhi</option>
+//       {/* Add more options as needed */}
+//     </select>
+//   </div>
+//   <div className="col-md-3">
+//     <label htmlFor="projectSelect">Project</label>
+//     <select className="form-select" id="projectSelect">
+//       <option>Project 9008</option>
+//       <option>Project 9009</option>
+//       {/* Add more options as needed */}
+//     </select>
+//   </div>
+//   <div className="col-md-3">
+//     <label htmlFor="dateSelect">End Date</label>
+//     <input type="date" className="form-control" id="dateSelect" />
+//   </div>
+// </div>
+
+// {/* Main Content Section */}
+// <div className="row mt-3">
+//   <div className="col-md-8">
+//     <div className="card">
+//       <div className="card-body">
+//         <h5 className="card-title">Description</h5>
+//         <p className="card-text">
+//           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
+//           Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh
+//           elementum imperdiet. Duis sagittis ipsum. Praesent mauris.
+//         </p>
+//         {/* You can add more content or map the list here */}
+//       </div>
+//     </div>
+//   </div>
+
+//   {/* Map Section */}
+//   <div className="col-md-4">
+//     <div className="card">
+//       <div className="card-body">
+//         <h5 className="card-title">Map</h5>
+//         {/* Placeholder for the map */}
+//         <div className="map-placeholder bg-light" style={{ height: '300px' }}>
+//           <p className="text-center my-5">Map goes here</p>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+// </div>
+// </div>

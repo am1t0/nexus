@@ -1,10 +1,22 @@
-import { faMessage } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCalendarAlt,
+  faEdit,
+  faMap,
+  faMessage,
+} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import interdepartmentalProjects from "../../../data/InterDeparmentsProject";
-import { useFirebase } from '../../../Firebase';
-import { MapComponent } from "./Map";
+import { useEffect } from "react";
+import { useFirebase } from "../../../Firebase";
+import {
+  faMapMarkerAlt,
+  faMoneyBillWave,
+  faTrash,
+  faUserTie,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ProjectDetail = () => {
   const [project, setProject] = useState(null);
@@ -72,6 +84,7 @@ const ProjectDetail = () => {
               >
                 {Math.round(progressPercentage)}%
               </div>
+              <p className="text-muted mb-0">01 January 2024</p>
             </div>
           ) : (
             <p className="badge bg-primary">{project.status || "Completed"}</p>
@@ -171,82 +184,60 @@ const ProjectDetail = () => {
                   )}
                 </ul>
               </div>
+              <p className="text-muted mb-0">04 December 2026</p>
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-md-4">
-              <div className="card bg-info text-white mb-3">
-                <div className="card-body">
-                  <h5 className="card-title">Budget</h5>
-                  <p className="card-text">{project.budget || "N/A"} USD</p>
-                </div>
-              </div>
+          {/* Project Details */}
+          <div className="bg-light">
+            <hr style={{ backgroundColor: '#e0e0e0' }} />
+            <div className="text-center mb-3">
+              <h5 className="text-muted" style={{ fontWeight: 'bold', color: '#495057' }}>Project Details</h5>
             </div>
-
-            <div className="col-md-4">
-              <div className="card bg-secondary text-white mb-3">
-                <div className="card-body">
-                  <h5 className="card-title">Area</h5>
-                  <p className="card-text">
-                    {project.area
-                      ? typeof project.area === "string"
-                        ? project.area
-                        : "Area information is not available"
-                      : "No area information available"}
-                  </p>
-                </div>
+            <hr style={{ backgroundColor: '#e0e0e0' }} />
+          </div>
+          <div className="d-flex justify-content-between mb-4" style={{ gap: '5rem' }}>
+            <div style={{ padding: '10px', borderRadius: '5px', width: '45%' }}>
+              <div className="d-flex align-items-center">
+                <FontAwesomeIcon icon={faMap} style={{ color: '#28a745', marginRight: '5px' }} />
+                <p className="mb-1" style={{ fontWeight: 'bold', color: '#495057' }}>Area</p>
               </div>
+              <p className="text-muted mb-0">44/A Greater Brijeshwari Canal</p>
             </div>
-
-            <div className="col-md-4">
-              <div className="card bg-success text-white mb-3">
-                <div className="card-body">
-                  <h5 className="card-title">Departments Involved</h5>
-                  <ul className="list-group">
-                    {project.departments?.length > 0 ? (
-                      project.departments.map((department, index) => (
-                        <li key={index} className="list-group-item">
-                          {department}
-                        </li>
-                      ))
-                    ) : (
-                      <li>No departments involved</li>
-                    )}
-                  </ul>
-                </div>
+            <div style={{ padding: '10px', borderRadius: '5px', width: '45%' }}>
+              <div className="d-flex align-items-center">
+                <FontAwesomeIcon icon={faMoneyBillWave} style={{ color: 'orange', marginRight: '5px' }} />
+                <p className="mb-1" style={{ fontWeight: 'bold', color: '#495057' }}>Budget</p>
               </div>
+              <p className="text-muted mb-0">$450,000</p>
             </div>
           </div>
 
-          <div className="mb-3">
-            <h5>Milestones</h5>
-            <ul className="list-group">
-              {project.milestones?.length > 0 ? (
-                project.milestones.map((milestone, index) => (
-                  <li key={index} className="list-group-item">
-                    <strong>{milestone.milestone}</strong> -{" "}
-                    {new Date(milestone.date).toLocaleDateString("en-US", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    })}
-                  </li>
-                ))
-              ) : (
-                <li>No milestones</li>
-              )}
-            </ul>
-          </div>
-
-          <div className="mb-3">
-            <h5>Editor Content</h5>
-            <div className="card bg-light mb-3">
-              <div className="card-body">
-                <p>{project.editorContent || "N/A"}</p>
-              </div>
+          {/* Contractor */}
+          <div style={{ padding: '10px', borderRadius: '5px', width: '100%' }}>
+            <div className="d-flex align-items-center">
+              <FontAwesomeIcon icon={faUserTie} style={{ color: '#6c757d', marginRight: '5px' }} />
+              <p className="mb-1" style={{ fontWeight: 'bold', color: '#495057' }}>Contractor</p>
             </div>
+            <p className="text-muted mb-0">APS TECHNOLOGY AND CONSTRUCTION LTD</p>
           </div>
+        </div>
+
+        {/* Right Section: Map */}
+        <div className="col-md-6 d-flex align-items-start justify-content-center mb-3">
+          <div style={{ width: '100%', height: '400px', backgroundColor: '#eaeaea', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ color: '#777' }}>Map Preview</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Description Section */}
+      <div className="row mt-4">
+        <div className="col">
+          <h5 className="text-muted" style={{ fontWeight: 'bold', color: '#495057' }}>Description</h5>
+          <p className="text-muted">
+            This project focuses on implementing water conservation techniques in Greater Noida. It aims to reduce water waste and promote sustainable usage of water resources through advanced irrigation techniques and rainwater harvesting methods.
+          </p>
         </div>
       </div>
     </div>
