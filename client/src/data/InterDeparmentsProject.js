@@ -16,7 +16,7 @@ const interdepartmentalProjects = [
     detailsOfWork: "Installation of IoT sensors across major intersections, integration of AI for traffic pattern analysis, and deployment of real-time traffic management dashboards."
   },
   {
-    id: "1a2b3c4d5e6f7g8h9i0j",
+    id: 2,
     name: "Indore Smart City Development",
     description: "A comprehensive project aimed at transforming Indore into a smart city by upgrading its infrastructure, integrating advanced technologies, and enhancing public services.",
     contractor: "Indore Urban Development Authority",
@@ -31,11 +31,11 @@ const interdepartmentalProjects = [
       { milestone: "Phase 4: Final Testing and Rollout", "date": "2025-05-01" }
     ],
     detailsOfWork: "The project involves the construction of new roads, installation of smart lighting, integration of IoT devices across the city, deployment of AI-based traffic management, and enhancement of water supply and waste management systems.",
-   "area": [
+   area: [
     { "lat": 22.733, "lng": 75.850 },
     { "lat": 22.737, "lng": 75.850 },
     { "lat": 22.737, "lng": 75.870 },
-    { "lat": 22.733, "lng": 75.870 }
+    { "lat": 22.733, "lng": 75.870 },
   ],
     conflicts: [],
     department: "Urban Development",
