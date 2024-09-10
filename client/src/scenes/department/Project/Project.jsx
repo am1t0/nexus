@@ -31,7 +31,7 @@ export default function Project() {
   return (
     <>
      <div className='d-flex'>
-      <ProjectSidebar setContent={setContent} />
+      <ProjectSidebar setContent={setContent} content={content}/>
       <div className="content p-3" style={{ width: '100%' }}>
         {renderContent()}
       </div>
