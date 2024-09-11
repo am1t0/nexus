@@ -1,24 +1,47 @@
 import React, { useRef, useEffect } from 'react';
 import L from 'leaflet';
+import  '@maptiler/leaflet-maptilersdk';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
+// import '@maptiler/leaflet-maptilersdk/dist/maptilersdk.css';
 import 'leaflet-draw';
 
-export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectName, canEdit, height }) => {
+export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectName, canEdit, mapStyle }) => {
     const mapContainer = useRef(null);
     const mapRef = useRef(null);
     const drawnItems = useRef(L.featureGroup()).current;
     const idToLayerMap = useRef(new Map());
 
+    console.log(markedAreas);
+
     useEffect(() => {
         if (!mapRef.current) {
             // Initialize the map only once
-            mapRef.current = L.map(mapContainer.current).setView([22.728434235399522, 75.86610674863611], 16);
+            mapRef.current = L.map(mapContainer.current,{
+                center: [22.728434235399522, 75.86610674863611], // Change coordinates to center your map
+                zoom: 16
+              });
 
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(mapRef.current);
+              const minZoom = 12; // Adjust as needed
+             const maxZoom = 19; // Adjust as needed
+
+             mapRef.current.setMinZoom(minZoom);
+             mapRef.current.setMaxZoom(maxZoom);
+
+              new L.MaptilerLayer({
+                apiKey: 'orJ9CcSmYB6LSaJb9z0d',
+              }).addTo(mapRef.current);
+
+              
+              const cityBounds = L.latLngBounds([
+                [22.6, 75.7], // Southwest corner (lat, lng)
+                [22.9, 76]  // Northeast corner (lat, lng)
+            ]);
+
+            // Set max bounds and handle events
+            mapRef.current.setMaxBounds(cityBounds);
+            
+          
 
             mapRef.current.addLayer(drawnItems);
 
@@ -63,7 +86,7 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
         }
 
         // Load existing marked areas
-        markedAreas.forEach((area) => {
+        markedAreas?.forEach((area) => {
             // Ensure that the coordinates are an array
             if (Array.isArray(area.coordinates)) {
                 const latLngs = area.coordinates.map(c => [c.lat, c.lng]);
@@ -88,7 +111,7 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
 
     return (
         <div>
-            <div id="map" ref={mapContainer} style={{ height: height ? `${height}px` : '280px' }}></div>
+            <div id="map" ref={mapContainer} style={mapStyle}></div>
         </div>
     );
 };

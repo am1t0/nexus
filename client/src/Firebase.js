@@ -12,13 +12,13 @@ import * as martinez from 'martinez-polygon-clipping';
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBbkOe2ijBGijBf463M_uyP5nRJw4RuDTQ",
-  authDomain: "cooperation-26e4b.firebaseapp.com",
-  projectId: "cooperation-26e4b",
-  storageBucket: "cooperation-26e4b.appspot.com",
-  messagingSenderId: "5862210627",
-  appId: "1:5862210627:web:47166358d5fd42d73b68f6",
-  measurementId: "G-99Z6GH9CNC"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
@@ -136,7 +136,7 @@ export const FirebaseProvider = ({ children }) => {
         resources: project.resources,
         area: project.coordinates, // Original coordinates
         detailsOfWork: project.detailsOfWork,
-        status: 'upcoming',
+        status: 'planning',
         conflicts,
       };
   
@@ -203,6 +203,7 @@ const fetchAllDepartments = async () => {
 
 const fetchDepartmentData = async (department) => {
   const departmentName = department.replace(/-/g, ' ');
+  console.log('ok  ji ', departmentName)
   try {
     // Reference to the departments collection
     const departmentsRef = collection(firestore, 'departments');
@@ -250,6 +251,23 @@ const fetchDepartmentProject = async (department) => {
   } catch (error) {
     console.error('Error fetching department projects:', error);
     return [];
+  }
+};
+
+const fetchProject = async (ProjectID) => {
+  try {
+    const projectRef = await doc(firestore, 'projects', ProjectID);
+    const projectSnapshot = await getDoc(projectRef);
+    console.log('Project snapshot:', projectSnapshot.data());
+    if (projectSnapshot.exists()) {
+      return projectSnapshot.data();
+    } else {
+      console.log('No such document!');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching project:', error);
+    return null;
   }
 };
   // Function to get or create a chat between two departments
@@ -315,6 +333,7 @@ const listenForMessages = (chatId, callback) => {
         sendMessage,
         listenForMessages,
         fetchDepartmentProject,
+        fetchProject
       }}
     >
       {children}

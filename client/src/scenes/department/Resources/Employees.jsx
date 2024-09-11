@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 export default function Employees() {
   const [filter, setFilter] = useState('');
   const employeesData = [
-    { id: 1, name: 'Alice Johnson', role: 'Site Manager', department: 'Construction', contact: 'alice@example.com', status: 'Active' },
+    { id: 1, name: 'Alice Johnson', role: 'Site Manager', department: 'Construction', contact: 'alice@example.com', status: 'Active', projectName: 'Project 1' },
     { id: 2, name: 'Bob Brown', role: 'Safety Officer', department: 'Safety', contact: 'bob@example.com', status: 'On Leave' },
     { id: 3, name: 'Charlie Davis', role: 'Project Engineer', department: 'Engineering', contact: 'charlie.davis@example.com', status: 'Active' },
     { id: 4, name: 'Dana Lee', role: 'Construction Supervisor', department: 'Construction', contact: 'dana.lee@example.com', status: 'Active' },
