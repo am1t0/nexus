@@ -4,6 +4,7 @@ import { faBoxOpen, faChartLine, faExclamationTriangle, faTachometer } from '@fo
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Logo from '../../../Image/Logo.png'
 
 export default function ProjectSidebar({ setContent, content }) {
   const { projectId } = useParams();
@@ -12,10 +13,11 @@ export default function ProjectSidebar({ setContent, content }) {
   const isActive = (section) => content === section ? 'bg-secondary text-white' : 'text-white';
 
   return (
-    <div className="d-flex flex-column navbar-dark text-white flex-shrink-0 p-3 bg-primary" style={{ width: '240px', height: '100vh' }}>
+    <div className="d-flex flex-column navbar-dark text-white flex-shrink-0 p-3 bg-primary" style={{ width: '240px' }}>
       <Link to={`/project/${projectId}`} className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-        <FontAwesomeIcon className="bi text-white" width="40" style={{ fontSize: '50px', marginLeft: '1.5rem' }} icon={faNeos} />
-        <h4 className="fs-4 text-white mx-2">NEXUS</h4>
+        {/* <FontAwesomeIcon className="bi text-white" width="40" style={{ fontSize: '50px', marginLeft: '1.5rem' }} icon={faNeos} /> */}
+        <img src={Logo} alt="" width="200" className='m-auto'/>
+        {/* <h4 className="fs-4 text-white mx-2">Civic Nexas</h4> */}
       </Link>
       <hr />
       <ul className="nav nav-pills flex-column mb-auto">
@@ -56,8 +58,8 @@ export default function ProjectSidebar({ setContent, content }) {
           </div>
         </li>
       </ul>
-      <hr />
-      <div className="dropdown">
+      {/* <hr /> */}
+      {/* <div className="dropdown">
         <a
           href="#"
           className="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
@@ -75,7 +77,7 @@ export default function ProjectSidebar({ setContent, content }) {
           <li><hr className="dropdown-divider" /></li>
           <li><a className="dropdown-item" href="#">Sign out</a></li>
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 }

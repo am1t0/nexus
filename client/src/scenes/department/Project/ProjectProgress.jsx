@@ -42,7 +42,7 @@ export default function ProjectProgress() {
         position: "right",
         labels: {
           boxWidth: 10,
-          padding: 15 
+          padding: 10 
         }
       },
       tooltip: {
