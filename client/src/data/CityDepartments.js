@@ -10,13 +10,7 @@ const cityDepartments = [
     "Water and Sewerage Board",
     "Power Authority",
     "Port Authority",
-    "Airport Authority",
-    "Public Works Department",
-    "Judicial Branch",
-    "Election Commission",
-    "Disaster Management Authority",
-    "Taxation Authority",
-    "Transport Regulation Authority"
+
   ];
 
   export default cityDepartments;

@@ -14,26 +14,22 @@ export default function Navbar() {
   return (
     <header>
       {/* Layer 1 */}
-      <nav className="navbar navbar-light bg-primary py-1">
-        <div className="container-fluid d-flex justify-content-between align-items-center" style={{ maxWidth: '1200px' }}>
+      <nav className="navbar navbar-light bg-white py-1">
+        <div className="mx-4" style={{ maxWidth: '1200px' }}>
           <div className="d-flex">
           <img
             src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg" // Replace with your flag image source
             alt="India's Flag"
             style={{ height: '20px' }}
           />
-            <h6 style={{color:'white', marginLeft:'10px'}}>Government of India</h6>
-          </div>
-          <div>
-            <button className="btn btn-outline-light btn-sm me-2">Translate</button>
-            <button className="btn btn-outline-light btn-sm">Login</button>
+            <h6 style={{color:'black', marginLeft:'10px'}}>Government of India</h6>
           </div>
         </div>
       </nav>
 
       {/* Layer 2 */}
       <nav className="navbar navbar-expand-lg navbar-light bg-white py-2">
-        <div className="container-fluid" style={{ maxWidth: '1240px' }}>
+        <div className="container-fluid" style={{ maxWidth: '1400px' }}>
           <div className="d-flex align-items-center">
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCDenIuZJjddw9JDYpcGyYoyGsebe0apuQw&s" // Replace with your logo source
@@ -42,19 +38,19 @@ export default function Navbar() {
             />
             <span style={{ fontWeight: '500', fontSize: '1.25rem' }}>Interdepartmental Cooperation</span>
           </div>
-          <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-outline-success" type="submit">Search</button>
-          </form>
+          <div>
+            <button className="btn btn-outline-dark btn-sm me-2">Translate</button>
+            <button className="btn btn-outline-dark btn-sm">Login</button>
+          </div>
         </div>
       </nav>
 
       {/* Layer 3 */}
-      <nav className="navbar navbar-expand-lg bg-primary py-1 d-flex justify-content-center">
+      <nav className="navbar navbar-expand-lg py-1 d-flex justify-content-center" style={{backgroundColor: "orange"}}>
         <div style={{ maxWidth: '1230px' }}>
 
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav d-flex justify-content-center">
+          <div className="collapse navbar-collapse black" id="navbarNav">
+            <ul className="navbar-nav d-flex justify-content-center gap-4">
               <li className="nav-item">
                 <Link className="nav-link" to="/">Home</Link>
               </li>
