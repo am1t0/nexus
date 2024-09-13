@@ -4,21 +4,21 @@ import { faBoxOpen, faChartLine, faExclamationTriangle, faTachometer } from '@fo
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Logo from '../../../Image/Logo.png'
+import Logo from '../../../Image/Logo.png';
 
-export default function ProjectSidebar({ setContent, content }) {
+export default function ProjectSidebar({ setContent, content, showLogo = true }) {
   const { projectId } = useParams();
 
   // Helper function to apply the 'active' class based on content
   const isActive = (section) => content === section ? 'bg-secondary text-white' : 'text-white';
 
   return (
-    <div className="d-flex flex-column navbar-dark text-white flex-shrink-0 p-3 bg-primary" style={{ width: '240px' }}>
-      <Link to={`/project/${projectId}`} className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-        {/* <FontAwesomeIcon className="bi text-white" width="40" style={{ fontSize: '50px', marginLeft: '1.5rem' }} icon={faNeos} /> */}
-        <img src={Logo} alt="" width="200" className='m-auto'/>
-        {/* <h4 className="fs-4 text-white mx-2">Civic Nexas</h4> */}
-      </Link>
+    <div className="d-flex flex-column navbar-dark text-white flex-shrink-0 p-3 bg-primary" style={{ width: '240px', height:'100%' }}>
+      {showLogo && (
+        <Link to={`/project/${projectId}`} className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+          <img src={Logo} alt="" width="200" className='m-auto' />
+        </Link>
+      )}
       <hr />
       <ul className="nav nav-pills flex-column mb-auto">
         <li onClick={() => setContent('Dashboard')}>
@@ -58,26 +58,6 @@ export default function ProjectSidebar({ setContent, content }) {
           </div>
         </li>
       </ul>
-      {/* <hr /> */}
-      {/* <div className="dropdown">
-        <a
-          href="#"
-          className="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
-          id="dropdownUser2"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
-          <strong>mdo</strong>
-        </a>
-        <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-          <li><a className="dropdown-item" href="#">New project...</a></li>
-          <li><a className="dropdown-item" href="#">Settings</a></li>
-          <li><a className="dropdown-item" href="#">Profile</a></li>
-          <li><hr className="dropdown-divider" /></li>
-          <li><a className="dropdown-item" href="#">Sign out</a></li>
-        </ul>
-      </div> */}
     </div>
   );
 }

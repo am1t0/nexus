@@ -5,38 +5,54 @@ import ProjectConflicts from './ProjectConflicts';
 import ProjectProgress from './ProjectProgress';
 import ProjectDocs from './ProjectDocs';
 import ProjectResources from './ProjectResources';
-import ProjectDepartments from './ProjectDepartments';
 import ProjectFoot from './ProjectFoot';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import Logo from '../../../Image/Logo.png';
+import ProjectDepartments from './ProjectDepartments';
 
 export default function Project() {
   const [content, setContent] = useState('Dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const renderContent = () => {
     switch (content) {
       case 'Conflicts':
-        return <ProjectConflicts/> ;
+        return <ProjectConflicts />;
       case 'Departments':
-        return <ProjectDepartments/> ;
+        return <ProjectDepartments />;
       case 'Progress':
-        return <ProjectProgress/>;
+        return <ProjectProgress />;
       case 'Documents':
-        return <ProjectDocs/>;
+        return <ProjectDocs />;
       case 'Resources':
-        return <ProjectResources/>;
+        return <ProjectResources />;
       default:
-        return <ProjectDetail/>;
+        return <ProjectDetail />;
     }
   };
 
   return (
     <>
-     <div className='d-flex'>
-      <ProjectSidebar setContent={setContent} content={content}/>
-      <div className="content p-3" style={{ width: '100%' }}>
-        {renderContent()}
+      <Navbar bg="primary" variant="dark" expand="lg" className="d-lg-none">
+        <Container>
+          <Navbar.Brand href="#">
+            <img src={Logo} alt="Logo" width="100" />
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+          <Navbar.Collapse id="basic-navbar-nav" className={isSidebarOpen ? 'show' : ''}>
+            <ProjectSidebar setContent={setContent} content={content} showLogo={false} />
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      <div className='d-flex'>
+        <div className='d-none d-lg-block'>
+          <ProjectSidebar setContent={setContent} content={content} />
+        </div>
+        <div className="content p-3" style={{ width: '100%' }}>
+          {renderContent()}
+        </div>
       </div>
-     </div>
-      <ProjectFoot/>
+      <ProjectFoot />
     </>
   );
 }
