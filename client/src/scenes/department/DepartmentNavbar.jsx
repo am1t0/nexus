@@ -4,70 +4,74 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 
 function DepartmentNavbar() {
-  const {department} = useParams();
+  const { department } = useParams();
+
+  const navItemStyle = {
+    marginRight: '0.5rem', // Adjust the margin as needed
+  };
 
   return (
     <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark pb-1">
-        <div class="container-fluid">
-          <div class="d-flex justify-content-start">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <i class="fab fa-facebook-f"></i>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark pb-1">
+        <div className="container-fluid">
+          <div className="d-flex justify-content-start">
+            <ul className="navbar-nav">
+              <li className="nav-item" style={navItemStyle}>
+                <a className="nav-link" href="#">
+                  <i className="fab fa-facebook-f"></i>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <i class="fab fa-twitter"></i>
+              <li className="nav-item" style={navItemStyle}>
+                <a className="nav-link" href="#">
+                  <i className="fab fa-twitter"></i>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <i class="fab fa-google"></i>
+              <li className="nav-item" style={navItemStyle}>
+                <a className="nav-link" href="#">
+                  <i className="fab fa-google"></i>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <i class="fab fa-youtube"></i>
+              <li className="nav-item" style={navItemStyle}>
+                <a className="nav-link" href="#">
+                  <i className="fab fa-youtube"></i>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
+              <li className="nav-item" style={navItemStyle}>
+                <a className="nav-link" href="#">
                   Screen Reader
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
+              <li className="nav-item" style={navItemStyle}>
+                <a className="nav-link" href="#">
                   Skip to Main Content
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
+              <li className="nav-item" style={navItemStyle}>
+                <a className="nav-link" href="#">
                   Skip to Navigation
                 </a>
               </li>
             </ul>
           </div>
 
-          <div class="d-flex justify-content-end">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
+          <div className="d-flex justify-content-end">
+            <ul className="navbar-nav">
+              <li className="nav-item" style={navItemStyle}>
+                <a className="nav-link" href="#">
                   हिन्दी
                 </a>
               </li>
-              <li class="nav-item">
-                <button class="btn btn-sm btn-outline-light mx-1">A-</button>
+              <li className="nav-item" style={navItemStyle}>
+                <button className="btn btn-sm btn-outline-light mx-1">A-</button>
               </li>
-              <li class="nav-item">
-                <button class="btn btn-sm btn-outline-light mx-1">A</button>
+              <li className="nav-item" style={navItemStyle}>
+                <button className="btn btn-sm btn-outline-light mx-1">A</button>
               </li>
-              <li class="nav-item">
-                <button class="btn btn-sm btn-outline-light mx-1">A+</button>
+              <li className="nav-item" style={navItemStyle}>
+                <button className="btn btn-sm btn-outline-light mx-1">A+</button>
               </li>
-              <li class="nav-item">
-                <a href="#" class="btn btn-sm btn-light mx-1">
+              <li className="nav-item" style={navItemStyle}>
+                <a href="#" className="btn btn-sm btn-light mx-1">
                   Login
                 </a>
               </li>
@@ -84,13 +88,13 @@ function DepartmentNavbar() {
             alt="Urban Development Logo"
             style={{ height: "90px" }}
           />
-          <h4 className="ml-3">{department}</h4>
+          <h4 className="ms-3">{department}</h4>
         </div>
         <form className="d-none d-md-flex gap-4">
           <input
             type="text"
             placeholder="Search"
-            className="form-control mr-sm-2"
+            className="form-control"
           />
           <button className="btn btn-outline-success" type="submit">
             Search
@@ -100,14 +104,14 @@ function DepartmentNavbar() {
 
       {/* Navigation Bar */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-secondary px-4">
-        <Link className="navbar-brand" to={`/${department}`} >
+        <Link className="navbar-brand" to={`/${department}`}>
           {department}
         </Link>
         <button
           className="navbar-toggler"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
@@ -115,49 +119,48 @@ function DepartmentNavbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse mx-4" id="navbarNav">
-          <ul className="navbar-nav gap-3">
-            <li className="nav-item">
+          <ul className="navbar-nav">
+            <li className="nav-item" style={navItemStyle}>
               <Link className="nav-link" to={`/${department}`}>
                 Home
               </Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item" style={navItemStyle}>
               <Link className="nav-link" to={`/${department}`}>
                 About
               </Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item" style={navItemStyle}>
               <Link className="nav-link" to={`/${department}/projects`}>
                 Projects
               </Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item" style={navItemStyle}>
               <Link className="nav-link" to={`/${department}/resources`}>
                 Resources
               </Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item" style={navItemStyle}>
               <Link className="nav-link" to={`/${department}`}>
                 Documents
               </Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item" style={navItemStyle}>
               <Link className="nav-link" to={`/${department}/subdepartment`}>
                 Sub-Department
               </Link>
             </li>
-           
           </ul>
           <form className="form-inline d-md-none">
-           <FontAwesomeIcon icon={faBell} />
-            <input
+            {/* <FontAwesomeIcon icon={faBell} /> */}
+            {/* <input
               type="text"
               placeholder="Search"
-              className="form-control mr-sm-2"
+              className="form-control"
             />
             <button className="btn btn-outline-light" type="submit">
               Search
-            </button>
+            </button> */}
           </form>
         </div>
       </nav>

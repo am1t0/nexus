@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import L from 'leaflet';
-import '@maptiler/leaflet-maptilersdk';
+import  '@maptiler/leaflet-maptilersdk';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
+// import '@maptiler/leaflet-maptilersdk/dist/maptilersdk.css';
 import 'leaflet-draw';
 
 export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectName, canEdit, mapStyle }) => {
@@ -11,30 +12,36 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
     const drawnItems = useRef(L.featureGroup()).current;
     const idToLayerMap = useRef(new Map());
 
+    console.log(markedAreas);
+
     useEffect(() => {
         if (!mapRef.current) {
-            mapRef.current = L.map(mapContainer.current, {
-                center: [22.728434235399522, 75.86610674863611],
-                zoom: 16,
-                scrollWheelZoom: false,
-            });
+            // Initialize the map only once
+            mapRef.current = L.map(mapContainer.current,{
+                center: [22.728434235399522, 75.86610674863611], // Change coordinates to center your map
+                zoom: 16
+              });
 
-            const minZoom = 12;
-            const maxZoom = 19;
+              const minZoom = 12; // Adjust as needed
+             const maxZoom = 19; // Adjust as needed
 
-            mapRef.current.setMinZoom(minZoom);
-            mapRef.current.setMaxZoom(maxZoom);
+             mapRef.current.setMinZoom(minZoom);
+             mapRef.current.setMaxZoom(maxZoom);
 
-            new L.MaptilerLayer({
+              new L.MaptilerLayer({
                 apiKey: 'orJ9CcSmYB6LSaJb9z0d',
-            }).addTo(mapRef.current);
+              }).addTo(mapRef.current);
 
-            const cityBounds = L.latLngBounds([
-                [22.6, 75.7],
-                [22.9, 76]
+              
+              const cityBounds = L.latLngBounds([
+                [22.6, 75.7], // Southwest corner (lat, lng)
+                [22.9, 76]  // Northeast corner (lat, lng)
             ]);
 
+            // Set max bounds and handle events
             mapRef.current.setMaxBounds(cityBounds);
+            
+          
 
             mapRef.current.addLayer(drawnItems);
 
@@ -44,8 +51,9 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
                     remove: true
                 }
             });
-            if (canEdit) mapRef.current.addControl(drawControl);
+            {canEdit && mapRef.current.addControl(drawControl);}
 
+            // Handle new polygon creation
             mapRef.current.on(L.Draw.Event.CREATED, async (e) => {
                 const layer = e.layer;
                 drawnItems.addLayer(layer);
@@ -63,20 +71,23 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
                 }
             });
 
+            // Handle polygon deletion
             mapRef.current.on(L.Draw.Event.DELETED, async (e) => {
                 e.layers.eachLayer((layer) => {
                     const id = Array.from(idToLayerMap.current.entries())
-                        .find(([_, l]) => l === layer)?.[0];
+                        .find(([_, l]) => l === layer)?.[0]; // Find the ID of the layer
 
                     if (id) {
                         onDeleteArea(id);
-                        idToLayerMap.current.delete(id);
+                        idToLayerMap.current.delete(id); // Remove the layer from the map
                     }
                 });
             });
         }
 
+        // Load existing marked areas
         markedAreas?.forEach((area) => {
+            // Ensure that the coordinates are an array
             if (Array.isArray(area.coordinates)) {
                 const latLngs = area.coordinates.map(c => [c.lat, c.lng]);
                 const polygon = L.polygon(latLngs).bindPopup(`<p>${area.description}</p>`);
@@ -88,16 +99,19 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
         });
 
         return () => {
+            // Cleanup when the component unmounts
             if (mapRef.current) {
                 mapRef.current.off(L.Draw.Event.CREATED);
                 mapRef.current.off(L.Draw.Event.DELETED);
-                mapRef.current.remove();
+                mapRef.current.remove(); // This ensures the map is properly destroyed
                 mapRef.current = null;
             }
         };
-    }, [markedAreas]);
+    }, [markedAreas]); // Re-run this effect only when markedAreas change
 
     return (
-        <div id="map" ref={mapContainer} style={{ ...mapStyle, height: '100%', width: '100%' }}></div>
+        <div>
+            <div id="map" ref={mapContainer} style={mapStyle}></div>
+        </div>
     );
 };
