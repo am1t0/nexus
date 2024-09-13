@@ -1,79 +1,122 @@
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-  const [showOptions, setShowOptions] = useState(false);
-  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false); // State for mobile menu
 
-  const handleToggleOptions = () => {
-    setShowOptions(!showOptions);
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
   };
 
   return (
     <header>
-      {/* Layer 1 */}
+      {/* Layer 1: Government of India Banner */}
       <nav className="navbar navbar-light bg-white py-1">
-        <div className="mx-4" style={{ maxWidth: '1200px' }}>
-          <div className="d-flex">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg" // Replace with your flag image source
-            alt="India's Flag"
-            style={{ height: '20px' }}
-          />
-            <h6 style={{color:'black', marginLeft:'10px'}}>Government of India</h6>
-          </div>
-        </div>
-      </nav>
-
-      {/* Layer 2 */}
-      <nav className="navbar navbar-expand-lg navbar-light bg-white py-2">
-        <div className="container-fluid" style={{ maxWidth: '1400px' }}>
+        <div className="container" style={{ maxWidth: "1200px" }}>
           <div className="d-flex align-items-center">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCDenIuZJjddw9JDYpcGyYoyGsebe0apuQw&s" // Replace with your logo source
-              alt="Logo"
-              style={{ height: '60px', marginRight: '10px' }}
+              src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg"
+              alt="India's Flag"
+              style={{ height: "20px" }}
             />
-            <span style={{ fontWeight: '500', fontSize: '1.25rem' }}>Interdepartmental Cooperation</span>
-          </div>
-          <div>
-            <button className="btn btn-outline-dark btn-sm me-2">Translate</button>
-            <button className="btn btn-outline-dark btn-sm">Login</button>
+            <h6 className="mb-0 ms-2" style={{ color: "black" }}>
+              Government of India
+            </h6>
           </div>
         </div>
       </nav>
 
-      {/* Layer 3 */}
-      <nav className="navbar navbar-expand-lg py-1 d-flex justify-content-center" style={{backgroundColor: "orange"}}>
-        <div style={{ maxWidth: '1230px' }}>
+      {/* Layer 2: Interdepartmental Cooperation Title */}
+      <nav className="navbar navbar-expand-lg navbar-light bg-white py-2">
+        <div className="container-fluid" style={{ maxWidth: "1400px" }}>
+          <div className="d-flex align-items-center">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCDenIuZJjddw9JDYpcGyYoyGsebe0apuQw&s"
+              alt="Logo"
+              style={{ height: "60px", marginRight: "10px" }}
+            />
+            <span style={{ fontWeight: "500", fontSize: "1.25rem" }}>
+              Interdepartmental Cooperation
+            </span>
+          </div>
+          <div className="d-flex align-items-center">
+            <button className="btn btn-outline-dark btn-sm me-2">Translate</button>
+            <button className="btn btn-outline-dark btn-sm">Login</button>
+            <button
+              className="navbar-toggler"
+              type="button"
+              onClick={handleMenuToggle}
+            >
+              <FontAwesomeIcon icon={faBars} />
+            </button>
+          </div>
+        </div>
+      </nav>
 
-          <div className="collapse navbar-collapse black" id="navbarNav">
-            <ul className="navbar-nav d-flex justify-content-center gap-4">
+      {/* Layer 3: Navbar with Links */}
+      <nav
+        className="navbar navbar-expand-lg py-1"
+        style={{ backgroundColor: "orange" }}
+      >
+        <div className="container-fluid" style={{ maxWidth: "1230px" }}>
+          <div
+            className={`collapse navbar-collapse justify-content-center ${
+              menuOpen ? "show" : ""
+            }`}
+            id="navbarNav"
+          >
+            <ul
+              className="navbar-nav d-flex justify-content-center"
+              style={{ gap: "20px" }}
+            >
               <li className="nav-item">
-                <Link className="nav-link" to="/">Home</Link>
+                <Link className="nav-link" to="/" onClick={handleMenuToggle}>
+                  Home
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/">About us</Link>
+                <Link className="nav-link" to="/" onClick={handleMenuToggle}>
+                  About us
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/">Contact us</Link>
+                <Link className="nav-link" to="/" onClick={handleMenuToggle}>
+                  Contact us
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/">Services</Link>
+                <Link className="nav-link" to="/" onClick={handleMenuToggle}>
+                  Services
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/">Urban Departments</Link>
+                <Link className="nav-link" to="/" onClick={handleMenuToggle}>
+                  Urban Departments
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/">Interdepartment Projects</Link>
+                <Link className="nav-link" to="/" onClick={handleMenuToggle}>
+                  Interdepartment Projects
+                </Link>
               </li>
-              {/* Add more nav items as needed */}
             </ul>
           </div>
         </div>
       </nav>
+
+      {/* Inline styles for mobile */}
+      <style>
+        {`
+          @media (max-width: 768px) {
+            .navbar-nav {
+              gap: 0px !important; /* Smaller gap for mobile */
+              padding-left: 15px !important; /* Small padding on the left for mobile */
+            }
+          }
+        `}
+      </style>
     </header>
   );
 }
