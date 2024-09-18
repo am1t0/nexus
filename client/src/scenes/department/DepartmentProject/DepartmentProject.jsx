@@ -140,7 +140,7 @@ export default function DepartmentProject() {
                   lineHeight: '500px',
                 }}
               >
-                <MapComponent canEdit={false} markedAreas={markedAreas} height={500}/>
+                <MapComponent canEdit={false} markedAreas={markedAreas} height={500}  mapStyle={ {height: "500px"}}/>
               </div>
             </div>
           )}

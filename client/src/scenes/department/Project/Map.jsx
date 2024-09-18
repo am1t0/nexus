@@ -28,9 +28,20 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
              mapRef.current.setMinZoom(minZoom);
              mapRef.current.setMaxZoom(maxZoom);
 
-              new L.MaptilerLayer({
+
+             const maptilerLayer = new L.MaptilerLayer({
                 apiKey: 'orJ9CcSmYB6LSaJb9z0d',
-              }).addTo(mapRef.current);
+            }).addTo(mapRef.current);
+            
+
+            maptilerLayer.on('tileerror', function (error) {
+                console.error('Maptiler layer failed to load tiles:', error);
+            
+                // Fallback to OpenStreetMap tiles if Maptiler fails
+             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                }).addTo(mapRef.current);
+            });
 
               
               const cityBounds = L.latLngBounds([

@@ -32,6 +32,10 @@ const ProjectCreationForm = ({setOpen, projectList}) => {
   const [loading ,setLoading] = useState(false);
   const [markedAreas, setMarkedAreas] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
+
+  const mapStyle ={
+    height: "500px",
+  }
   
 
 
@@ -348,7 +352,10 @@ useEffect(()=>{
                 projectName={projectName}
                 markedAreas={markedAreas}
                 onSaveArea={saveMarkedArea}
-                onDeleteArea={deleteMarkedArea}/>
+                onDeleteArea={deleteMarkedArea}
+                mapStyle={mapStyle}
+                />
+               
             </div>
           </div>
 
