@@ -350,7 +350,7 @@ useEffect(()=>{
             <MapComponent
                 canEdit={true}
                 projectName={projectName}
-                markedAreas={markedAreas}
+                
                 onSaveArea={saveMarkedArea}
                 onDeleteArea={deleteMarkedArea}
                 mapStyle={mapStyle}

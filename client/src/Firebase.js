@@ -17,8 +17,7 @@ const firebaseConfig = {
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+  appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
 // Initialize Firebase
@@ -55,6 +54,11 @@ export const FirebaseProvider = ({ children }) => {
 
   const addProject = async (project) => {
     try {
+      // Validate project coordinates
+      if (!project.coordinates || project.coordinates.length < 3) {
+        throw new Error('Invalid project coordinates: Must have at least 3 points');
+      }
+
       // Fetch existing projects
       const existingProjectsSnapshot = await getDocs(collection(firestore, 'projects'));
       const existingProjects = existingProjectsSnapshot.docs.map(doc => doc.data());
@@ -78,39 +82,46 @@ export const FirebaseProvider = ({ children }) => {
   
       // Loop through existing projects and check for overlaps
       for (const existingProject of existingProjects) {
-        const existingProjectCoordinates = existingProject.area.map(coord => [coord.lng, coord.lat]);
-        // Ensure the polygon is closed
-        if (existingProjectCoordinates[0][0] !== existingProjectCoordinates[existingProjectCoordinates.length - 1][0] ||
-            existingProjectCoordinates[0][1] !== existingProjectCoordinates[existingProjectCoordinates.length - 1][1]) {
-            existingProjectCoordinates.push(existingProjectCoordinates[0]);
+        // Skip if existing project has no area
+        if (!existingProject.area || existingProject.area.length < 3) {
+          continue;
         }
-  
-        const existingProjectPolygon = [existingProjectCoordinates];
-  
-        if (existingProjectPolygon[0].length >= 4) {
-          // Compute the intersection
-          const intersection = martinez.intersection(newProjectPolygon, existingProjectPolygon);
-          if(!intersection){
-            continue;
-          }
-          else if (intersection.length > 0) {
-            const intersectionArea = calculatePolygonArea(intersection[0]);
-            const newProjectArea = calculatePolygonArea(newProjectPolygon);
-            const existingProjectArea = calculatePolygonArea(existingProjectPolygon);
-  
-            const percentageOverlapNewProject = (intersectionArea / newProjectArea) * 100;
-            const percentageOverlapExistingProject = (intersectionArea / existingProjectArea) * 100;
 
-            conflicts.push({
-              percentageOverlapNewProject,
-              percentageOverlapExistingProject,
-              existingProjectDetails: existingProject,
-            });
-          } else {
-            console.log('No overlap detected.');
+        try {
+          const existingProjectCoordinates = existingProject.area.map(coord => [coord.lng, coord.lat]);
+          
+          // Ensure the polygon is closed
+          if (existingProjectCoordinates[0][0] !== existingProjectCoordinates[existingProjectCoordinates.length - 1][0] ||
+              existingProjectCoordinates[0][1] !== existingProjectCoordinates[existingProjectCoordinates.length - 1][1]) {
+              existingProjectCoordinates.push(existingProjectCoordinates[0]);
           }
-        } else {
-          console.warn('Invalid existing project polygon detected and skipped:', existingProject);
+    
+          const existingProjectPolygon = [existingProjectCoordinates];
+    
+          if (existingProjectPolygon[0].length >= 4) {
+            // Compute the intersection
+            const intersection = martinez.intersection(newProjectPolygon, existingProjectPolygon);
+            
+            if (intersection && intersection.length > 0 && intersection[0].length > 0) {
+              const intersectionArea = calculatePolygonArea(intersection[0]);
+              const newProjectArea = calculatePolygonArea(newProjectPolygon[0]);
+              const existingProjectArea = calculatePolygonArea(existingProjectPolygon[0]);
+      
+              if (intersectionArea > 0) {
+                const percentageOverlapNewProject = (intersectionArea / newProjectArea) * 100;
+                const percentageOverlapExistingProject = (intersectionArea / existingProjectArea) * 100;
+  
+                conflicts.push({
+                  percentageOverlapNewProject,
+                  percentageOverlapExistingProject,
+                  existingProjectDetails: existingProject,
+                });
+              }
+            }
+          }
+        } catch (error) {
+          console.warn('Error processing existing project:', error);
+          continue;
         }
       }
   
