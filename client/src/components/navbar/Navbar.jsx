@@ -2,6 +2,8 @@ import React from 'react';
 import './navbar.css';
 import { NavLink } from 'react-router-dom';
 
+
+
 const Navbar = () => {
   return (
     <nav className="navbar">
@@ -12,7 +14,7 @@ const Navbar = () => {
 
         <div className="navbar-center">
           <NavLink to="/">Map</NavLink>
-          <NavLink to="/">List</NavLink>
+          <NavLink to="/list">List</NavLink>
           {/* Add more links if needed */}
         </div>
       </div>

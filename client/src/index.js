@@ -15,23 +15,24 @@ import DepartmentResources from './scenes/department/Resources/DepartmentResourc
 import DepartmentProject from './scenes/department/DepartmentProject/DepartmentProject';
 import DepartmentHome from './scenes/department/DepartmentHome';
 import { FirebaseProvider } from './Firebase';
-import Home from './scenes/desktop/Home';
+import Home from './pages/home/Home.jsx'
 import DepartmentRegistrationForm from './scenes/SubmitForm/DepartmentRegistrationForm';
 import CommunicationLayout from './communication/CommunicationLayout';
 import Entry from './scenes/desktop/Entry';
 import ProjectDetail from './scenes/department/Project/ProjectLayout';
 import SubDepartment from './scenes/department/SubDepartment';
 import Project from './scenes/department/Project/Project';
+import { MapComponent } from './components/map/Map.jsx';
+import Depros from '../src/components/depros/Depros.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const router = createBrowserRouter([
 {
-  path:'/', element: <App/>, children:[]
-},
-{
-  path:'/home', element: <Home/> , children:[
-    {path:'/home', element: <Entry/>}
+  path:'/', element: <Home/> , 
+  children:[ 
+    {"path":'/', element: <MapComponent/> },
+    {"path":'/list', element: <Depros/> },
   ]
 },
 {

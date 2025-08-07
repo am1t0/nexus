@@ -3,7 +3,6 @@ import L from 'leaflet';
 import  '@maptiler/leaflet-maptilersdk';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
-// import '@maptiler/leaflet-maptilersdk/dist/maptilersdk.css';
 import 'leaflet-draw';
 
 export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectName, canEdit, mapStyle }) => {
@@ -12,7 +11,6 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
     const drawnItems = useRef(L.featureGroup()).current;
     const idToLayerMap = useRef(new Map());
 
-    console.log(markedAreas);
 
     useEffect(() => {
         if (!mapRef.current) {
@@ -53,6 +51,7 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
             mapRef.current.setMaxBounds(cityBounds);
             
           
+            console.log("Map initialized");
 
             mapRef.current.addLayer(drawnItems);
 
@@ -82,6 +81,8 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
                 }
             });
 
+            console.log("Map event listeners added");
+
             // Handle polygon deletion
             mapRef.current.on(L.Draw.Event.DELETED, async (e) => {
                 e.layers.eachLayer((layer) => {
@@ -109,6 +110,8 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
             }
         });
 
+        console.log(mapContainer)
+        // mapRef.current.fitBounds(drawnItems.getBounds());
         return () => {
             // Cleanup when the component unmounts
             if (mapRef.current) {
@@ -118,11 +121,14 @@ export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectNam
                 mapRef.current = null;
             }
         };
-    }, [markedAreas]); // Re-run this effect only when markedAreas change
+    }, [canEdit, drawnItems, markedAreas, onDeleteArea, onSaveArea, projectName]); // Re-run this effect only when markedAreas change
 
     return (
         <div>
-            <div id="map" ref={mapContainer} style={mapStyle}></div>
+            <div id="map" ref={mapContainer} style={{ 
+                height: '93vh',
+                width: '100%',
+            }}></div>
         </div>
     );
 };
