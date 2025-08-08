@@ -1,0 +1,10 @@
+
+.map-container {
+    display: flex;
+    height: 100%;
+}
+
+#map {
+    height: 93vh;
+    width: 100%;
+}

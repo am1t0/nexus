@@ -1,134 +1,145 @@
-import React, { useRef, useEffect } from 'react';
-import L from 'leaflet';
-import  '@maptiler/leaflet-maptilersdk';
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-draw/dist/leaflet.draw.css';
-import 'leaflet-draw';
+import React, { useRef, useEffect } from "react";
+import L from "leaflet";
+import "@maptiler/leaflet-maptilersdk";
+import "leaflet/dist/leaflet.css";
+import "leaflet-draw/dist/leaflet.draw.css";
+import "leaflet-draw";
+import Filter from "../filter/Filter";
+import "./map.css";
 
-export const MapComponent = ({ markedAreas, onSaveArea, onDeleteArea, projectName, canEdit, mapStyle }) => {
-    const mapContainer = useRef(null);
-    const mapRef = useRef(null);
-    const drawnItems = useRef(L.featureGroup()).current;
-    const idToLayerMap = useRef(new Map());
+export const MapComponent = ({
+  markedAreas,
+  onSaveArea,
+  onDeleteArea,
+  projectName,
+  canEdit,
+  mapStyle,
+}) => {
+  const mapContainer = useRef(null);
+  const mapRef = useRef(null);
+  const drawnItems = useRef(L.featureGroup()).current;
+  const idToLayerMap = useRef(new Map());
 
+  useEffect(() => {
+    if (!mapRef.current) {
+      // Initialize the map only once
+      mapRef.current = L.map(mapContainer.current, {
+        center: [22.728434235399522, 75.86610674863611], // Change coordinates to center your map
+        zoom: 16,
+      });
 
-    useEffect(() => {
-        if (!mapRef.current) {
-            // Initialize the map only once
-            mapRef.current = L.map(mapContainer.current,{
-                center: [22.728434235399522, 75.86610674863611], // Change coordinates to center your map
-                zoom: 16
-              });
+      const minZoom = 12; // Adjust as needed
+      const maxZoom = 19; // Adjust as needed
 
-              const minZoom = 12; // Adjust as needed
-             const maxZoom = 19; // Adjust as needed
+      mapRef.current.setMinZoom(minZoom);
+      mapRef.current.setMaxZoom(maxZoom);
 
-             mapRef.current.setMinZoom(minZoom);
-             mapRef.current.setMaxZoom(maxZoom);
+      const maptilerLayer = new L.MaptilerLayer({
+        apiKey: "orJ9CcSmYB6LSaJb9z0d",
+      }).addTo(mapRef.current);
 
+      maptilerLayer.on("tileerror", function (error) {
+        console.error("Maptiler layer failed to load tiles:", error);
 
-             const maptilerLayer = new L.MaptilerLayer({
-                apiKey: 'orJ9CcSmYB6LSaJb9z0d',
-            }).addTo(mapRef.current);
-            
+        // Fallback to OpenStreetMap tiles if Maptiler fails
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(mapRef.current);
+      });
 
-            maptilerLayer.on('tileerror', function (error) {
-                console.error('Maptiler layer failed to load tiles:', error);
-            
-                // Fallback to OpenStreetMap tiles if Maptiler fails
-             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                }).addTo(mapRef.current);
-            });
+      const cityBounds = L.latLngBounds([
+        [22.6, 75.7], // Southwest corner (lat, lng)
+        [22.9, 76], // Northeast corner (lat, lng)
+      ]);
 
-              
-              const cityBounds = L.latLngBounds([
-                [22.6, 75.7], // Southwest corner (lat, lng)
-                [22.9, 76]  // Northeast corner (lat, lng)
-            ]);
+      // Set max bounds and handle events
+      mapRef.current.setMaxBounds(cityBounds);
 
-            // Set max bounds and handle events
-            mapRef.current.setMaxBounds(cityBounds);
-            
-          
-            console.log("Map initialized");
+      console.log("Map initialized");
 
-            mapRef.current.addLayer(drawnItems);
+      mapRef.current.addLayer(drawnItems);
 
-            const drawControl = new L.Control.Draw({
-                edit: {
-                    featureGroup: drawnItems,
-                    remove: true
-                }
-            });
-            {canEdit && mapRef.current.addControl(drawControl);}
+      const drawControl = new L.Control.Draw({
+        edit: {
+          featureGroup: drawnItems,
+          remove: true,
+        },
+      });
+      {
+        canEdit && mapRef.current.addControl(drawControl);
+      }
 
-            // Handle new polygon creation
-            mapRef.current.on(L.Draw.Event.CREATED, async (e) => {
-                const layer = e.layer;
-                drawnItems.addLayer(layer);
+      // Handle new polygon creation
+      mapRef.current.on(L.Draw.Event.CREATED, async (e) => {
+        const layer = e.layer;
+        drawnItems.addLayer(layer);
 
-                if (layer instanceof L.Polygon) {
-                    const coordinates = layer.getLatLngs()[0].map(latlng => ({
-                        lat: latlng.lat,
-                        lng: latlng.lng
-                    }));
+        if (layer instanceof L.Polygon) {
+          const coordinates = layer.getLatLngs()[0].map((latlng) => ({
+            lat: latlng.lat,
+            lng: latlng.lng,
+          }));
 
-                    const userDescription = projectName;
-                    onSaveArea(coordinates, userDescription);
+          const userDescription = projectName;
+          onSaveArea(coordinates, userDescription);
 
-                    layer.bindPopup(`<p>${userDescription}</p>`).openPopup();
-                }
-            });
-
-            console.log("Map event listeners added");
-
-            // Handle polygon deletion
-            mapRef.current.on(L.Draw.Event.DELETED, async (e) => {
-                e.layers.eachLayer((layer) => {
-                    const id = Array.from(idToLayerMap.current.entries())
-                        .find(([_, l]) => l === layer)?.[0]; // Find the ID of the layer
-
-                    if (id) {
-                        onDeleteArea(id);
-                        idToLayerMap.current.delete(id); // Remove the layer from the map
-                    }
-                });
-            });
+          layer.bindPopup(`<p>${userDescription}</p>`).openPopup();
         }
+      });
 
-        // Load existing marked areas
-        markedAreas?.forEach((area) => {
-            // Ensure that the coordinates are an array
-            if (Array.isArray(area.coordinates)) {
-                const latLngs = area.coordinates.map(c => [c.lat, c.lng]);
-                const polygon = L.polygon(latLngs).bindPopup(`<p>${area.description}</p>`);
-                drawnItems.addLayer(polygon);
-                idToLayerMap.current.set(area.id, polygon);
-            } else {
-                console.warn('Invalid coordinates:', area.coordinates);
-            }
+      console.log("Map event listeners added");
+
+      // Handle polygon deletion
+      mapRef.current.on(L.Draw.Event.DELETED, async (e) => {
+        e.layers.eachLayer((layer) => {
+          const id = Array.from(idToLayerMap.current.entries()).find(
+            ([_, l]) => l === layer
+          )?.[0]; // Find the ID of the layer
+
+          if (id) {
+            onDeleteArea(id);
+            idToLayerMap.current.delete(id); // Remove the layer from the map
+          }
         });
+      });
+    }
 
-        console.log(mapContainer)
-        // mapRef.current.fitBounds(drawnItems.getBounds());
-        return () => {
-            // Cleanup when the component unmounts
-            if (mapRef.current) {
-                mapRef.current.off(L.Draw.Event.CREATED);
-                mapRef.current.off(L.Draw.Event.DELETED);
-                mapRef.current.remove(); // This ensures the map is properly destroyed
-                mapRef.current = null;
-            }
-        };
-    }, [canEdit, drawnItems, markedAreas, onDeleteArea, onSaveArea, projectName]); // Re-run this effect only when markedAreas change
+    // Load existing marked areas
+    markedAreas?.forEach((area) => {
+      // Ensure that the coordinates are an array
+      if (Array.isArray(area.coordinates)) {
+        const latLngs = area.coordinates.map((c) => [c.lat, c.lng]);
+        const polygon = L.polygon(latLngs).bindPopup(
+          `<p>${area.description}</p>`
+        );
+        drawnItems.addLayer(polygon);
+        idToLayerMap.current.set(area.id, polygon);
+      } else {
+        console.warn("Invalid coordinates:", area.coordinates);
+      }
+    });
 
-    return (
-        <div>
-            <div id="map" ref={mapContainer} style={{ 
-                height: '93vh',
-                width: '100%',
-            }}></div>
-        </div>
-    );
+    console.log(mapContainer);
+    // mapRef.current.fitBounds(drawnItems.getBounds());
+    return () => {
+      // Cleanup when the component unmounts
+      if (mapRef.current) {
+        mapRef.current.off(L.Draw.Event.CREATED);
+        mapRef.current.off(L.Draw.Event.DELETED);
+        mapRef.current.remove(); // This ensures the map is properly destroyed
+        mapRef.current = null;
+      }
+    };
+  }, [canEdit, drawnItems, markedAreas, onDeleteArea, onSaveArea, projectName]); // Re-run this effect only when markedAreas change
+
+  return (
+    <div className="map-container">
+      <Filter/>
+      <div
+        id="map"
+        ref={mapContainer}
+      ></div>
+    </div>
+  );
 };

@@ -1,0 +1,54 @@
+
+.map-filter-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 25%;
+  padding: 1rem;
+  min-width: 20%;
+}
+
+.map-filter-container h4 {
+  margin: 0;
+  padding: 0.5rem 0;
+}
+
+.map-filter-container hr {
+  margin: 0 0 1rem 0;
+}
+
+.mp-f-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 1.5rem;
+}
+
+.mp-f-item label {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.mp-f-item select {
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.mp-f-item input[type="range"] {
+  cursor: pointer;
+  width: 100%;
+}
+
+.duration-value {
+  font-weight: 500;
+}
+
+.map-filter-container button {
+    border: none;
+    outline: none;
+    color: white;
+    padding: 0.3rem 1rem;
+    background-color: rgb(56, 130, 250);
+    border-radius: 5px;
+}
