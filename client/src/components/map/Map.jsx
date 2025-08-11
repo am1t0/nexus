@@ -57,8 +57,6 @@ export const MapComponent = ({
       // Set max bounds and handle events
       mapRef.current.setMaxBounds(cityBounds);
 
-      console.log("Map initialized");
-
       mapRef.current.addLayer(drawnItems);
 
       const drawControl = new L.Control.Draw({
@@ -88,9 +86,6 @@ export const MapComponent = ({
           layer.bindPopup(`<p>${userDescription}</p>`).openPopup();
         }
       });
-
-      console.log("Map event listeners added");
-
       // Handle polygon deletion
       mapRef.current.on(L.Draw.Event.DELETED, async (e) => {
         e.layers.eachLayer((layer) => {
@@ -121,7 +116,14 @@ export const MapComponent = ({
       }
     });
 
-    console.log(mapContainer);
+    if (markedAreas && markedAreas.length > 0) {
+      const allCoords = markedAreas.flatMap((area) =>
+        area.coordinates.map((c) => [c.lat, c.lng])
+      );
+      const bounds = L.latLngBounds(allCoords);
+      mapRef.current.fitBounds(bounds, { padding: [20, 20] });
+    }
+
     // mapRef.current.fitBounds(drawnItems.getBounds());
     return () => {
       // Cleanup when the component unmounts
@@ -136,12 +138,8 @@ export const MapComponent = ({
 
   return (
     <div className="map-container">
-     { filterShown && <Filter/> }
-      <div
-        id="map"
-        ref={mapContainer}
-        style= {mapStyle}
-      ></div>
+      {filterShown && <Filter />}
+      <div id="map" ref={mapContainer} style={mapStyle}></div>
     </div>
   );
 };
