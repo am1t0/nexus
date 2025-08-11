@@ -14,6 +14,7 @@ export const MapComponent = ({
   projectName,
   canEdit,
   mapStyle,
+  filterShown = true, // Default to true if not provided
 }) => {
   const mapContainer = useRef(null);
   const mapRef = useRef(null);
@@ -135,10 +136,11 @@ export const MapComponent = ({
 
   return (
     <div className="map-container">
-      <Filter/>
+     { filterShown && <Filter/> }
       <div
         id="map"
         ref={mapContainer}
+        style= {mapStyle}
       ></div>
     </div>
   );

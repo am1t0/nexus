@@ -28,7 +28,7 @@ export default function Depros() {
             <ul className="project-list">
               {visibleProjects.map((project, i) => (
                 <li key={i} className="project-item">
-                  <NavLink to="/list">{project}</NavLink>
+               <NavLink to={`/${encodeURIComponent(project)}`}>{project}</NavLink>
                 </li>
               ))}
             </ul>

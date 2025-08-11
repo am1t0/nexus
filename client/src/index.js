@@ -18,12 +18,11 @@ import { FirebaseProvider } from './Firebase';
 import Home from './pages/home/Home.jsx'
 import DepartmentRegistrationForm from './scenes/SubmitForm/DepartmentRegistrationForm';
 import CommunicationLayout from './communication/CommunicationLayout';
-import Entry from './scenes/desktop/Entry';
-import ProjectDetail from './scenes/department/Project/ProjectLayout';
 import SubDepartment from './scenes/department/SubDepartment';
-import Project from './scenes/department/Project/Project';
+import ProjectPage from './pages/project/ProjectPage.jsx';
 import { MapComponent } from './components/map/Map.jsx';
 import Depros from '../src/components/depros/Depros.jsx';
+import { faHourglass1 } from '@fortawesome/free-solid-svg-icons';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -33,27 +32,12 @@ const router = createBrowserRouter([
   children:[ 
     {"path":'/', element: <MapComponent/> },
     {"path":'/list', element: <Depros/> },
+    {"path":'/:project', element: <ProjectPage/> },
   ]
 },
 {
   path: '/register', element: <DepartmentRegistrationForm/>
 },
-{
-  path:'/:department', element: <Department/>, children: [
-    { path:'/:department' , element: <DepartmentHome/>},
-    { path:'/:department/resources', element: <DepartmentResources/> },
-    { path:'/:department/projects', element: <DepartmentProject/> },
-    { path:'/:department/subdepartment', element: <SubDepartment/> },
-    // { path:'/:department/projects', element: <DepartmentProject/> },
-  ]
-},
-
- {
-   path: '/communicate/:chatWith' , element: <CommunicationLayout departmentId={"dep-A"} otherDepartmentId={"dep-B"}/>
- },
- {
-   path:"/project/:projectId", element:<Project /> 
- }
 ])
 root.render(
   <FirebaseProvider>
