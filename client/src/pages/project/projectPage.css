@@ -91,6 +91,51 @@
   color: #333;
 }
 
+.report-block {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 1rem;
+  padding: .4rem 2rem;
+  background-color: #e1e9ff;
+  border-radius: 4px;
+}
+
+.file-details {
+   
+}
+
+.file-details p {
+  margin: 0;
+  font-size: .94rem;
+  font-weight: 500;
+  color: #323232;
+}
+.file-details span {
+  font-size: .8rem;
+}
+
+.file-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.file-options p {
+  margin: 0;
+  padding: .4rem;
+  border-radius: 4px;
+  text-align: center;
+  background: #ffffff;
+  font-size: .9rem;
+  color: #2d6cdf;
+  cursor: pointer;
+}
+
+.file-options p:hover {
+  background: #f0f4ff;
+  color: #1a4bb8;
+}
+
 /* Contact List Layout */
 .contact-list {
   display: flex;

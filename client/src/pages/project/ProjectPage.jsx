@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { MapComponent } from "../../components/map/Map";
 import projectData from "../../data/Project.js";
 import "./projectPage.css";
-import { FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import { FaPhoneAlt, FaEnvelope, FaDownload, FaOpenid, FaArrowCircleDown, FaArrowDown, FaBoxOpen } from "react-icons/fa";
 
 export default function ProjectPage() {
   const { project } = useParams();
@@ -70,10 +70,14 @@ export default function ProjectPage() {
       <div>
         {projectData.report.map((r, i) => (
           <div key={i} className="report-block">
-            <a href={r.link} target="_blank" rel="noopener noreferrer">
-              {r.filename}
-            </a>
-            <p>Date: {r.date}</p>
+             <div className="file-details">
+             <p>{r.filename}</p>
+            <span>{r.date}</span>
+             </div>
+             <div className="file-options">
+               <p>download</p>
+               <p>open</p>
+             </div>
           </div>
         ))}
       </div>

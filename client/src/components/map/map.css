@@ -8,3 +8,26 @@
     height: 93vh;
     width: 100%;
 }
+
+.polygon-label {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.polygon-label.main {
+  border-color: #2d6cdf;
+}
+
+.polygon-label.overlapping-region {
+  border-color: red;
+  color: red;
+}
+
+.leaflet-tooltip-right::before {
+  border-right-color: rgba(255, 255, 255, 0.85); /* arrow color */
+}

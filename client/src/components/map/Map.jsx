@@ -135,8 +135,14 @@ export const MapComponent = ({
     markedAreas?.forEach((area) => {
       if (Array.isArray(area.coordinates)) {
         const latLngs = area.coordinates.map((c) => [c.lat, c.lng]);
-        const polygon = L.polygon(latLngs, getPolygonStyle(area.tag)).bindPopup(
-          `<p>${area.description}</p>`
+        const polygon = L.polygon(latLngs, getPolygonStyle(area.tag))
+        .bindTooltip(
+          `<p>project</p>`, {
+            permanent: true,
+            direction:'top',
+            offset: L.point(100, 0),
+            className: `polygon-label ${area.tag}`, // custom style per tag
+          }
         );
 
         drawnItems.addLayer(polygon);

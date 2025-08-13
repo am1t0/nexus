@@ -53,9 +53,9 @@ const project = {
         }
     ],
     report: [
-        { filename: "inspection_report_1.pdf", link: "url", date: "05-Aug-2025" },
-        { filename: "inspection_report_2.pdf", link: "url", date: "12-Aug-2025" },
-        { filename: "inspection_report_3.pdf", link: "url", date: "20-Aug-2025" }
+        { filename: "inspection_report_1.pdf", link: "url", date: "05 Aug 2025" },
+        { filename: "inspection_report_2.pdf", link: "url", date: "12 Aug 2025" },
+        { filename: "inspection_report_3.pdf", link: "url", date: "20 Aug 2025" }
     ]
 };
 
