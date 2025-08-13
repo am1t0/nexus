@@ -21,16 +21,46 @@ export const MapComponent = ({
   const drawnItems = useRef(L.featureGroup()).current;
   const idToLayerMap = useRef(new Map());
 
+  // Function to get polygon style based on tag
+  const getPolygonStyle = (tag) => {
+    console.log(tag);
+    switch (tag) {
+      case "main":
+        return {
+          color: "#2d6cdf", // border
+          weight: 2,
+          fillColor: "#2d6cdf",
+          fillOpacity: 0.3,
+        };
+      case "overlapping-region":
+        return {
+          color: "red",
+          weight: 2,
+          dashArray: "5, 5", // dashed border
+          fillColor: "#ffcccc", // light red fill
+          fillOpacity: 0.3,
+        };
+      case "other":
+      default:
+        return {
+          color: "#555",
+          weight: 2,
+          fillColor: "#ddd",
+          fillOpacity: 0.2,
+        };
+    }
+  };
+
   useEffect(() => {
     if (!mapRef.current) {
       // Initialize the map only once
       mapRef.current = L.map(mapContainer.current, {
-        center: [22.728434235399522, 75.86610674863611], // Change coordinates to center your map
+        center: [22.728434235399522, 75.86610674863611],
         zoom: 16,
       });
 
-      const minZoom = 12; // Adjust as needed
-      const maxZoom = 19; // Adjust as needed
+      const minZoom = 12;
+      const maxZoom = 19;
 
       mapRef.current.setMinZoom(minZoom);
       mapRef.current.setMaxZoom(maxZoom);
@@ -42,7 +72,7 @@ export const MapComponent = ({
       maptilerLayer.on("tileerror", function (error) {
         console.error("Maptiler layer failed to load tiles:", error);
 
-        // Fallback to OpenStreetMap tiles if Maptiler fails
+        // Fallback to OpenStreetMap tiles
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution:
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -50,13 +80,11 @@ export const MapComponent = ({
       });
 
       const cityBounds = L.latLngBounds([
-        [22.6, 75.7], // Southwest corner (lat, lng)
-        [22.9, 76], // Northeast corner (lat, lng)
+        [22.6, 75.7],
+        [22.9, 76],
       ]);
 
-      // Set max bounds and handle events
       mapRef.current.setMaxBounds(cityBounds);
-
       mapRef.current.addLayer(drawnItems);
 
       const drawControl = new L.Control.Draw({
@@ -65,9 +93,7 @@ export const MapComponent = ({
           remove: true,
         },
       });
-      {
-        canEdit && mapRef.current.addControl(drawControl);
-      }
+      if (canEdit) mapRef.current.addControl(drawControl);
 
       // Handle new polygon creation
       mapRef.current.on(L.Draw.Event.CREATED, async (e) => {
@@ -86,29 +112,33 @@ export const MapComponent = ({
           layer.bindPopup(`<p>${userDescription}</p>`).openPopup();
         }
       });
+
       // Handle polygon deletion
       mapRef.current.on(L.Draw.Event.DELETED, async (e) => {
         e.layers.eachLayer((layer) => {
           const id = Array.from(idToLayerMap.current.entries()).find(
             ([_, l]) => l === layer
-          )?.[0]; // Find the ID of the layer
-
+          )?.[0];
           if (id) {
             onDeleteArea(id);
-            idToLayerMap.current.delete(id); // Remove the layer from the map
+            idToLayerMap.current.delete(id);
           }
         });
       });
     }
 
-    // Load existing marked areas
+    // Remove old polygons before adding new ones
+    drawnItems.clearLayers();
+    idToLayerMap.current.clear();
+
+    // Load existing marked areas with styles
     markedAreas?.forEach((area) => {
-      // Ensure that the coordinates are an array
       if (Array.isArray(area.coordinates)) {
         const latLngs = area.coordinates.map((c) => [c.lat, c.lng]);
-        const polygon = L.polygon(latLngs).bindPopup(
+        const polygon = L.polygon(latLngs, getPolygonStyle(area.tag)).bindPopup(
           `<p>${area.description}</p>`
         );
+
         drawnItems.addLayer(polygon);
         idToLayerMap.current.set(area.id, polygon);
       } else {
@@ -124,17 +154,15 @@ export const MapComponent = ({
       mapRef.current.fitBounds(bounds, { padding: [20, 20] });
     }
 
-    // mapRef.current.fitBounds(drawnItems.getBounds());
     return () => {
-      // Cleanup when the component unmounts
       if (mapRef.current) {
         mapRef.current.off(L.Draw.Event.CREATED);
         mapRef.current.off(L.Draw.Event.DELETED);
-        mapRef.current.remove(); // This ensures the map is properly destroyed
+        mapRef.current.remove();
         mapRef.current = null;
       }
     };
-  }, [canEdit, drawnItems, markedAreas, onDeleteArea, onSaveArea, projectName]); // Re-run this effect only when markedAreas change
+  }, [canEdit, drawnItems, markedAreas, onDeleteArea, onSaveArea, projectName]);
 
   return (
     <div className="map-container">

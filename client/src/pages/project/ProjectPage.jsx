@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { MapComponent } from "../../components/map/Map";
-import projectData from '../../data/Project.js'
+import projectData from "../../data/Project.js";
 import "./projectPage.css";
+import { FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 
 export default function ProjectPage() {
   const { project } = useParams();
@@ -12,6 +13,7 @@ export default function ProjectPage() {
     { key: "details", label: "Details" },
     { key: "conflicts", label: "Conflicts" },
     { key: "report", label: "Report" },
+    { key: "contacts", label: "Contacts" },
   ];
 
   const tabContent = {
@@ -20,20 +22,26 @@ export default function ProjectPage() {
         <p className="project-description">
           <strong>Description:</strong> {projectData.description}
         </p>
-        <ul>
-          <li>Project started: {projectData.start}</li>
-          <li>Estimated completion: {projectData.end}</li>
-          <li>Budget: {projectData.budget}</li>
-          <li>Contractor: {projectData.contractor}</li>
-        </ul>
-        <h5>Contact Details:</h5>
-        <ul>
-          {projectData.contacts.map((c, i) => (
-            <li key={i}>
-              {c.name} - {c.phone} ({c.email})
-            </li>
-          ))}
-        </ul>
+
+        {/* Project Properties */}
+        <div className="project-details">
+          <div className="detail-row">
+            <span className="detail-key">Project started:</span>
+            <span className="detail-value">{projectData.start}</span>
+          </div>
+          <div className="detail-row">
+            <span className="detail-key">Estimated completion:</span>
+            <span className="detail-value">{projectData.end}</span>
+          </div>
+          <div className="detail-row">
+            <span className="detail-key">Budget:</span>
+            <span className="detail-value">{projectData.budget}</span>
+          </div>
+          <div className="detail-row">
+            <span className="detail-key">Contractor:</span>
+            <span className="detail-value">{projectData.contractor}</span>
+          </div>
+        </div>
       </div>
     ),
     conflicts: (
@@ -41,11 +49,17 @@ export default function ProjectPage() {
         {projectData.conflicts.map((conflict, i) => (
           <div key={i} className="conflict-block">
             <h5>{conflict.project}</h5>
-            <p><strong>Department:</strong> {conflict.department}</p>
-            <p><strong>Contacts:</strong></p>
+            <p>
+              <strong>Department:</strong> {conflict.department}
+            </p>
+            <p>
+              <strong>Contacts:</strong>
+            </p>
             <ul>
               {conflict.contacts.map((c, j) => (
-                <li key={j}>{c.name} - {c.phone}</li>
+                <li key={j}>
+                  {c.name} - {c.phone}
+                </li>
               ))}
             </ul>
           </div>
@@ -56,10 +70,51 @@ export default function ProjectPage() {
       <div>
         {projectData.report.map((r, i) => (
           <div key={i} className="report-block">
-            <a href={r.link} target="_blank" rel="noopener noreferrer">{r.filename}</a>
+            <a href={r.link} target="_blank" rel="noopener noreferrer">
+              {r.filename}
+            </a>
             <p>Date: {r.date}</p>
           </div>
         ))}
+      </div>
+    ),
+    contacts: (
+      <div>
+        {/* Contact Information */}
+        <h5>Contact Details:</h5>
+        <div className="contact-list">
+          {projectData.contacts.map((c, i) => (
+            <div key={i} className="contact-card">
+              {/* Left side - Photo + Name + Designation */}
+              <div className="contact-left">
+                <img
+                  src={
+                    c.photo ||
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF02Jj8T2t7PdkytAw42HDuuSz7yXguKn8Lg&s"
+                  }
+                  alt={c.name}
+                  className="contact-photo"
+                />
+                <h6 className="contact-name">{c.name}</h6>
+                <span className="contact-role">
+                  {c.role || "Project Manager"}
+                </span>
+              </div>
+
+              {/* Right side - Contact Info */}
+              <div className="contact-right">
+                <div className="contact-info">
+                  <FaPhoneAlt className="contact-icon phone" />
+                  <span>{c.phone}</span>
+                </div>
+                <div className="contact-info">
+                  <FaEnvelope className="contact-icon email" />
+                  <span>{c.email || "Not Available"}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     ),
   };
@@ -78,7 +133,9 @@ export default function ProjectPage() {
             {tabs.map((tab) => (
               <button
                 key={tab.key}
-                className={`tab-button ${activeTab === tab.key ? "active" : ""}`}
+                className={`tab-button ${
+                  activeTab === tab.key ? "active" : ""
+                }`}
                 onClick={() => setActiveTab(tab.key)}
               >
                 {tab.label}
@@ -93,15 +150,17 @@ export default function ProjectPage() {
           <MapComponent
             markedAreas={[
               {
-                id: "main",
+                tag: "main",
                 description: projectData.name,
                 coordinates: projectData.coordinates,
               },
-              ...projectData.conflicts.map((c, idx) => ({
-                id: `conflict-${idx}`,
-                description: c.project,
-                coordinates: c.coordinates,
-              }))
+              ...(activeTab === "conflicts"
+                ? projectData.conflicts.map((c, idx) => ({
+                    tag: c.tag,
+                    description: c.project,
+                    coordinates: c.coordinates,
+                  }))
+                : []),
             ]}
             mapStyle={{ height: "70vh", width: "100%" }}
             filterShown={false}
