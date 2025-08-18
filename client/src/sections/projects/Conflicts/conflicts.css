@@ -1,0 +1,141 @@
+.conflicts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.conflict-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px 0 rgba(44, 62, 80, 0.08);
+  border: 1.5px solid #e3e8f0;
+  padding: 0;
+  transition: box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.conflict-card.open {
+  box-shadow: 0 6px 24px 0 rgba(44, 62, 80, 0.16);
+  border-color: #2d6cdf;
+}
+
+.conflict-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1.1rem 1.3rem 1.1rem 1.3rem;
+  background: linear-gradient(90deg, #feac8b 0%, #f8faff 100%);
+  border-bottom: 1px solid #e3e8f0;
+}
+
+.conflict-project {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #2d6cdf;
+  margin-bottom: 0.2rem;
+}
+
+.conflict-department {
+  font-size: 1rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.conflict-opener {
+  background: #fff;
+  border: 1.5px solid #e3e8f0;
+  border-radius: 50%;
+  width: 2.3rem;
+  height: 2.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: #2d6cdf;
+  cursor: pointer;
+  transition: background 0.2s, border 0.2s;
+  box-shadow: 0 1px 4px 0 rgba(44, 62, 80, 0.06);
+}
+
+.conflict-opener:hover {
+  background: #e8f0ff;
+  border-color: #2d6cdf;
+}
+
+.conflict-card-body {
+  background: #f8faff;
+  transition: max-height 0.4s cubic-bezier(.4, 0, .2, 1), opacity 0.3s, padding 0.3s;
+  overflow: hidden;
+}
+
+.conflict-reason {
+  font-size: 1.08rem;
+  color: #c62828;
+  margin-bottom: 1.1rem;
+  font-weight: 500;
+}
+
+.conflict-contacts {
+  margin-top: 0.5rem;
+}
+
+.conflict-contacts-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #2d6cdf;
+  margin-bottom: 0.7rem;
+}
+
+.conflict-contacts-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.conflict-contact-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px 0 rgba(44, 62, 80, 0.07);
+  padding: 0.6rem 1.1rem;
+  min-width: 180px;
+  gap: 0.7rem;
+  border: 1px solid #e3e8f0;
+}
+
+.contact-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #e8f0ff;
+  color: #2d6cdf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  box-shadow: 0 1px 4px 0 rgba(44, 62, 80, 0.08);
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.contact-name {
+  font-size: 1.01rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.contact-phone {
+  font-size: 0.97rem;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+

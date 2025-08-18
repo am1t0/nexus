@@ -1,0 +1,19 @@
+/* Align property names and values */
+.project-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+}
+
+.detail-key {
+  min-width: 180px;
+  /* ensures all keys align */
+  font-weight: 600;
+  color: #333;
+}

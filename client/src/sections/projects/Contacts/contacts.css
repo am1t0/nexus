@@ -1,0 +1,122 @@
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+.contact-card {
+  display: flex;
+  align-items: stretch;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px 0 rgba(44, 62, 80, 0.08);
+  border: 1.5px solid #e3e8f0;
+  padding: 0;
+  transition: box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.contact-card:hover {
+  box-shadow: 0 6px 24px 0 rgba(44, 62, 80, 0.16);
+  border-color: #2d6cdf;
+}
+
+.contact-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
+  border-right: 1px solid #e0e6f5;
+  padding: 1.1rem 1.2rem 1.1rem 1.2rem;
+  background: linear-gradient(90deg, #e8f0ff 0%, #f8faff 100%);
+}
+
+.contact-photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.4rem;
+  box-shadow: 0 1px 4px 0 rgba(44, 62, 80, 0.08);
+}
+
+.contact-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+  color: #2d6cdf;
+}
+
+.contact-role {
+  font-size: .95rem;
+  color: #777;
+  text-align: center;
+  font-weight: 500;
+}
+
+.contact-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 1.1rem 1.2rem;
+}
+
+.contact-infos {
+  /* border: 1px solid #e3e8f0; */
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  font-size: 1.05rem;
+  color: #555;
+  font-weight: 500;
+  flex-wrap: wrap;
+}
+
+.contact-detail {
+  margin-right: 0.5rem;
+}
+
+.contact-icon {
+  font-size: 1.1rem;
+}
+
+.contact-icon.phone {
+  color: #2d6cdf;
+}
+
+.contact-icon.email {
+  color: #d64545;
+}
+
+
+/* Colorful tag for values */
+.detail-value {
+  background-color: #e8f0ff;
+  color: #2d6cdf;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+/* Optional: different colors for variety */
+.detail-row:nth-child(2) .detail-value {
+  background-color: #e8fce8;
+  color: #1e7d32;
+}
+
+.detail-row:nth-child(3) .detail-value {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.detail-row:nth-child(4) .detail-value {
+  background-color: #fde0e0;
+  color: #c62828;
+}

@@ -1,0 +1,46 @@
+.report-block {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 1rem;
+  padding: 1.1rem 1.3rem 1.1rem 1.3rem;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #e8f0ff 0%, #f8faff 100%);
+}
+
+.file-details {}
+
+.file-details p {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2d6cdf;
+  margin-bottom: 0.2rem;
+}
+
+.file-details span {
+  font-size: .9rem;
+  color: #555;
+  font-weight: 500;
+  margin: 0;
+}
+
+.file-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.file-options p {
+  margin: 0;
+  padding: .4rem;
+  border-radius: 4px;
+  text-align: center;
+  background: #ffffff;
+  font-size: .9rem;
+  color: #2d6cdf;
+  cursor: pointer;
+}
+
+.file-options p:hover {
+  background: #f0f4ff;
+  color: #1a4bb8;
+}
