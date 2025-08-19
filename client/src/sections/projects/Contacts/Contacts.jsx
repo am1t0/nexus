@@ -7,12 +7,11 @@ export default function Contacts(props) {
   return (
     <div>
         {/* Contact Information */}
-        <h5>Contact Details:</h5>
         <div className="contact-list">
           {projectData.contacts.map((c, i) => (
             <div key={i} className="contact-card">
               {/* Left side - Photo + Name + Designation */}
-              <div className="contact-left">
+              <div className="contact-upper">
                 <img
                   src={
                     c.photo ||
@@ -28,15 +27,9 @@ export default function Contacts(props) {
               </div>
 
               {/* Right side - Contact Info */}
-              <div className="contact-right">
-                <div className="contact-info">
-                  <FaPhoneAlt className="contact-icon phone" />
+              <div className="contact-lower">
                   <span className="contact-detail">{c.phone}</span>
-                </div>
-                <div className="contact-info">
-                  <FaEnvelope className="contact-icon email" style={{ marginLeft: '2.2rem' }} />
                   <span className="contact-detail">{c.email || "Not Available"}</span>
-                </div>
               </div>
             </div>
           ))}

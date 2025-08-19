@@ -5,7 +5,7 @@
   margin-top: 1rem;
   padding: 1.1rem 1.3rem 1.1rem 1.3rem;
   border-radius: 4px;
-  background: linear-gradient(90deg, #e8f0ff 0%, #f8faff 100%);
+  background: linear-gradient(90deg, #b2cdff 0%, #f8faff 100%);
 }
 
 .file-details {}
@@ -13,7 +13,7 @@
 .file-details p {
   font-size: 1rem;
   font-weight: 700;
-  color: #2d6cdf;
+  color: #282b32;
   margin-bottom: 0.2rem;
 }
 
@@ -38,6 +38,7 @@
   font-size: .9rem;
   color: #2d6cdf;
   cursor: pointer;
+  font-weight: 700;
 }
 
 .file-options p:hover {
