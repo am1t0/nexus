@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { Outlet } from "react-router-dom";
+import Overlay from "../../components/overlay/Overlay";
 
 function Home() {
 
@@ -9,6 +10,8 @@ function Home() {
         <Navbar/>
 
         <Outlet/>
+        
+        <Overlay/>
         </>
     );
 }

@@ -6,6 +6,9 @@ export default function Details(props) {
  const { projectData } = props;
   return (
       <div>
+        <div className="control-bar">
+          <button>Edit</button>
+        </div>
         <p className="project-description">
           <strong>Description:</strong> {projectData.description}
         </p>

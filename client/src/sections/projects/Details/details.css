@@ -6,6 +6,20 @@
   margin-bottom: 1rem;
 }
 
+.control-bar {
+  display: flex;
+  gap: .5rem;
+  margin-bottom: .8rem;
+}
+
+.control-bar button {
+  padding:.4rem 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(249, 180, 119);
+  color: white;
+}
+
 .detail-row {
   display: flex;
   align-items: center;
