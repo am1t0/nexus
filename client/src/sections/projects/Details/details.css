@@ -16,6 +16,7 @@
   padding:.4rem 1rem;
   border-radius: 5px;
   border: none;
+  outline: none;
   background-color: rgb(249, 180, 119);
   color: white;
 }

@@ -3,11 +3,11 @@ import './details.css'
 
 export default function Details(props) {
 
- const { projectData } = props;
+ const { projectData, setEditMode } = props;
   return (
       <div>
         <div className="control-bar">
-          <button>Edit</button>
+          <button onClick={()=> setEditMode((prev)=> !prev)}>Edit</button>
         </div>
         <p className="project-description">
           <strong>Description:</strong> {projectData.description}

@@ -10,8 +10,6 @@ function Home() {
         <Navbar/>
 
         <Outlet/>
-        
-        <Overlay/>
         </>
     );
 }
