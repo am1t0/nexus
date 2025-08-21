@@ -8,6 +8,7 @@ import Details from "../../sections/projects/Details/Details.jsx";
 import Report from "../../sections/projects/Report/Report.jsx";
 import Contacts from "../../sections/projects/Contacts/Contacts.jsx";
 import Overlay from "../../components/overlay/Overlay.jsx";
+import DetailEdit from "../../sections/projects/Forms/DetailEdit.jsx";
 
 export default function ProjectPage() {
   const { project } = useParams();
@@ -33,7 +34,7 @@ export default function ProjectPage() {
       case "details":
         return <Overlay 
           title="Edit Project Details"
-          content={<Details projectData={projectData} editMode={editMode} setEditMode={setEditMode} />}
+          content={<DetailEdit projectData={projectData} editMode={editMode} setEditMode={setEditMode} />}
           onClose={() => setEditMode(false)}
         />;
       case "conflicts":

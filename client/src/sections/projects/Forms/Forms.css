@@ -1,0 +1,25 @@
+.project-edit-form {
+    display: flex;
+    flex-direction: column;
+    background: #717171;
+    border-radius: 5px;
+    gap: 1rem;
+    padding: 1rem;
+    min-width: 28%;
+}
+
+.project-form-item {
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    padding: 1rem;
+}
+
+.project-form-item input,
+.project-form-item textarea  {
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    padding: .2rem .3rem;
+}
