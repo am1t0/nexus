@@ -1,11 +1,17 @@
 .project-edit-form {
     display: flex;
     flex-direction: column;
-    background: #717171;
+    gap: .2rem;
+    background-color: #546673;
     border-radius: 5px;
-    gap: 1rem;
     padding: 1rem;
     min-width: 28%;
+    color: white;
+}
+
+.project-edit-form h4 {
+   margin: auto;
+   border-bottom: 1px solid;
 }
 
 .project-form-item {
@@ -22,4 +28,62 @@
     border: none;
     outline: none;
     padding: .2rem .3rem;
+}
+
+#se-dates-container {
+   display: flex;
+   justify-content: space-between;
+   padding: 1rem;
+}
+
+#se-dates-container input,
+#se-dates-container textarea  {
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    padding: .2rem .3rem;
+}
+
+
+.start-end-date {
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+}
+
+.two-options {
+    display: flex;
+}
+
+.two-options{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+}
+.two-options button {
+    padding: .4rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn {
+    background-color: #f04b40;
+    color: white;
+}
+
+.submit-btn {
+    background-color: rgb(62, 129, 237);
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #d7382e;
+}
+
+.submit-btn:hover {
+    background-color: rgb(41, 97, 179);
 }
